@@ -2,9 +2,16 @@ name: Deploy Flutter Mobile Beta
 
 on:
   push:
-    # This is the branch where this work flow is triggered
     branches:
-      - beta/*
+      - '**'
+    tags-ignore:
+      - 'v*'
+  pull_request:
+#on:
+#  push:
+#    # This is the branch where this work flow is triggered
+#    branches:
+#      - beta/*
 
 # NOTE: The following jobs won't include Flutter-specific tasks such as running lint checks, tests.
 # This is expected because the goal of this workflow is to "deploy" apps.
