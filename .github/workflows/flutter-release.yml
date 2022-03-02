@@ -50,6 +50,11 @@ jobs:
       - run: flutter pub get
       - run: flutter test
       - run: flutter build ios --release --no-codesign
+      - name: Run Fastlane
+        uses: maierj/fastlane-action@v2.2.0
+        with:
+          lane: beta
+          subdirectory: ios
 #  deploy_apk:
 #    name: Deploy Flutter (Google Play Beta)
 #    runs-on: ubuntu-latest
