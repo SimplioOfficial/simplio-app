@@ -30,10 +30,10 @@ jobs:
         with:
           java-version: 12.x
       # This decrypts secrets such as your keystore, Google Play Service account JSON key
-      - name: Decrypt keys
-        run: ./.github/scripts/decrypt_android_secrets.sh
-        env:
-          ANDROID_SECRETS_PASSPHRASE: ${{ secrets.ANDROID_SECRETS_PASSPHRASE }}
+#      - name: Decrypt keys
+#        run: ./.github/scripts/decrypt_android_secrets.sh
+#        env:
+#          ANDROID_SECRETS_PASSPHRASE: ${{ secrets.ANDROID_SECRETS_PASSPHRASE }}
       - name: Run Flutter tasks
         uses: subosito/flutter-action@v1
         with:
@@ -58,9 +58,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 12.x
-      - uses: webfactory/ssh-agent@v0.4.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+#      - uses: webfactory/ssh-agent@v0.4.0
+#        with:
+#          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Run Flutter tasks
         uses: subosito/flutter-action@v1
         with:
