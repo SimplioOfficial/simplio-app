@@ -35,6 +35,11 @@ jobs:
       - run: flutter test
       - run: flutter build apk
       - run: flutter build appbundle
+      - name: Run Fastlane
+        uses: maierj/fastlane-action@v2.2.0
+        with:
+          lane: beta
+          subdirectory: android
   build-ios:
     runs-on: macos-latest
     steps:
