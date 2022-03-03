@@ -19,27 +19,27 @@ on:
 # This is expected because the goal of this workflow is to "deploy" apps.
 # Prior checks should be done on a separate workflow file.
 jobs:
-  build-android:
-    name: Build Android
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v2
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: $FLUTTER_VERSION
-      - run: flutter pub get
-      - run: flutter test
-      - run: flutter build apk
-      - run: flutter build appbundle
-      - name: Run Fastlane
-        uses: maierj/fastlane-action@v2.2.0
-        with:
-          lane: beta
-          subdirectory: android
+#  build-android:
+#    name: Build Android
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-java@v2
+#        with:
+#          distribution: 'zulu'
+#          java-version: '11'
+#      - uses: subosito/flutter-action@v2
+#        with:
+#          flutter-version: $FLUTTER_VERSION
+#      - run: flutter pub get
+#      - run: flutter test
+#      - run: flutter build apk
+#      - run: flutter build appbundle
+#      - name: Run Fastlane
+#        uses: maierj/fastlane-action@v2.2.0
+#        with:
+#          lane: beta
+#          subdirectory: android
   build-ios:
     runs-on: macos-latest
     steps:
