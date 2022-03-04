@@ -1,14 +1,23 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
 platform :ios do
- desc "Load ASC API Key information to use in subsequent lanes"
- lane :load_asc_api_key do
-   app_store_connect_api_key(
-     key_id: "1580713368",
-     issuer_id: "tinh.pham@simplio.io",
-     key_content: ENV["ASC_KEY"],
-#      key_id: ENV["ASC_KEY_ID"],
-#      issuer_id: ENV["ASC_ISSUER_ID"],
-#      key_content: ENV["ASC_KEY"],
-     in_house: false # detecting this via ASC private key not currently supported
-   )
- end
+  desc "Description of what the lane does"
+  lane :custom_lane do
+    # add actions here: https://docs.fastlane.tools/actions
+  end
 end
