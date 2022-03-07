@@ -1,5 +1,5 @@
 app_identifier("dev.simplio.app") # The bundle identifier of your app
-apple_id("jan.vrastil@simplio.io") # Your Apple email address
+apple_id("apps@simplio.io") # Your Apple email address
 
 itc_team_id("123380213") # App Store Connect Team ID
 team_id("6KCD6N7FF3") # Developer Portal Team ID
