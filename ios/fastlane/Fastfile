@@ -32,7 +32,10 @@ platform :ios do
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
 
-     increment_version_number()
+    hg_commit_version_bump(
+      message: "Version Bump",       # create a commit with a custom message
+      xcodeproj: "../Runner.xcodeproj", # optional, if you have multiple Xcode project files, you must specify your main project here
+    )
 
     match(
       type: 'appstore',
