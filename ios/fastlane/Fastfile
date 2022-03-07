@@ -32,10 +32,7 @@ platform :ios do
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
 
-     increment_version_number(
-       xcodeproj: "Runner.xcodeproj",
-       version_number: flutter_version()["version_name"] # Set a specific version number
-     )
+     increment_version_number(xcodeproj: "Runner.xcodeproj")
 
     match(
       type: 'appstore',
