@@ -34,7 +34,7 @@ platform :ios do
 
     hg_commit_version_bump(
       message: "Version Bump",       # create a commit with a custom message
-      xcodeproj: "../Runner.xcodeproj", # optional, if you have multiple Xcode project files, you must specify your main project here
+      xcodeproj: "Runner.xcodeproj", # optional, if you have multiple Xcode project files, you must specify your main project here
     )
 
     match(
