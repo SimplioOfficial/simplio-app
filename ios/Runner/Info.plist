@@ -42,6 +42,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	    <false/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	    <false/>
 </dict>
 </plist>
