@@ -32,7 +32,7 @@ platform :ios do
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
 
-     increment_version_number(xcodeproj: "Runner.xcodeproj")
+     increment_version_number()
 
     match(
       type: 'appstore',
