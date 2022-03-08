@@ -12,3 +12,4 @@ key.properties
 **/*.keystore
 **/*.jks
 /service_account_key.json
+android_keys.zip
