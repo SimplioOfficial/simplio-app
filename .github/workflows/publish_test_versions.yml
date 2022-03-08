@@ -103,7 +103,7 @@ jobs:
       - name: Build app
         run: flutter build apk --release
       - name: Run Fastlane
-        uses: maierj/fastlane-action@v2
+        uses: maierj/fastlane-action@v2.2.0
         with:
           lane: beta
           subdirectory: android
