@@ -2,7 +2,6 @@
 import 'package:simplio_app/counter.dart';
 import 'package:test/test.dart';
 
-
 void main() {
   group('Counter', () {
     test('value should start at 0', () {

@@ -19,8 +19,6 @@ jobs:
         with:
           flutter-version: $FLUTTER_VERSION
       - run: flutter pub get
-      - name: Format files
-        run: flutter format --set-exit-if-changed .
       - name: Analyze files
         run: flutter analyze .
       - run: flutter test
