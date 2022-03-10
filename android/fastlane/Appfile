@@ -1,2 +1,2 @@
 json_key_file("service_account_key.json")
-package_name("dev.simplio.app") # e.g. com.krausefx.app
+package_name("dev.simplio.v2.app") # e.g. com.krausefx.app
