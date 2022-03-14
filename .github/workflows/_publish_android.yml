@@ -1,6 +1,7 @@
 name: Publish Android
 env:
   FLUTTER_VERSION: '2.10.2'
+  ANDROID_KEYS_SECRET_PASSPHRASE: echo '${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}'
 
 on:
   workflow_call:
@@ -29,7 +30,7 @@ jobs:
       - name: Decrypt Android keys
         run: sh ./.github/scripts/decrypt_android_secrets.sh
         env:
-          ANDROID_KEYS_SECRET_PASSPHRASE: echo '${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}'
+          ANDROID_KEYS_SECRET_PASSPHRASE: $ANDROID_KEYS_SECRET_PASSPHRASE
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
