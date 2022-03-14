@@ -10,10 +10,10 @@ on:
         default: 'dev'
         required: true
         type: string
-#      passphrase:
-#        description: 'Secret value for ANDROID_KEYS_SECRET_PASSPHRASE'
-#        required: true
-#        type: string
+      passphrase:
+        description: 'Secret value for ANDROID_KEYS_SECRET_PASSPHRASE'
+        required: true
+        type: string
 
 jobs:
   build-android:
@@ -29,7 +29,7 @@ jobs:
       - name: Decrypt Android keys
         run: sh ./.github/scripts/decrypt_android_secrets.sh
         env:
-          ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+          ANDROID_KEYS_SECRET_PASSPHRASE: ${{ inputs.passphrase }}
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
