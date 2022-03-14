@@ -1,7 +1,7 @@
 name: Publish Android
 env:
   FLUTTER_VERSION: '2.10.2'
-  ANDROID_KEYS_SECRET_PASSPHRASE:  ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+  ANDROID_KEYS_SECRET_PASSPHRASE:  '${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}'
 
 on:
   workflow_call:
