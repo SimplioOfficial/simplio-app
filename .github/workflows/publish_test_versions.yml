@@ -10,87 +10,18 @@ on:
   pull_request:
 
 jobs:
-#  run-tests:
-#    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@10_ci_cd_setup
-#
-#  build-ios:
-#    needs: [run-tests]
-#    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@10_ci_cd_setup
-#    with:
-#      fastlane-name: 'dev'
+  run-tests:
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@10_ci_cd_setup
+
+  build-ios:
+    needs: [run-tests]
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@10_ci_cd_setup
+    with:
+      fastlane-name: 'dev'
 
   build-android:
-#    runs-on: ubuntu-latest
-#    needs: [run-tests]
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#      - name: Setup Java
-#        uses: actions/setup-java@v1
-#        with:
-#          java-version: 12.x
-#      - name: Publish Android
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@10_ci_cd_setup
     secrets:
       ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
     with:
       fastlane-name: 'dev'
-#      passphrase: echo '${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}'
-
-#  build-ios2:
-#    needs: [run-tests]
-#    name: Build iOS
-#    runs-on: macos-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - uses: subosito/flutter-action@v2
-#        with:
-#          flutter-version: $FLUTTER_VERSION
-#      - run: flutter pub get
-#      - run: flutter build ios --release --no-codesign
-#      - name: Run Fastlane
-#        uses: maierj/fastlane-action@v2.2.0
-#        with:
-#          lane: beta
-#          subdirectory: ios
-#        env:
-#          APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
-#          DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
-#          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
-#          DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
-#          FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
-#          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
-#          MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
-#          GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
-#          PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
-#          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
-#          TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-
-#  build-android:
-#    runs-on: ubuntu-latest
-#    needs: [run-tests]
-#    name: Build Android
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#      - name: Setup Java
-#        uses: actions/setup-java@v1
-#        with:
-#          java-version: 12.x
-#      - name: Decrypt Android keys
-#        run: sh ./.github/scripts/decrypt_android_secrets.sh
-#        env:
-#          ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
-#      - name: Setup Flutter
-#        uses: subosito/flutter-action@v2
-#        with:
-#          flutter-version: $FLUTTER_VERSION
-#      - name: Install Flutter dependencies
-#        run: flutter pub get
-#      - name: Build app
-#        run: flutter build apk --release
-#      - name: Run Fastlane
-#        uses: maierj/fastlane-action@v2.2.0
-#        with:
-#          lane: beta
-#          subdirectory: android

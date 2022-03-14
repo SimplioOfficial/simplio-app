@@ -13,10 +13,6 @@ on:
         default: 'dev'
         required: true
         type: string
-#      passphrase:
-#        description: 'Secret value for ANDROID_KEYS_SECRET_PASSPHRASE'
-#        required: true
-#        type: string
 
 jobs:
   build-android:
