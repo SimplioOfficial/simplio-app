@@ -13,7 +13,6 @@ on:
 
 jobs:
   build-ios:
-    needs: [run-tests]
     name: Build iOS
     runs-on: macos-latest
     steps:
