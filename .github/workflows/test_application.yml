@@ -1,4 +1,4 @@
-name: Run tests on commit
+name: Run tests
 env:
   FLUTTER_VERSION: '2.10.2'
 
@@ -6,9 +6,9 @@ on:
   workflow_call:
 
 jobs:
-  run-tests:
+  tests:
     runs-on: ubuntu-latest
-    name: Run unit tests
+    name: Unit tests
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
@@ -21,7 +21,7 @@ jobs:
 
   run-e2e-tests:
     runs-on: ubuntu-latest
-    name: Run ent-to-end tests
+    name: e2e tests
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2

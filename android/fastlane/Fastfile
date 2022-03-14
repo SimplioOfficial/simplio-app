@@ -2,7 +2,7 @@ default_platform(:android)
 
 platform :android do
   desc "Deploy to closed beta track"
-  lane :beta do
+  lane :dev do
     begin
       gradle(task: "clean")
       gradle(
