@@ -18,6 +18,7 @@ jobs:
       fastlane-name: 'dev'
 
   build-android:
+    needs: [run-tests]
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@10_ci_cd_setup
     secrets:
       ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
