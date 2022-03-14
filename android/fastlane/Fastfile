@@ -5,9 +5,6 @@ platform :android do
   lane :beta do
     begin
       gradle(task: "clean")
-      increment_version_number(
-        bump_type: "patch" # Automatically increment patch version number
-      )
       gradle(
         task: "bundle",
         build_type: 'Release'
