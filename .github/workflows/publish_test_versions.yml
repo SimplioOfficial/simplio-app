@@ -11,19 +11,20 @@ on:
 
 jobs:
   run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/test_application.yml@10_ci_cd_setup
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@10_ci_cd_setup
 
   build-ios:
     needs: [run-tests]
-    uses: SimplioOfficial/simplio-app/.github/workflows/publish_ios.yml@10_ci_cd_setup
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@10_ci_cd_setup
     with:
       fastlane-name: 'dev'
 
   build-android:
     needs: [run-tests]
-    uses: SimplioOfficial/simplio-app/.github/workflows/publish_android.yml@10_ci_cd_setup
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@10_ci_cd_setup
     with:
       fastlane-name: 'dev'
+      secret-passphrase: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
 
 #  build-ios2:
 #    needs: [run-tests]
