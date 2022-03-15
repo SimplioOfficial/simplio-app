@@ -1,0 +1,12 @@
+name: Run unit & e2e tests
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  run-tests:
+    if: github.event.review.state == 'approved'
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@10_ci_cd_setup
+    with:
+      e2e: true
