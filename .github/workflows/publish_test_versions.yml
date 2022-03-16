@@ -8,19 +8,19 @@ on:
   pull_request:
 
 jobs:
-  run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@10_ci_cd_setup
+#  run-tests:
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@10_ci_cd_setup
 
   build-ios:
-    needs: [run-tests]
+#    needs: [run-tests]
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@10_ci_cd_setup
     with:
       fastlane-name: 'dev'
 
-  build-android:
-    needs: [run-tests]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@10_ci_cd_setup
-    secrets:
-      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
-    with:
-      fastlane-name: 'dev'
+#  build-android:
+#    needs: [run-tests]
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@10_ci_cd_setup
+#    secrets:
+#      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+#    with:
+#      fastlane-name: 'dev'
