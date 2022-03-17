@@ -4,6 +4,18 @@ env:
 
 on:
   workflow_call:
+    secrets:
+      APP_STORE_CONNECT_TEAM_ID:
+      DEVELOPER_APP_ID:
+      DEVELOPER_APP_IDENTIFIER:
+      DEVELOPER_PORTAL_TEAM_ID:
+      FASTLANE_APPLE_ID:
+      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD:
+      MATCH_PASSWORD:
+      GIT_AUTHORIZATION:
+      PROVISIONING_PROFILE_SPECIFIER:
+      TEMP_KEYCHAIN_PASSWORD:
+      TEMP_KEYCHAIN_USER:
     inputs:
       fastlane-name:
         description: 'String value that determines if production or dev packages are built'
