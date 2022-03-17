@@ -2,7 +2,6 @@ name: Run unit & e2e tests
 
 on:
   pull_request:
-    types: [opened, reopened]
 
 jobs:
   run-tests:
