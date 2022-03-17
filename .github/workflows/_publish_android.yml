@@ -14,7 +14,6 @@ on:
         required: true
         type: string
 
-#POKUS
 jobs:
   build-android:
     runs-on: ubuntu-latest

@@ -28,7 +28,7 @@ on:
       TEMP_KEYCHAIN_USER:
         required: true
     inputs:
-      fastlane-name:
+      environment:
         description: 'String value that determines if production or dev packages are built'
         default: 'dev'
         required: true
@@ -48,12 +48,14 @@ jobs:
       - name: Run Fastlane
         uses: maierj/fastlane-action@v2.2.0
         with:
-          lane: ${{ inputs.fastlane-name }}
+          lane: build_and_deploy
           subdirectory: ios
+          env: ${{ inputs.environment }}
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
-          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
+#          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
+#          PRODUCTION_DEVELOPER_APP_IDENTIFIER: '${{ secrets.PRODUCTION_DEVELOPER_APP_IDENTIFIER }}'
           DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
           FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'

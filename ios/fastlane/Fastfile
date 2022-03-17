@@ -5,7 +5,7 @@ DEVELOPER_APP_IDENTIFIER = ENV["DEVELOPER_APP_IDENTIFIER"]
 PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"]
 TEMP_KEYCHAIN_USER = ENV["TEMP_KEYCHAIN_USER"]
 TEMP_KEYCHAIN_PASSWORD = ENV["TEMP_KEYCHAIN_PASSWORD"]
-# GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
+CONFIG_DEVELOPER_APP_IDENTIFIER = ENV["CONFIG_DEVELOPER_APP_IDENTIFIER"]
 
 def delete_temp_keychain(name)
   delete_keychain(
@@ -28,7 +28,7 @@ def ensure_temp_keychain(name, password)
 end
 
 platform :ios do
-  lane :dev do
+  lane :build_and_deploy do
     keychain_name = TEMP_KEYCHAIN_USER
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)

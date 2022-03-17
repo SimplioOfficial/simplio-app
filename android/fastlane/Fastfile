@@ -1,7 +1,7 @@
 default_platform(:android)
 
 platform :android do
-  desc "Deploy to closed beta track"
+  desc "Deploy to dev version to the PlayStore"
   lane :dev do
     begin
       gradle(task: "clean")
@@ -15,9 +15,29 @@ platform :android do
         skip_upload_metadata: true,
         skip_upload_images: true,
         skip_upload_screenshots: true,
-        release_status: "draft",
+        release_status: "completed",
         version_code: flutter_version()["version_code"],
       )
     end
   end
+
+    desc "Deploy to production version to PlayStore"
+    lane :production do
+      begin
+        gradle(task: "clean")
+        gradle(
+          task: "bundle",
+          build_type: 'Release'
+        )
+        upload_to_play_store(
+          track: 'production',
+          aab: '../build/app/outputs/bundle/release/app-release.aab',
+          skip_upload_metadata: true,
+          skip_upload_images: true,
+          skip_upload_screenshots: true,
+          release_status: "completed",
+          version_code: flutter_version()["version_code"],
+        )
+      end
+    end
 end
