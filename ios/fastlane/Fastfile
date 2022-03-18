@@ -53,6 +53,8 @@ platform :ios do
       }
     )
 
+    git_branch
+
     pilot(
       apple_id: "#{DEVELOPER_APP_ID}",
       app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
@@ -60,7 +62,8 @@ platform :ios do
       skip_submission: true,
       distribute_external: false,
       notify_external_testers: false,
-      ipa: "./Runner.ipa"
+      ipa: "./Runner.ipa",
+      changelog: "ENV["GIT_BRANCH_ENV_VARS"]"
     )
 
     delete_temp_keychain(keychain_name)
