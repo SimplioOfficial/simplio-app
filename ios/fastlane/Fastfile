@@ -53,7 +53,7 @@ platform :ios do
       }
     )
 
-    pilot(
+    upload_to_testflight(
       apple_id: "#{DEVELOPER_APP_ID}",
       app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
       skip_waiting_for_build_processing: true,
