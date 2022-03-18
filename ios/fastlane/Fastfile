@@ -61,7 +61,8 @@ platform :ios do
       distribute_external: false,
       notify_external_testers: false,
       ipa: "./Runner.ipa",
-      changelog: ENV["GIT_BRANCH"]
+      changelog: "1. Pokus pokus pokus",
+      beta_app_description: "2. Pokus pokus pokus"
     )
 
     delete_temp_keychain(keychain_name)
