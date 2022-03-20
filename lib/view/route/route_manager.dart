@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:simplio_app/data/model/wallet.dart';
+import 'package:simplio_app/data/model/wallet_project.dart';
 import 'package:simplio_app/view/screens/dashboard_screen.dart';
 import 'package:simplio_app/view/screens/wallet_screen.dart';
-import 'package:simplio_app/view/screens/wallets_screen.dart';
+import 'package:simplio_app/view/screens/wallet_projects_screen.dart';
 
 class RouteManager {
   static const String home = '/';
-  static const String wallets = '/wallets';
+  static const String walletProjects = '/wallet-projects';
   static const String wallet = '/wallet';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -17,10 +18,11 @@ class RouteManager {
             key: Key(home),
           ),
         );
-      case wallets:
+      case walletProjects:
         return MaterialPageRoute(
-            builder: (context) => const WalletsScreen(
-                  key: Key(wallets),
+            builder: (context) => WalletProjectsScreen(
+                  key: const Key(walletProjects),
+                  supportedProjects: settings.arguments as List<WalletProject>,
                 ));
       case wallet:
         return MaterialPageRoute(
