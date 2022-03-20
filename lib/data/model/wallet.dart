@@ -1,24 +1,24 @@
-import 'package:equatable/equatable.dart';
+import 'package:simplio_app/data/model/wallet_project.dart';
 import 'package:uuid/uuid.dart';
 
-class Wallet extends Equatable {
-  final Uuid uuid;
-  final String name;
-  final String ticker;
+class Wallet {
+  late String _uuid;
+  final bool active;
+  final WalletProject project;
 
-  const Wallet(this.uuid, this.name, this.ticker);
+  String get uuid => _uuid;
+  static const uuidGen = Uuid();
 
-  const Wallet.generate({required String name, required String ticker})
-      : this(const Uuid(), name, ticker);
+  Wallet(this._uuid, this.project, this.active);
 
-  @override
-  List<Object?> get props => [uuid, name, ticker];
+  Wallet.generate({required WalletProject project})
+      : this(uuidGen.v4(), project, true);
 
-  Wallet copyWith({String? name, String? ticker}) {
+  Wallet copyWith({ bool? active }) {
     return Wallet(
       uuid,
-      name ?? this.name,
-      ticker ?? this.ticker,
+      project,
+      active ?? this.active,
     );
   }
 }

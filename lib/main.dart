@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/logic/wallet/wallet_bloc.dart';
-import 'package:simplio_app/view/screens/dashboard_screen.dart';
+import 'package:simplio_app/view/route/route_manager.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,12 +22,10 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (ctx) => WalletBloc()),
         ],
-        child: MaterialApp(
+        child: const MaterialApp(
           title: 'Simplio',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: const DashboardScreen(),
+          initialRoute: RouteManager.home,
+          onGenerateRoute: RouteManager.generateRoute,
         ));
   }
 }
