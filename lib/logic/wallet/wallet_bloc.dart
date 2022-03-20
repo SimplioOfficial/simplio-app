@@ -13,8 +13,9 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     on<DisableWallet>(_onDisableWallet);
   }
 
-  void _onAddOrActivateWallet(
-      AddOrActivateWallet ev, Emitter<WalletState> emit) {
+  // On wallet creation we only add/create a new wallet if it was not yet added
+  // In case it was it can get only back enabled or disabled.
+  void _onAddOrEnableWallet(AddOrEnableWallet ev, Emitter<WalletState> emit) {
     final state = this.state;
     if (state is! Wallets) return;
 
@@ -36,7 +37,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     emit(Wallets(all: enabled));
   }
 
-  void _onDeactivateWallet(DeactivateProject ev, Emitter<WalletState> emit) {
+  // In case a wallet already exists it can be only disabled and not deleted.
+  void _onDisableWallet(DisableWallet ev, Emitter<WalletState> emit) {
     final state = this.state;
 
     if (state is! Wallets) return;
