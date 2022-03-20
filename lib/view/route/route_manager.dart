@@ -5,11 +5,15 @@ import 'package:simplio_app/view/screens/dashboard_screen.dart';
 import 'package:simplio_app/view/screens/wallet_screen.dart';
 import 'package:simplio_app/view/screens/wallet_projects_screen.dart';
 
+// Route Manager is a center of route logic and displaying desired
+// widget when its name will be matched by the named navigation.
 class RouteManager {
+  // Defining names.
   static const String home = '/';
   static const String walletProjects = '/wallet-projects';
   static const String wallet = '/wallet';
 
+  // Route logic of displaying a correct widget.
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case home:
