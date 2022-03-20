@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/config/projects.dart';
 import 'package:simplio_app/data/model/wallet.dart';
 import 'package:simplio_app/logic/wallet/wallet_bloc.dart';
-import 'package:simplio_app/view/route/route_manager.dart';
 import 'package:simplio_app/view/widgets/wallet_list_item.dart';
+import 'package:simplio_app/view/router/app_router.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -30,9 +29,8 @@ class _DashboardScreen extends State<DashboardScreen> {
             actions: [
               IconButton(
                   onPressed: () => Navigator.of(context).pushNamed(
-                      RouteManager.walletProjects,
-                      // TODO - Instantiating `Project` class here causes frame drops.
-                      arguments: Projects().supported),
+                        AppRouter.walletProjects,
+                      ),
                   icon: const Icon(Icons.add)),
             ],
           ),
@@ -51,7 +49,7 @@ class _DashboardScreen extends State<DashboardScreen> {
                     return WalletListItem(
                       wallet: wallet,
                       onTap: () => Navigator.of(context)
-                          .pushNamed(RouteManager.wallet, arguments: wallet),
+                          .pushNamed(AppRouter.wallet, arguments: wallet),
                     );
                   },
                 ),
