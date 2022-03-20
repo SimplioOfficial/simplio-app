@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/wallet.dart';
-import 'package:simplio_app/logic/wallet/wallet_bloc.dart';
+import 'package:simplio_app/logic/wallet_bloc/wallet_bloc.dart';
 import 'package:simplio_app/view/widgets/wallet_list_item.dart';
 import 'package:simplio_app/view/router/app_router.dart';
 

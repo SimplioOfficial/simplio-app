@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/config/projects.dart';
 import 'package:simplio_app/data/model/wallet.dart';
-import 'package:simplio_app/logic/wallet/wallet_bloc.dart';
+import 'package:simplio_app/logic/wallet_bloc/wallet_bloc.dart';
 import 'package:simplio_app/view/screens/dashboard_screen.dart';
 import 'package:simplio_app/view/screens/wallet_screen.dart';
 import 'package:simplio_app/view/screens/wallet_projects_screen.dart';
