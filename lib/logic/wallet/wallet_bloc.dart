@@ -9,8 +9,8 @@ part 'wallet_event.dart';
 
 class WalletBloc extends Bloc<WalletEvent, WalletState> {
   WalletBloc() : super(const Wallets()) {
-    on<AddOrActivateWallet>(_onAddOrActivateWallet);
-    on<DeactivateProject>(_onDeactivateWallet);
+    on<AddOrEnableWallet>(_onAddOrEnableWallet);
+    on<DisableWallet>(_onDisableWallet);
   }
 
   void _onAddOrActivateWallet(
@@ -29,21 +29,21 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       return emit(Wallets(all: List.from(all)..add(ev.wallet)));
     }
 
-    final List<Wallet> activated = all
-        .map((w) => existing.contains(w.uuid) ? w.copyWith(active: true) : w)
+    final List<Wallet> enabled = all
+        .map((w) => existing.contains(w.uuid) ? w.copyWith(enabled: true) : w)
         .toList();
 
-    emit(Wallets(all: activated));
+    emit(Wallets(all: enabled));
   }
 
   void _onDeactivateWallet(DeactivateProject ev, Emitter<WalletState> emit) {
     final state = this.state;
 
-    if (state is Wallets) {
-      var updated = state.all.map((w) => (w.project.ticker == ev.project.ticker)
-          ? w.copyWith(active: false)
-          : w);
-      emit(Wallets(all: updated.toList()));
-    }
+    if (state is! Wallets) return;
+
+    var disabled = state.all.map((w) => (w.project.ticker == ev.project.ticker)
+        ? w.copyWith(enabled: false)
+        : w);
+    emit(Wallets(all: disabled.toList()));
   }
 }

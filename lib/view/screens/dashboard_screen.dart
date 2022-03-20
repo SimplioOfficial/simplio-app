@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simplio_app/config/projects.dart';
 import 'package:simplio_app/data/model/wallet.dart';
 import 'package:simplio_app/logic/wallet/wallet_bloc.dart';
 import 'package:simplio_app/view/route/route_manager.dart';
@@ -17,7 +18,7 @@ class _DashboardScreen extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
-        if (state is! Wallets) return const Text('Something went wrong');
+        if (state is! Wallets) return const Text('No wallets loaded');
 
         return Scaffold(
           backgroundColor: Colors.white,
@@ -28,12 +29,14 @@ class _DashboardScreen extends State<DashboardScreen> {
             foregroundColor: Colors.black87,
             actions: [
               IconButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(RouteManager.wallets),
+                  onPressed: () => Navigator.of(context).pushNamed(
+                      RouteManager.walletProjects,
+                      // TODO - Instantiating `Project` class here causes frame drops.
+                      arguments: Projects().supported),
                   icon: const Icon(Icons.add)),
             ],
           ),
-          body: state.active().isEmpty
+          body: state.enabled().isEmpty
               ? const Center(
                   child: Opacity(
                       opacity: 0.4,
@@ -41,9 +44,9 @@ class _DashboardScreen extends State<DashboardScreen> {
                           style: TextStyle(color: Colors.black))),
                 )
               : ListView.builder(
-                  itemCount: state.active().length,
+                  itemCount: state.enabled().length,
                   itemBuilder: (BuildContext ctx, int i) {
-                    Wallet wallet = state.active()[i];
+                    Wallet wallet = state.enabled()[i];
 
                     return WalletListItem(
                       wallet: wallet,

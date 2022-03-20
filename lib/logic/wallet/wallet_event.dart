@@ -4,19 +4,19 @@ abstract class WalletEvent extends Equatable {
   const WalletEvent();
 }
 
-class AddOrActivateWallet extends WalletEvent {
+class AddOrEnableWallet extends WalletEvent {
   final Wallet wallet;
 
-  const AddOrActivateWallet({required this.wallet});
+  const AddOrEnableWallet({required this.wallet});
 
   @override
   List<Object?> get props => [wallet];
 }
 
-class DeactivateProject extends WalletEvent {
+class DisableWallet extends WalletEvent {
   final WalletProject project;
 
-  const DeactivateProject({required this.project});
+  const DisableWallet({required this.project});
 
   @override
   List<Object?> get props => [project];
