@@ -9,7 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Write version to the version.yml
-        run: echo "---" > ../../version.yml
+        run: echo "pokus" > ../../version.yml
+      - name: Display version.yml
+        run: tail ../../version.yml
       - name: Commit the change
         run: |
           git config --global user.name 'Jan Vraštil'
