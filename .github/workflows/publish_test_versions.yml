@@ -10,9 +10,10 @@ jobs:
     if: github.event.base_ref != 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.release.target_commitish }}
+#          ${{ github.event.pull_request.head.sha }}
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
       - name: Branch name
@@ -30,9 +31,9 @@ jobs:
       - name: Write version to the version.yml
         run: |
           echo "---" > ./version.yml
-          echo "major: ${RELEASE_VERSIONS[0]}" >> ./version.yml
-          echo "minor: ${RELEASE_VERSIONS[1]}" >> ./version.yml
-          echo "patch: ${RELEASE_VERSIONS[2]}" >> ./version.yml
+          echo "major: ${{ RELEASE_VERSIONS[0] }}" >> ./version.yml
+          echo "minor: ${{ RELEASE_VERSIONS[1] }}" >> ./version.yml
+          echo "patch: ${{ RELEASE_VERSIONS[2] }}" >> ./version.yml
       - name: Display version.yml
         run: tail ./version.yml
       - name: Commit the change
