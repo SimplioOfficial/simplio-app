@@ -27,8 +27,10 @@ class DashboardScreen extends StatelessWidget {
         body: BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
           if (state is! Wallets) return const Text('No wallets loaded');
 
+          var enabled = state.enabled;
+
           return Container(
-            child: state.enabled().isEmpty
+            child: enabled.isEmpty
                 ? const Center(
                     child: Opacity(
                         opacity: 0.4,
@@ -36,9 +38,9 @@ class DashboardScreen extends StatelessWidget {
                             style: TextStyle(color: Colors.black))),
                   )
                 : ListView.builder(
-                    itemCount: state.enabled().length,
+                    itemCount: enabled.length,
                     itemBuilder: (BuildContext ctx, int i) {
-                      Wallet wallet = state.enabled()[i];
+                      Wallet wallet = enabled[i];
 
                       return WalletListItem(
                         wallet: wallet,

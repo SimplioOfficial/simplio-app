@@ -26,7 +26,7 @@ class WalletProjectsScreen extends StatelessWidget {
                   itemCount: projects.length,
                   itemBuilder: (BuildContext ctx, int i) {
                     List<WalletProject> enabledProjects =
-                        state.enabled().map((w) => w.project).toList();
+                        state.enabled.map((w) => w.project).toList();
 
                     return ProjectToggleItem(
                       toggled: enabledProjects.contains(projects[i]),

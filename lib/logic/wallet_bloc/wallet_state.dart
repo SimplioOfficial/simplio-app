@@ -12,7 +12,5 @@ class Wallets extends WalletState {
   @override
   List<Object?> get props => [all];
 
-  List<Wallet> enabled() {
-    return all.where((wallet) => wallet.enabled).toList();
-  }
+  List<Wallet> get enabled => all.where((wallet) => wallet.enabled).toList();
 }
