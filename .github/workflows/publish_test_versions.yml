@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.release.target_commitis }}
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
       - name: Branch name
@@ -24,7 +24,8 @@ jobs:
           echo ${{ env.RELEASE_VERSION }}
           prefix='v'
           version=${RELEASE_VERSION#$prefix}; #Remove prefix
-          versions=$(echo $version | tr ".")
+          IFS='.'     # hyphen (.) is set as delimiter
+          read -ra versions <<< "$string"
           echo "RELEASE_VERSIONS=$versions" >> $GITHUB_ENV
           echo $versions
 
