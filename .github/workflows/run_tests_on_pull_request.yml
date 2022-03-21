@@ -33,6 +33,7 @@ jobs:
           git commit -m "[automated commit] Version increase"
           git push
 
+
 #  run-tests:
 #    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@10_ci_cd_setup
 #    with:
