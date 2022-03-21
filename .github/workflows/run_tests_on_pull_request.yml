@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
       - name: Write version to the version.yml
         run: echo "pokus" > ../../version.yml
       - name: Display version.yml
