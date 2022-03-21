@@ -3,7 +3,7 @@ name: Deploy test version of Simplio app v2 to AppStore and GooglePlay
 on:
   push:
     tags:
-      - v*
+      - 'v*'
 
 jobs:
   run-tests:
