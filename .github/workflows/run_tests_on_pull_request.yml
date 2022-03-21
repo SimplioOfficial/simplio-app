@@ -4,7 +4,21 @@ on:
   pull_request:
 
 jobs:
-  run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@10_ci_cd_setup
-    with:
-      e2e: true
+  increase-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@2
+      - name: Write version to the version.yml
+        run: echo "---" > ../../version.yml
+      - name: Commit the change
+        run: |
+          git config --global user.name 'Jan Vraštil'
+          git config --global user.email 'vrastil.honza@seznam.cz'
+          git remote set-url origin https://x-access-token:${{ secrets.GIT_AUTHORIZATION }}@github.com/SimplioOfficial/simplio-app
+          git commit -am "Automated version increase"
+#          git push origin
+
+#  run-tests:
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@10_ci_cd_setup
+#    with:
+#      e2e: true
