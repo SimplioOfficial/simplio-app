@@ -22,7 +22,8 @@ jobs:
         run: |
           echo $RELEASE_VERSION
           echo ${{ env.RELEASE_VERSION }}
-          version=${$RELEASE_VERSION#v}; #Remove prefix
+          prefix='v'
+          version=${RELEASE_VERSION#$prefix}; #Remove prefix
           versions=$(echo $version | tr ".")
           echo "RELEASE_VERSIONS=$versions" >> $GITHUB_ENV
           echo $versions
