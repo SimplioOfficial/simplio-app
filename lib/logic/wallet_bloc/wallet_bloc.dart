@@ -27,7 +27,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
         .toList();
 
     if (existing.isEmpty) {
-      return emit(Wallets(all: List.from(all)..add(ev.wallet)));
+      return emit(Wallets(all: all..add(ev.wallet)));
     }
 
     final List<Wallet> enabled = all
