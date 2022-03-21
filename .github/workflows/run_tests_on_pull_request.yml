@@ -7,7 +7,7 @@ jobs:
   increase-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@2
+      - uses: actions/checkout@v2
       - name: Write version to the version.yml
         run: echo "---" > ../../version.yml
       - name: Commit the change
