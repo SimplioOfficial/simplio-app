@@ -11,20 +11,20 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Write version to the version.yml
-        run: echo "pokus" > ./version.yml
+        run: |
+          echo "major: 1" >> ./version.yml
+          echo "minor: 0" >> ./version.yml
+          echo "patch: 5" >> ./version.yml
       - name: Display version.yml
         run: tail ./version.yml
       - name: Display version.yml
         run: ls -la
       - name: Commit the change
         run: |
-          git add -A
-          git status
-          git branch
           git config --global user.name 'Jan Vraštil'
           git config --global user.email 'vrastil.honza@seznam.cz'
           git remote set-url origin https://x-access-token:${{ secrets.GIT_AUTHORIZATION }}@github.com/SimplioOfficial/simplio-app
-          git commit -m "Automated version increase"
+          git commit -m "[automated commit] Version increase"
           git push
 
 #  run-tests:
