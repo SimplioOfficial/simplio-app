@@ -33,12 +33,12 @@ class WalletProjectsScreen extends StatelessWidget {
                       project: projects[i],
                       onToggle: (val, project) {
                         if (val) {
-                          context.read<WalletBloc>().add(AddOrEnableWallet(
+                          context.read<WalletBloc>().add(WalletAddedOrEnabled(
                               wallet: Wallet.generate(project: project)));
                         } else {
                           context
                               .read<WalletBloc>()
-                              .add(DisableWallet(project: project));
+                              .add(WalletDisabled(project: project));
                         }
                       },
                     );
