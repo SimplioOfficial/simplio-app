@@ -31,9 +31,9 @@ jobs:
       - name: Write version to the version.yml
         run: |
           echo "---" > ./version.yml
-          echo "major: ${{ RELEASE_VERSIONS[0] }}" >> ./version.yml
-          echo "minor: ${{ RELEASE_VERSIONS[1] }}" >> ./version.yml
-          echo "patch: ${{ RELEASE_VERSIONS[2] }}" >> ./version.yml
+          echo "major: ${{ env.RELEASE_VERSIONS[0] }}" >> ./version.yml
+          echo "minor: ${{ env.RELEASE_VERSIONS[1] }}" >> ./version.yml
+          echo "patch: ${{ env.RELEASE_VERSIONS[2] }}" >> ./version.yml
       - name: Display version.yml
         run: tail ./version.yml
       - name: Commit the change
