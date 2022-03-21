@@ -12,8 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
-#          ref: ${{ github.event.release.target_commitish }}
+          ref: ${{ github.event.release.target_commitish }}
 #          ${{ github.event.pull_request.head.sha }}
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
@@ -27,22 +26,24 @@ jobs:
           tag_version=${RELEASE_VERSION#$prefix}; #Remove prefix
           IFS='.'     # hyphen (.) is set as delimiter
           read -ra parsed_versions <<< "$tag_version"
-          echo "RELEASE_VERSIONS=$parsed_versions" >> $GITHUB_ENV
+          echo "MAJOR=${parsed_versions[0]}" >> $GITHUB_ENV
+          echo "MINOR=${parsed_versions[1]}" >> $GITHUB_ENV
+          echo "PATCH=${parsed_versions[2]}" >> $GITHUB_ENV
 
       - name: Write version to the version.yml
         run: |
           echo "---" > ./version.yml
-          echo "major: ${{ env.RELEASE_VERSIONS[0] }}" >> ./version.yml
-          echo "minor: ${{ env.RELEASE_VERSIONS[1] }}" >> ./version.yml
-          echo "patch: ${{ env.RELEASE_VERSIONS[2] }}" >> ./version.yml
+          echo "major: ${{ env.MAJOR }}" >> ./version.yml
+          echo "minor: ${{ env.MINOR }}" >> ./version.yml
+          echo "patch: ${{ env.PATCH }}" >> ./version.yml
       - name: Display version.yml
         run: tail ./version.yml
       - name: Display target branch
-        run: echo ${{ github.event.release.target_commitish }}
+        run: echo ${{ github.event.release }}
       - name: Commit the change
         run: |
           git branch
-          git checkout '${{ github.event.release.target_commitish }}'
+#          git checkout '${{ github.event.release.target_commitish }}'
           git add -A
           git config --global user.name 'Jan Vraštil'
           git config --global user.email '${{ secrets.GIT_EMAIL }}'
