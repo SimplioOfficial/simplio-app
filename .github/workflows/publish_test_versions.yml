@@ -2,15 +2,12 @@ name: Deploy test version of Simplio app v2 to AppStore and GooglePlay
 
 on:
   push:
-    branches:
-      - '*'
     tags:
       - 'v*'
-    branches-ignore:
-      - 'master'
 
 jobs:
   increase-version:
+    if: github.event.base_ref != 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
