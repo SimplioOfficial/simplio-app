@@ -27,20 +27,19 @@ jobs:
           IFS='.'     # hyphen (.) is set as delimiter
           read -ra versions <<< "$string"
           echo "RELEASE_VERSIONS=$versions" >> $GITHUB_ENV
-          echo $versions
 
       - name: Write version to the version.yml
         run: |
           echo "---" > ./version.yml
-          echo "major: ${versions[0]}" >> ./version.yml
-          echo "minor: ${versions[1]}" >> ./version.yml
-          echo "patch: ${versions[2]}" >> ./version.yml
+          echo "major: ${RELEASE_VERSIONS[0]}" >> ./version.yml
+          echo "minor: ${RELEASE_VERSIONS[1]}" >> ./version.yml
+          echo "patch: ${RELEASE_VERSIONS[2]}" >> ./version.yml
       - name: Display version.yml
         run: tail ./version.yml
       - name: Commit the change
         run: |
           git branch
-          git checkout ${{ github.event.release.target_commitish }}
+          git checkout '${{ github.event.release.target_commitish }}'
           git add -A
           git config --global user.name 'Jan Vraštil'
           git config --global user.email '${{ secrets.GIT_EMAIL }}'
