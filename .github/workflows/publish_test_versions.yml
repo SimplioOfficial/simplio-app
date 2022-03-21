@@ -12,7 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.release.target_commitish }}
+          ref: ${{ github.event.pull_request.head.sha }}
+#          ref: ${{ github.event.release.target_commitish }}
 #          ${{ github.event.pull_request.head.sha }}
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
@@ -23,10 +24,10 @@ jobs:
           echo $RELEASE_VERSION
           echo ${{ env.RELEASE_VERSION }}
           prefix='v'
-          version=${RELEASE_VERSION#$prefix}; #Remove prefix
+          tag_version=${RELEASE_VERSION#$prefix}; #Remove prefix
           IFS='.'     # hyphen (.) is set as delimiter
-          read -ra versions <<< "$string"
-          echo "RELEASE_VERSIONS=$versions" >> $GITHUB_ENV
+          read -ra parsed_versions <<< "$tag_version"
+          echo "RELEASE_VERSIONS=$parsed_versions" >> $GITHUB_ENV
 
       - name: Write version to the version.yml
         run: |
@@ -36,6 +37,8 @@ jobs:
           echo "patch: ${{ env.RELEASE_VERSIONS[2] }}" >> ./version.yml
       - name: Display version.yml
         run: tail ./version.yml
+      - name: Display target branch
+        run: echo ${{ github.event.release.target_commitish }}
       - name: Commit the change
         run: |
           git branch
