@@ -22,20 +22,17 @@ jobs:
         run: |
           echo $RELEASE_VERSION
           echo ${{ env.RELEASE_VERSION }}
-      - name: Get tag
-        id: tag
-        uses: dawidd6/action-get-tag@v1
-        with:
-          # Optionally strip `v` prefix
-          strip_v: true
-      - name: Use tag
-        run: echo ${{steps.tag.outputs.tag}}
+          version=${$RELEASE_VERSION#v}; #Remove prefix
+          versions=$(echo $version | tr ".")
+          echo "RELEASE_VERSIONS=$versions" >> $GITHUB_ENV
+          echo $versions
+
       - name: Write version to the version.yml
         run: |
           echo "---" > ./version.yml
-          echo "major: 1" >> ./version.yml
-          echo "minor: 0" >> ./version.yml
-          echo "patch: 50" >> ./version.yml
+          echo "major: $versions[0]" >> ./version.yml
+          echo "minor: $versions[1]" >> ./version.yml
+          echo "patch: $versions[2]" >> ./version.yml
       - name: Display version.yml
         run: tail ./version.yml
       - name: Commit the change
