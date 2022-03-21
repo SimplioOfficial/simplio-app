@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:simplio_app/data/model/wallet_project.dart';
 
-// Projects contains all supported crypto projects in simplio app.
-// You can access the entire list of supported projects by calling
-// `supported` getter of a `Projects` instance.
 class Projects {
   static const WalletProject simplio = WalletProject(
-      name: 'Simplio',
-      ticker: 'sio',
-      primaryColor: Colors.blue,
-      networks: [solana]);
+    name: 'Simplio',
+    ticker: 'sio',
+    primaryColor: Colors.blue,
+    foregroundColor: Colors.white,
+    icon: Icons.wb_sunny_outlined,
+    networks: [solana],
+  );
 
   static const WalletProject bitcoin = WalletProject(
-      name: 'Bitcoin', ticker: 'btc', primaryColor: Colors.orange);
+    name: 'Bitcoin',
+    ticker: 'btc',
+    icon: Icons.wb_sunny_outlined,
+    primaryColor: Colors.orange,
+    foregroundColor: Colors.black,
+  );
 
-  static const WalletProject solana =
-      WalletProject(name: 'Solana', ticker: 'sol', primaryColor: Colors.purple);
+  static const WalletProject solana = WalletProject(
+    name: 'Solana',
+    ticker: 'sol',
+    icon: Icons.wb_sunny_outlined,
+    primaryColor: Colors.purple,
+    foregroundColor: Colors.white,
+  );
 
-  final List<WalletProject> _supportedProjects = [
+  static const List<WalletProject> supported = [
     solana,
     simplio,
     bitcoin,
   ];
-
-  List<WalletProject> get supported => _supportedProjects;
 }

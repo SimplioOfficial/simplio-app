@@ -8,13 +8,18 @@ class WalletProject extends Equatable {
   final String name;
   final String ticker;
   final Color primaryColor;
+  final Color foregroundColor;
+  final IconData icon;
   final List<WalletProject>? networks;
 
-  const WalletProject(
-      {required this.name,
-      required this.ticker,
-      required this.primaryColor,
-      this.networks});
+  const WalletProject({
+    required this.name,
+    required this.ticker,
+    required this.primaryColor,
+    required this.foregroundColor,
+    required this.icon,
+    this.networks,
+  });
 
   @override
   List<Object?> get props => [name, ticker, primaryColor, networks];

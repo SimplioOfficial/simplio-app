@@ -5,17 +5,12 @@ import 'package:simplio_app/data/model/wallet_project.dart';
 import 'package:simplio_app/logic/wallet_bloc/wallet_bloc.dart';
 import 'package:simplio_app/view/widgets/project_toggle_item.dart';
 
-class WalletProjectsScreen extends StatefulWidget {
+class WalletProjectsScreen extends StatelessWidget {
   final List<WalletProject> projects;
 
-  const WalletProjectsScreen({Key? key, this.projects = const []})
+  const WalletProjectsScreen({Key? key, required this.projects})
       : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() => _WalletProjectScreen();
-}
-
-class _WalletProjectScreen extends State<WalletProjectsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,9 +23,8 @@ class _WalletProjectScreen extends State<WalletProjectsScreen> {
         body: BlocBuilder<WalletBloc, WalletState>(
           builder: (context, state) => (state is Wallets)
               ? ListView.builder(
-                  itemCount: widget.projects.length,
+                  itemCount: projects.length,
                   itemBuilder: (BuildContext ctx, int i) {
-                    List<WalletProject> projects = widget.projects;
                     List<WalletProject> enabledProjects =
                         state.enabled().map((w) => w.project).toList();
 

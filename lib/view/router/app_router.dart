@@ -28,8 +28,8 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => BlocProvider.value(
                   value: _walletBloc,
-                  child: WalletProjectsScreen(
-                    projects: Projects().supported,
+                  child: const WalletProjectsScreen(
+                    projects: Projects.supported,
                   ),
                 ));
       case wallet:

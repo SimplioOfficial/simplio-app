@@ -26,6 +26,8 @@ class _ProjectToggleItem extends State<ProjectToggleItem> {
           children: [
             CircleAvatar(
               backgroundColor: widget.project.primaryColor,
+              child: Icon(widget.project.icon, size: 18.0),
+              foregroundColor: widget.project.foregroundColor,
             ),
             Expanded(
               child: Padding(
