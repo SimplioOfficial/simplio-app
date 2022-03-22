@@ -43,8 +43,8 @@ jobs:
           echo "minor: ${{ env.MINOR }}" >> ./version.yml
           echo "patch: ${{ env.PATCH }}" >> ./version.yml
 
-#      - name: Display version.yml
-#        run: tail ./version.yml
+      - name: Display version.yml
+        run: tail ./version.yml
       - uses: actions/upload-artifact@master
         with:
           name: version-file
@@ -57,15 +57,15 @@ jobs:
           lane: increase_patch_version
           subdirectory: ios
           env: ${{ inputs.environment }}
-        - name: Commit the change
-          run: |
-            git branch
-            git add -A
-            git config --global user.name 'Jan Vraštil'
-            git config --global user.email '${{ secrets.GIT_EMAIL }}'
-            git remote set-url origin https://x-access-token:${{ secrets.GIT_AUTHORIZATION }}@github.com/SimplioOfficial/simplio-app
-            git commit -m "[automated commit] Version increase"
-            git push
+      - name: Commit the change
+        run: |
+          git branch
+          git add -A
+          git config --global user.name 'Jan Vraštil'
+          git config --global user.email '${{ secrets.GIT_EMAIL }}'
+          git remote set-url origin https://x-access-token:${{ secrets.GIT_AUTHORIZATION }}@github.com/SimplioOfficial/simplio-app
+          git commit -m "[automated commit] Version increase"
+          git push
 
   pokus:
     needs: set-version
