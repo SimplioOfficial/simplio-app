@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       #        with:
       #          ref: ${{ github.event.release.target_commitish }}
       #          ${{ github.event.pull_request.head.sha }}
@@ -60,7 +62,7 @@ jobs:
       - name: Commit the change
         run: |
           git branch
-          git add -A
+          git add pubspec.yaml
           git config --global user.name 'Jan Vraštil'
           git config --global user.email '${{ secrets.GIT_EMAIL }}'
           git remote set-url origin https://x-access-token:${{ secrets.GIT_AUTHORIZATION }}@github.com/SimplioOfficial/simplio-app
