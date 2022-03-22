@@ -37,10 +37,7 @@ jobs:
           echo "MAJOR=${parsed_versions[0]}" >> $GITHUB_ENV
           echo "MINOR=${parsed_versions[1]}" >> $GITHUB_ENV
           echo "PATCH=${parsed_versions[2]}" >> $GITHUB_ENV
-
-      - name: Set versions
-        run: |
-          echo '::set-output name=major::$MAJOR'
+          echo '::set-output name=major::${MAJOR}'
           echo '::set-output name=minor::$MINOR'
           echo '::set-output name=patch::$PATCH'
           echo "$MAJOR $MINOR $PATCH"
