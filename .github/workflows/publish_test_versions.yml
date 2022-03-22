@@ -51,33 +51,40 @@ jobs:
 #          git commit -m "[automated commit] Version increase"
 #          git push
 
-  run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@task/11-setup_basic_ci_cd_pipelines
-#    if: github.event.review.state == 'approved'
-    with:
-      e2e: true
+  pokus:
+    needs: set-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display version.yml
+        run: tail ./version.yml
 
-  build-ios:
-    needs: [run-tests, set-version]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@task/11-setup_basic_ci_cd_pipelines
-    with:
-      environment: 'dev'
-    secrets:
-      APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
-      DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
-      DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
-      FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
-      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
-      MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
-      GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
-      PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
-      TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
-      TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+#  run-tests:
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@task/11-setup_basic_ci_cd_pipelines
+##    if: github.event.review.state == 'approved'
+#    with:
+#      e2e: true
 
-  build-android:
-    needs: [run-tests, set-version]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@task/11-setup_basic_ci_cd_pipelines
-    secrets:
-      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
-    with:
-      environment: 'dev'
+#  build-ios:
+#    needs: [run-tests, set-version]
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@task/11-setup_basic_ci_cd_pipelines
+#    with:
+#      environment: 'dev'
+#    secrets:
+#      APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
+#      DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+#      DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
+#      FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+#      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+#      MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+#      GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+#      PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+#      TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+#      TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+#
+#  build-android:
+#    needs: [run-tests, set-version]
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@task/11-setup_basic_ci_cd_pipelines
+#    secrets:
+#      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+#    with:
+#      environment: 'dev'
