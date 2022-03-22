@@ -36,9 +36,9 @@ jobs:
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@task/11-setup_basic_ci_cd_pipelines
     with:
       environment: 'production'
-      major: 0
-      minor: 0
-      patch: 1
+      major: '${{ env.RELEASE_VERSIONS[0] }}'
+      minor: '${{ env.RELEASE_VERSIONS[1] }}'
+      patch: '${{ env.RELEASE_VERSIONS[2] }}'
     secrets:
       APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
       DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
