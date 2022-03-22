@@ -1,9 +1,10 @@
 name: Deploy test version of Simplio app v2 to AppStore and GooglePlay
 
 on:
-  push:
-    tags:
-      - 'v*'
+  pull_request:
+#  push:
+#    tags:
+#      - 'v*'
 
 jobs:
   set-version:
