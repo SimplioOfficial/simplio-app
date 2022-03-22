@@ -62,6 +62,7 @@ jobs:
           echo "major: ${{ inputs.major }}" >> ./version.yml
           echo "minor: ${{ inputs.minor }}" >> ./version.yml
           echo "patch: ${{ inputs.patch }}" >> ./version.yml
+          tail ./version.yml
 
       - name: Set version
         if: ${{ inputs.environment == 'production' }}
