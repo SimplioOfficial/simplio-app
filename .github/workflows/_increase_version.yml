@@ -33,7 +33,7 @@ jobs:
           echo "MAJOR=${parsed_versions[0]}" >> $GITHUB_ENV
           echo "MINOR=${parsed_versions[1]}" >> $GITHUB_ENV
           patch_build=$(echo ${parsed_versions[2]} | tr "+" "\n")
-          read -ra temp <<< "patch_build"
+          read -ra temp <<< "$patch_build"
           echo "PATCH=${temp[0]}" >> $GITHUB_ENV
 
       - name: Write version to the version.yml

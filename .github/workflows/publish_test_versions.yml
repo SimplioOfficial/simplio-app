@@ -7,13 +7,13 @@ on:
 #      - 'v*'
 
 jobs:
-  run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@task/11-setup_basic_ci_cd_pipelines
-    with:
-      e2e: true
+#  run-tests:
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@task/11-setup_basic_ci_cd_pipelines
+#    with:
+#      e2e: true
 
   increase-version:
-    needs: [run-tests]
+#    needs: [run-tests]
     uses: SimplioOfficial/simplio-app/.github/workflows/_increase_version.yml@subtask/11-automatic_version_increase
 
 #  build-ios:
