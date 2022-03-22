@@ -13,21 +13,13 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-      #        with:
-      #          ref: ${{ github.event.release.target_commitish }}
-      #          ${{ github.event.pull_request.head.sha }}
-#      - name: Set env
-#        run: echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
       - name: Run read-yaml action
         id: yaml-data
-        uses: KJ002/read-yaml@main      # You may wish to replace main with a version tag such as '1.6' etc.
+        uses: KJ002/read-yaml@main
         with:
-          file: './pubspec.yaml'          # File to read from
-          key-path: '["version"]' # Access the runs key then the using key and retuns the value.
-
-#      - name: Display read-yaml output
-#        run: echo "${{ steps.yaml-data.outputs.data }}"
+          file: './pubspec.yaml'
+          key-path: '["version"]'
 
       - name: Get parsed version
         run: |
@@ -46,14 +38,11 @@ jobs:
           echo "minor: ${{ env.MINOR }}" >> ./version.yml
           echo "patch: ${{ env.PATCH }}" >> ./version.yml
 
-#      - name: Display version.yml
-#        run: tail ./version.yml
       - uses: actions/upload-artifact@master
         with:
           name: version-file
           path: ./version.yml
-#      - name: Display target branch
-#        run: echo ${{ github.event.release.target_commitish }}
+
       - name: Run Fastlane
         uses: maierj/fastlane-action@v2.2.0
         with:
@@ -70,16 +59,16 @@ jobs:
           git commit -m "[automated commit] Version increase"
           git push
 
-  pokus:
-    needs: set-version
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@master
-        with:
-          name: version-file
-          path: ./
-      - name: Display folders
-        run: ls -la
-      - name: Display version.yml
-        run: tail ./version.yml
+#  pokus:
+#    needs: set-version
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: actions/download-artifact@master
+#        with:
+#          name: version-file
+#          path: ./
+#      - name: Display folders
+#        run: ls -la
+#      - name: Display version.yml
+#        run: tail ./version.yml
