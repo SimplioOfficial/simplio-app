@@ -16,6 +16,17 @@ jobs:
 #          ${{ github.event.pull_request.head.sha }}
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Run read-yaml action
+        id: yaml-data
+        uses: KJ002/read-yaml@main      # You may wish to replace main with a version tag such as '1.6' etc.
+        with:
+          file: './pubspec.yaml'          # File to read from
+          key-path: '["version"]' # Access the runs key then the using key and retuns the value.
+
+      - name: Display read-yaml output
+        run: echo "${{ steps.yaml-data.outputs.data }}"
+
       - name: Branch name
         run : echo ${{ github.event.release.tag_name }}
       - name: Test
