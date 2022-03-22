@@ -10,7 +10,7 @@ on:
 jobs:
   run-tests:
     if: github.event.base_ref == 'refs/heads/master'
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@task/11-setup_basic_ci_cd_pipelines
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@subtask/11-automatic_version_increase
     with:
       e2e: true
 
@@ -33,12 +33,12 @@ jobs:
 
   build-ios:
     needs: [run-tests]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@task/11-setup_basic_ci_cd_pipelines
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@subtask/11-automatic_version_increase
     with:
       environment: 'production'
-      major: '${{ env.RELEASE_VERSIONS[0] }}'
-      minor: '${{ env.RELEASE_VERSIONS[1] }}'
-      patch: '${{ env.RELEASE_VERSIONS[2] }}'
+      major: '${RELEASE_VERSIONS[0]}'
+      minor: '${RELEASE_VERSIONS[1]}'
+      patch: '${RELEASE_VERSIONS[2]}'
     secrets:
       APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
       DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
@@ -53,7 +53,7 @@ jobs:
 
 #  build-android:
 #    needs: [run-tests]
-#    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@task/11-setup_basic_ci_cd_pipelines
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@subtask/11-automatic_version_increase
 #    secrets:
 #      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
 #    with:
