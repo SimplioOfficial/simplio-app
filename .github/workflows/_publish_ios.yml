@@ -62,11 +62,11 @@ jobs:
           echo "major: ${{ inputs.major }}" >> ./version.yml
           echo "minor: ${{ inputs.minor }}" >> ./version.yml
           echo "patch: ${{ inputs.patch }}" >> ./version.yml
-          - name: Archive version.yml
-            uses: actions/upload-artifact@v3
-            with:
-              name: version-file
-              path: ./version.yml
+#      - name: Archive version.yml
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: version-file
+#          path: ./version.yml
 
       - name: Set version
         if: ${{ inputs.environment == 'production' }}

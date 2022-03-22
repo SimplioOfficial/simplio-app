@@ -34,16 +34,17 @@ jobs:
           IFS='.'
           read -ra parsed_versions <<< "$tag_version"
           echo "RELEASE_VERSIONS=$parsed_versions" >> $GITHUB_ENV
+          echo "MAJOR=${parsed_versions[0]}" >> $GITHUB_ENV
+          echo "MINOR=${parsed_versions[1]}" >> $GITHUB_ENV
+          echo "PATCH=${parsed_versions[2]}" >> $GITHUB_ENV
 
       - name: Set versions
         run: |
-          echo '::set-output name=major::${parsed_versions[0]}'
-          echo '::set-output name=minor::${parsed_versions[1]}'
-          echo '::set-output name=patch::${parsed_versions[2]}'
+          echo '::set-output name=major::$MAJOR'
+          echo '::set-output name=minor::$MINOR'
+          echo '::set-output name=patch::$PATCH'
         id: output-data
-#          echo "MAJOR=${parsed_versions[0]}" >> $GITHUB_ENV
-#          echo "MINOR=${parsed_versions[1]}" >> $GITHUB_ENV
-#          echo "PATCH=${parsed_versions[2]}" >> $GITHUB_ENV
+
 
   build-ios:
     needs: [set-version]
