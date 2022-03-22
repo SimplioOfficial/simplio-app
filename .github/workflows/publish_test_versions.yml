@@ -38,7 +38,6 @@ jobs:
           echo "patch: ${{ env.PATCH }}" >> ./version.yml
       - name: Display version.yml
         run: tail ./version.yml
-      - name: Store change
       - uses: actions/upload-artifact@master
         with:
           name: version-file
@@ -60,6 +59,7 @@ jobs:
     needs: set-version
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: actions/download-artifact@master
         with:
           name: version-file
