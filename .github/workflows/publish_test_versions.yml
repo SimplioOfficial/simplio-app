@@ -31,7 +31,7 @@ jobs:
 #      - name: Display folders
 #        run: ls -la
       - name: Display version.yml
-        run: head ./pubspec.yaml
+        run: head -n 20 ./pubspec.yaml
 
 #  build-ios:
 #    needs: [run-tests, increase-version]
