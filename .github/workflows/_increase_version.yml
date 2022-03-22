@@ -6,7 +6,7 @@ on:
   workflow_call:
 
 jobs:
-  set-version:
+  increase-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -38,17 +38,11 @@ jobs:
           echo "minor: ${{ env.MINOR }}" >> ./version.yml
           echo "patch: ${{ env.PATCH }}" >> ./version.yml
 
-#      - uses: actions/upload-artifact@master
-#        with:
-#          name: version-file
-#          path: ./version.yml
-
       - name: Run Fastlane
         uses: maierj/fastlane-action@v2.2.0
         with:
           lane: increase_patch_version
           subdirectory: ios
-          env: ${{ inputs.environment }}
       - name: Commit the change
         run: |
           git checkout ${{ env.BRANCH }}

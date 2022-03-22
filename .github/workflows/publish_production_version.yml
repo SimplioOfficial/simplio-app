@@ -6,7 +6,6 @@ on:
       - 'v*'
     branches:
       - 'master'
-      - '*'
 
 jobs:
   run-tests:
@@ -32,41 +31,22 @@ jobs:
           read -ra parsed_versions <<< "$tag_version"
           echo "RELEASE_VERSIONS=$parsed_versions" >> $GITHUB_ENV
 
-      - name: Write version to the version.yml
-        run: |
-          echo "---" > ./version.yml
-          echo "major: ${{ env.RELEASE_VERSIONS[0] }}" >> ./version.yml
-          echo "minor: ${{ env.RELEASE_VERSIONS[1] }}" >> ./version.yml
-          echo "patch: ${{ env.RELEASE_VERSIONS[2] }}" >> ./version.yml
-      - name: Archive version.yml
-        uses: actions/upload-artifact@v3
-        with:
-          name: version-file
-          path: ./version.yml
-
   build-ios:
     needs: [run-tests]
-    runs-on: macos-latest
-    steps:
-        - uses: actions/download-artifact@master
-          with:
-            name: version-file
-            path: ./
-
-        - uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@task/11-setup_basic_ci_cd_pipelines
-          with:
-            environment: 'dev'
-#            environment: 'production'
-            APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
-            DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
-            DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
-            FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
-            FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
-            MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
-            GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
-            PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
-            TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
-            TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@task/11-setup_basic_ci_cd_pipelines
+    with:
+      environment: 'production'
+    secrets:
+      APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
+      DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+      DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
+      FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+      MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+      GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+      PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+      TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+      TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
 
 #  build-android:
 #    needs: [run-tests]
@@ -75,3 +55,7 @@ jobs:
 #      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
 #    with:
 #      environment: 'production'
+#      major: ${{ env.MAJOR }}
+#      minor: ${{ env.MINOR }}
+#      patch: ${{ env.PATCH }}
+#
