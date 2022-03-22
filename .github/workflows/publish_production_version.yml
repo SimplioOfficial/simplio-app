@@ -30,15 +30,18 @@ jobs:
           IFS='.'     # hyphen (.) is set as delimiter
           read -ra parsed_versions <<< "$tag_version"
           echo "RELEASE_VERSIONS=$parsed_versions" >> $GITHUB_ENV
+          echo "MAJOR=${parsed_versions[0]}" >> $GITHUB_ENV
+          echo "MINOR=${parsed_versions[1]}" >> $GITHUB_ENV
+          echo "PATCH=${parsed_versions[2]}" >> $GITHUB_ENV
 
   build-ios:
     needs: [set-version]
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@subtask/11-automatic_version_increase
     with:
       environment: 'production'
-      major: '${RELEASE_VERSIONS[0]}'
-      minor: '${RELEASE_VERSIONS[1]}'
-      patch: '${RELEASE_VERSIONS[2]}'
+      major: '$MAJOR'
+      minor: '$MINOR'
+      patch: '$PATCH'
     secrets:
       APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
       DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
