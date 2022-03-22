@@ -43,8 +43,8 @@ jobs:
           echo "minor: ${{ env.MINOR }}" >> ./version.yml
           echo "patch: ${{ env.PATCH }}" >> ./version.yml
 
-      - name: Display version.yml
-        run: tail ./version.yml
+#      - name: Display version.yml
+#        run: tail ./version.yml
       - uses: actions/upload-artifact@master
         with:
           name: version-file
