@@ -33,13 +33,13 @@ on:
         type: string
       major:
         required: false
-        type: number
+        type: string
       minor:
         required: false
-        type: number
+        type: string
       patch:
         required: false
-        type: number
+        type: string
 
 jobs:
   build-ios:
