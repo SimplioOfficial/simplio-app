@@ -37,7 +37,7 @@ on:
       minor:
         required: false
         type: number
-      patcg:
+      patch:
         required: false
         type: number
 
