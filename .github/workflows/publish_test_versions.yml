@@ -1,10 +1,9 @@
 name: Deploy test version of Simplio app v2 to AppStore and GooglePlay
 
 on:
-  pull_request:
-#  push:
-#    tags:
-#      - 'v*'
+  push:
+    branches:
+      - 'feature/*'
 
 jobs:
   run-tests:
@@ -34,7 +33,7 @@ jobs:
 #        run: head -n 20 ./pubspec.yaml
 
   build-ios:
-    needs: [run-tests, increase-version]
+    needs: [increase-version]
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@task/11-setup_basic_ci_cd_pipelines
     with:
       environment: 'dev'
@@ -51,7 +50,7 @@ jobs:
       TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
 
   build-android:
-    needs: [run-tests, increase-version]
+    needs: [increase-version]
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@task/11-setup_basic_ci_cd_pipelines
     secrets:
       ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
