@@ -26,22 +26,29 @@ jobs:
           echo $RELEASE_VERSION
           echo ${{ env.RELEASE_VERSION }}
           prefix='v'
-          tag_version=${RELEASE_VERSION#$prefix}; #Remove prefix
-          IFS='.'     # hyphen (.) is set as delimiter
+          tag_version=${RELEASE_VERSION#$prefix};
+          IFS='.'
           read -ra parsed_versions <<< "$tag_version"
           echo "RELEASE_VERSIONS=$parsed_versions" >> $GITHUB_ENV
-          echo "MAJOR=${parsed_versions[0]}" >> $GITHUB_ENV
-          echo "MINOR=${parsed_versions[1]}" >> $GITHUB_ENV
-          echo "PATCH=${parsed_versions[2]}" >> $GITHUB_ENV
+
+      - name: Set versions
+        run: |
+          echo '::set-output name=MAJOR::${parsed_versions[0]}'
+          echo '::set-output name=MINOR::${parsed_versions[1]}'
+          echo '::set-output name=PATCH::${parsed_versions[2]}'
+        id: output-data
+#          echo "MAJOR=${parsed_versions[0]}" >> $GITHUB_ENV
+#          echo "MINOR=${parsed_versions[1]}" >> $GITHUB_ENV
+#          echo "PATCH=${parsed_versions[2]}" >> $GITHUB_ENV
 
   build-ios:
     needs: [set-version]
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@subtask/11-automatic_version_increase
     with:
       environment: 'production'
-      major: ${{ env.MAJOR }}
-      minor: ${{ env.MINOR }}
-      patch: ${{ env.PATCH }}
+      major: ${{ steps.output-data.outputs.MAJOR }}
+      minor: ${{ steps.output-data.outputs.MINOR }}
+      patch: ${{ steps.output-data.outputs.PATCH }}
     secrets:
       APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
       DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
