@@ -53,7 +53,7 @@ jobs:
         run: |
           git checkout ${{ env.BRANCH }}
           git add pubspec.yaml
-          git config --global user.name 'jvrastil'
+          git config --global user.name 'GitHub bot'
           git config --global user.email '${{ secrets.GIT_EMAIL }}'
           git remote set-url origin https://x-access-token:${{ secrets.GIT_AUTHORIZATION }}@github.com/SimplioOfficial/simplio-app
           git commit -m "[automated commit] Version increase"
