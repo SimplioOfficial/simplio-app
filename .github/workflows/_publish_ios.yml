@@ -56,7 +56,7 @@ jobs:
       - run: flutter pub get
 
       - name: Write version to the version.yml
-        if: ${{ inputs.env == 'production' }}
+        if: ${{ inputs.environment == 'production' }}
         run: |
           echo "---" > ./version.yml
           echo "major: ${{ inputs.major }}" >> ./version.yml
@@ -69,7 +69,7 @@ jobs:
               path: ./version.yml
 
       - name: Set version
-        if: ${{ inputs.env == 'production' }}
+        if: ${{ inputs.environment == 'production' }}
         uses: maierj/fastlane-action@v2.2.0
         with:
           lane: apply_new_version
