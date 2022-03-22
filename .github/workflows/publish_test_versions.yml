@@ -7,7 +7,7 @@ on:
 
 jobs:
   set-version:
-    if: github.event.base_ref != 'refs/heads/master'
+#    if: github.event.base_ref != 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -53,7 +53,7 @@ jobs:
 
   run-tests:
     uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@task/11-setup_basic_ci_cd_pipelines
-    if: github.event.review.state == 'approved'
+#    if: github.event.review.state == 'approved'
     with:
       e2e: true
 
