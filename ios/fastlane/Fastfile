@@ -27,13 +27,37 @@ def ensure_temp_keychain(name, password)
 end
 
 platform :ios do
-    lane :apply_new_version do
-      flutter_version_manager(
-        arguments: "-apply",
-        yml: "../version.yml",
-        pubspec: "../pubspec.yaml",
-        git_repo: "..")
-    end
+  lane :apply_new_version do
+    flutter_version_manager(
+      arguments: "-apply",
+      yml: "../version.yml",
+      pubspec: "../pubspec.yaml",
+      git_repo: "..")
+  end
+
+  lane :increase_patch_version do
+    flutter_version_manager(
+      arguments: "-patch",
+      yml: "../version.yml",
+      pubspec: "../pubspec.yaml",
+      git_repo: "..")
+  end
+
+  lane :increase_minor_version do
+    flutter_version_manager(
+      arguments: "-minor",
+      yml: "../version.yml",
+      pubspec: "../pubspec.yaml",
+      git_repo: "..")
+  end
+
+  lane :increase_major_version do
+    flutter_version_manager(
+      arguments: "-major",
+      yml: "../version.yml",
+      pubspec: "../pubspec.yaml",
+      git_repo: "..")
+  end
 
   lane :build_and_deploy do
     keychain_name = TEMP_KEYCHAIN_USER

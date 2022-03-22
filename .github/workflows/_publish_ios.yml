@@ -42,11 +42,6 @@ jobs:
         with:
           flutter-version: $FLUTTER_VERSION
       - run: flutter pub get
-      - name: Apply new version
-        uses: maierj/fastlane-action@v2.2.0
-        with:
-          lane: apply_new_version
-          subdirectory: ios
       - run: flutter build ios --release --no-codesign
       - name: Run Fastlane
         uses: maierj/fastlane-action@v2.2.0
