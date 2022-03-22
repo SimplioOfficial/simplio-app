@@ -17,7 +17,7 @@ jobs:
     uses: SimplioOfficial/simplio-app/.github/workflows/_increase_version.yml@subtask/11-automatic_version_increase
 
   pokus:
-    needs: set-version
+    needs: [increase-version]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
