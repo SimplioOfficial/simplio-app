@@ -38,10 +38,10 @@ jobs:
           echo "minor: ${{ env.MINOR }}" >> ./version.yml
           echo "patch: ${{ env.PATCH }}" >> ./version.yml
 
-      - uses: actions/upload-artifact@master
-        with:
-          name: version-file
-          path: ./version.yml
+#      - uses: actions/upload-artifact@master
+#        with:
+#          name: version-file
+#          path: ./version.yml
 
       - name: Run Fastlane
         uses: maierj/fastlane-action@v2.2.0
