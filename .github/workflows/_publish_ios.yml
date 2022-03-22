@@ -62,11 +62,6 @@ jobs:
           echo "major: ${{ inputs.major }}" >> ./version.yml
           echo "minor: ${{ inputs.minor }}" >> ./version.yml
           echo "patch: ${{ inputs.patch }}" >> ./version.yml
-#      - name: Archive version.yml
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: version-file
-#          path: ./version.yml
 
       - name: Set version
         if: ${{ inputs.environment == 'production' }}
@@ -74,6 +69,9 @@ jobs:
         with:
           lane: apply_new_version
           subdirectory: ios
+
+      - name: Display version.yml
+        run: head -n 20 ./pubspec.yaml
 
       - run: flutter build ios --release --no-codesign
 #      - name: Run Fastlane

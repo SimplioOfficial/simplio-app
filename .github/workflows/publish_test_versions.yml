@@ -15,23 +15,6 @@ jobs:
     needs: [run-tests]
     uses: SimplioOfficial/simplio-app/.github/workflows/_increase_version.yml@subtask/11-automatic_version_increase
 
-#  pokus:
-#    needs: [increase-version]
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#        with:
-#          ref: ${{ github.event.pull_request.head.ref }}
-#          fetch-depth: 0
-##      - uses: actions/download-artifact@master
-##        with:
-##          name: version-file
-##          path: ./
-##      - name: Display folders
-##        run: ls -la
-#      - name: Display version.yml
-#        run: head -n 20 ./pubspec.yaml
-
   build-ios:
     needs: [increase-version]
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@subtask/11-automatic_version_increase
