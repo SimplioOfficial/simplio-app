@@ -38,6 +38,11 @@ jobs:
           echo "patch: ${{ env.PATCH }}" >> ./version.yml
       - name: Display version.yml
         run: tail ./version.yml
+      - name: Store change
+      - uses: actions/upload-artifact@master
+        with:
+          name: version-file
+          path: ./version.yml
 #      - name: Display target branch
 #        run: echo ${{ github.event.release.target_commitish }}
 #      - name: Commit the change
@@ -55,6 +60,10 @@ jobs:
     needs: set-version
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: version-file
+          path: ./version.yml
       - name: Display version.yml
         run: tail ./version.yml
 
