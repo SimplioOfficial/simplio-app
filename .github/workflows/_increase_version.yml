@@ -49,8 +49,8 @@ jobs:
         with:
           name: version-file
           path: ./version.yml
-        - name: Display target branch
-          run: echo ${{ github.event.release.target_commitish }}
+      - name: Display target branch
+        run: echo ${{ github.event.release.target_commitish }}
       - name: Run Fastlane
         uses: maierj/fastlane-action@v2.2.0
         with:
