@@ -6,16 +6,16 @@ on:
       - 'v*'
     branches:
       - 'master'
+      - '*'
 
 jobs:
   run-tests:
-    if: github.event.base_ref == 'refs/heads/master'
     uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@subtask/11-automatic_version_increase
     with:
       e2e: true
 
   set-version:
-    if: github.event.base_ref != 'refs/heads/master'
+    needs: [run-tests]
     runs-on: ubuntu-latest
     steps:
       - name: Set env
@@ -32,7 +32,7 @@ jobs:
           echo "RELEASE_VERSIONS=$parsed_versions" >> $GITHUB_ENV
 
   build-ios:
-    needs: [run-tests]
+    needs: [set-version]
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@subtask/11-automatic_version_increase
     with:
       environment: 'production'
@@ -52,7 +52,7 @@ jobs:
       TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
 
 #  build-android:
-#    needs: [run-tests]
+#    needs: [set-version]
 #    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@subtask/11-automatic_version_increase
 #    secrets:
 #      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
