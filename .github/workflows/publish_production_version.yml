@@ -43,7 +43,7 @@ jobs:
           echo '::set-output name=major::$MAJOR'
           echo '::set-output name=minor::$MINOR'
           echo '::set-output name=patch::$PATCH'
-          echo '$MAJOR $MINOR $PATCH'
+          echo "$MAJOR $MINOR $PATCH"
         id: output-data
 
 
@@ -52,7 +52,7 @@ jobs:
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@subtask/11-automatic_version_increase
     with:
       environment: 'production'
-      major: '${{needs.set-version.outputs.major}}'
+      major: ${{ needs.set-version.outputs.major }}
       minor: '${{needs.set-version.outputs.minor}}'
       patch: '${{needs.set-version.outputs.patch}}'
     secrets:
