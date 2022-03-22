@@ -39,9 +39,9 @@ jobs:
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@subtask/11-automatic_version_increase
     with:
       environment: 'production'
-      major: '$MAJOR'
-      minor: '$MINOR'
-      patch: '$PATCH'
+      major: ${{ env.MAJOR }}
+      minor: ${{ env.MINOR }}
+      patch: ${{ env.PATCH }}
     secrets:
       APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
       DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
