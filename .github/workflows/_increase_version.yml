@@ -11,12 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
       #        with:
       #          ref: ${{ github.event.release.target_commitish }}
       #          ${{ github.event.pull_request.head.sha }}
-      - name: Set env
-        run: echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+#      - name: Set env
+#        run: echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
       - name: Run read-yaml action
         id: yaml-data
@@ -25,8 +26,8 @@ jobs:
           file: './pubspec.yaml'          # File to read from
           key-path: '["version"]' # Access the runs key then the using key and retuns the value.
 
-      - name: Display read-yaml output
-        run: echo "${{ steps.yaml-data.outputs.data }}"
+#      - name: Display read-yaml output
+#        run: echo "${{ steps.yaml-data.outputs.data }}"
 
       - name: Get parsed version
         run: |
@@ -45,14 +46,14 @@ jobs:
           echo "minor: ${{ env.MINOR }}" >> ./version.yml
           echo "patch: ${{ env.PATCH }}" >> ./version.yml
 
-      - name: Display version.yml
-        run: tail ./version.yml
+#      - name: Display version.yml
+#        run: tail ./version.yml
       - uses: actions/upload-artifact@master
         with:
           name: version-file
           path: ./version.yml
-      - name: Display target branch
-        run: echo ${{ github.event.release.target_commitish }}
+#      - name: Display target branch
+#        run: echo ${{ github.event.release.target_commitish }}
       - name: Run Fastlane
         uses: maierj/fastlane-action@v2.2.0
         with:
