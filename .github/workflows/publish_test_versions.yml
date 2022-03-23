@@ -3,20 +3,21 @@ name: Deploy test version of Simplio app v2 to AppStore and GooglePlay
 on:
   push:
     branches:
-      - 'master'
-  pull_request_review:
-    types: [submitted]
+      - 'feature/*'
 
 jobs:
   run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@10_ci_cd_setup
-    if: github.event.review.state == 'approved'
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-infrastructure
     with:
       e2e: true
 
-  build-ios:
+  increase-version:
     needs: [run-tests]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@10_ci_cd_setup
+    uses: SimplioOfficial/simplio-app/.github/workflows/_increase_version.yml@feature/initial-infrastructure
+
+  build-ios:
+    needs: [increase-version]
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@feature/initial-infrastructure
     with:
       environment: 'dev'
     secrets:
@@ -32,8 +33,8 @@ jobs:
       TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
 
   build-android:
-    needs: [run-tests]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@10_ci_cd_setup
+    needs: [increase-version]
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@feature/initial-infrastructure
     secrets:
       ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
     with:

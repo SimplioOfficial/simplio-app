@@ -13,6 +13,15 @@ on:
         default: 'dev'
         required: true
         type: string
+      major:
+        required: false
+        type: string
+      minor:
+        required: false
+        type: string
+      patch:
+        required: false
+        type: string
 
 jobs:
   build-android:
@@ -20,7 +29,10 @@ jobs:
     name: Build Android
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
@@ -35,6 +47,23 @@ jobs:
           flutter-version: $FLUTTER_VERSION
       - name: Install Flutter dependencies
         run: flutter pub get
+
+      - name: Write version to the version.yml
+        if: ${{ inputs.environment == 'production' }}
+        run: |
+          echo "---" > ./version.yml
+          echo "major: ${{ inputs.major }}" >> ./version.yml
+          echo "minor: ${{ inputs.minor }}" >> ./version.yml
+          echo "patch: ${{ inputs.patch }}" >> ./version.yml
+          tail ./version.yml
+
+      - name: Set version
+        if: ${{ inputs.environment == 'production' }}
+        uses: maierj/fastlane-action@v2.2.0
+        with:
+          lane: apply_new_version
+          subdirectory: android
+
       - name: Build app
         run: flutter build apk --release
       - name: Run Fastlane
