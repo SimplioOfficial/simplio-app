@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.simplio_app">
    <application
-        android:label="simplio_app"
+        android:label="Simplio Test"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
