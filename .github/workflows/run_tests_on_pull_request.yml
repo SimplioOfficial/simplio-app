@@ -5,6 +5,6 @@ on:
 
 jobs:
   run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@subtask/11-automatic_version_increase
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-infrastructure
     with:
       e2e: true
