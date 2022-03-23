@@ -49,9 +49,9 @@ jobs:
     steps:
       - name: Outputs
         run: |
-        echo "${{ needs.set-version.outputs.major }}"
-        echo "${{ needs.set-version.outputs.minor }}"
-        echo "${{ needs.set-version.outputs.patch }}"
+          echo "${{ needs.set-version.outputs.major }}"
+          echo "${{ needs.set-version.outputs.minor }}"
+          echo "${{ needs.set-version.outputs.patch }}"
 
 #  build-ios:
 #    needs: [set-version]
