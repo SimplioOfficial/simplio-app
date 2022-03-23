@@ -40,7 +40,7 @@ jobs:
           echo "::set-output name=major::$MAJOR"
           echo "::set-output name=minor::$MINOR"
           echo "::set-output name=patch::$PATCH"
-          echo "$MAJOR $MINOR $PATCH"
+          echo $MAJOR $MINOR $PATCH
         id: output-data
 
   pokus:
@@ -49,9 +49,9 @@ jobs:
     steps:
       - name: Outputs
         run: |
-          echo "${{ needs.set-version.outputs.major }}"
-          echo "${{ needs.set-version.outputs.minor }}"
-          echo "${{ needs.set-version.outputs.patch }}"
+          echo ${{ needs.set-version.outputs.major }}
+          echo ${{ needs.set-version.outputs.minor }}
+          echo ${{ needs.set-version.outputs.patch }}
 
 #  build-ios:
 #    needs: [set-version]
