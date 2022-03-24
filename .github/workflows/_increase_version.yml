@@ -4,9 +4,6 @@ env:
 
 on:
   workflow_call:
-    secrets:
-      GIT_TOKEN:
-        required: true
 
 jobs:
   increase-version:
@@ -14,7 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GIT_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
 
@@ -49,8 +45,10 @@ jobs:
           subdirectory: ios
       - name: Commit the change
         run: |
+          git checkout ${{ env.BRANCH }}
           git add pubspec.yaml
-          git config --global user.name 'GitHub Bot'
-          git config --global user.email 'apps@simplio.io'
+          git config --global user.name 'GitHub bot'
+          git config --global user.email '${{ secrets.GIT_EMAIL }}'
+          git remote set-url origin https://x-access-token:${{ secrets.GIT_AUTHORIZATION }}@github.com/SimplioOfficial/simplio-app
           git commit -m "[automated commit] Version increase"
           git push
