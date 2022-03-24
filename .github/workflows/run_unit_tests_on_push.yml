@@ -1,0 +1,12 @@
+name: Run unit tests
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  run-tests:
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-infrastructure
+    with:
+      e2e: false
