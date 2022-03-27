@@ -1,0 +1,101 @@
+default_platform(:ios)
+
+DEVELOPER_APP_ID = ENV["DEVELOPER_APP_ID"]
+PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"]
+TEMP_KEYCHAIN_USER = ENV["TEMP_KEYCHAIN_USER"]
+TEMP_KEYCHAIN_PASSWORD = ENV["TEMP_KEYCHAIN_PASSWORD"]
+CONFIG_DEVELOPER_APP_IDENTIFIER = ENV["CONFIG_DEVELOPER_APP_IDENTIFIER"]
+
+def delete_temp_keychain(name)
+  delete_keychain(
+    name: name
+  ) if File.exist? File.expand_path("~/Library/Keychains/#{name}-db")
+end
+
+def create_temp_keychain(name, password)
+  create_keychain(
+    name: name,
+    password: password,
+    unlock: false,
+    timeout: 0
+  )
+end
+
+def ensure_temp_keychain(name, password)
+  delete_temp_keychain(name)
+  create_temp_keychain(name, password)
+end
+
+platform :ios do
+  lane :apply_new_version do
+    flutter_version_manager(
+      arguments: "-apply",
+      yml: "../version.yml",
+      pubspec: "../pubspec.yaml",
+      git_repo: "..")
+  end
+
+  lane :increase_patch_version do
+    flutter_version_manager(
+      arguments: "-patch",
+      yml: "../version.yml",
+      pubspec: "../pubspec.yaml",
+      git_repo: "..")
+  end
+
+  lane :increase_minor_version do
+    flutter_version_manager(
+      arguments: "-minor",
+      yml: "../version.yml",
+      pubspec: "../pubspec.yaml",
+      git_repo: "..")
+  end
+
+  lane :increase_major_version do
+    flutter_version_manager(
+      arguments: "-major",
+      yml: "../version.yml",
+      pubspec: "../pubspec.yaml",
+      git_repo: "..")
+  end
+
+  lane :build_and_deploy do
+    keychain_name = TEMP_KEYCHAIN_USER
+    keychain_password = TEMP_KEYCHAIN_PASSWORD
+    ensure_temp_keychain(keychain_name, keychain_password)
+
+    match(
+      type: 'appstore',
+      app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
+      git_basic_authorization: ENV["GIT_AUTHORIZATION"], # base64 encoded personal access token in format <USER_NAME>:<PAT>
+      readonly: true,
+      keychain_name: keychain_name,
+      keychain_password: keychain_password 
+    )
+
+    gym(
+      configuration: "Release",
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: { 
+            DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
+        }
+      }
+    )
+
+    pilot(
+      apple_id: "#{DEVELOPER_APP_ID}",
+      app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
+      skip_waiting_for_build_processing: true,
+      skip_submission: true,
+      distribute_external: false,
+      notify_external_testers: false,
+      ipa: "./Runner.ipa",
+      changelog: ENV["GIT_BRANCH"] # not working in 3/2022
+    )
+
+    delete_temp_keychain(keychain_name)
+  end
+end

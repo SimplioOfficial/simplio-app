@@ -1,0 +1,78 @@
+name: Deploy test version of Simplio app v2 to AppStore and GooglePlay
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - 'master'
+
+jobs:
+  run-tests:
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-infrastructure
+    with:
+      e2e: true
+
+  set-version:
+    needs: [run-tests]
+    runs-on: ubuntu-latest
+    outputs:
+      major: ${{ steps.output-data.outputs.major }}
+      minor: ${{ steps.output-data.outputs.minor }}
+      patch: ${{ steps.output-data.outputs.patch }}
+    steps:
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Get version from tag
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
+          prefix='v'
+          tag_version=${RELEASE_VERSION#$prefix};
+          IFS='.'
+          read -ra parsed_versions <<< "$tag_version"
+          echo "RELEASE_VERSIONS=$parsed_versions" >> $GITHUB_ENV
+          MAJOR=${parsed_versions[0]}
+          MINOR=${parsed_versions[1]}
+          PATCH=${parsed_versions[2]}
+          echo "MAJOR=${parsed_versions[0]}" >> $GITHUB_ENV
+          echo "MINOR=${parsed_versions[1]}" >> $GITHUB_ENV
+          echo "PATCH=${parsed_versions[2]}" >> $GITHUB_ENV
+          echo "::set-output name=major::$MAJOR"
+          echo "::set-output name=minor::$MINOR"
+          echo "::set-output name=patch::$PATCH"
+          echo $MAJOR $MINOR $PATCH
+        id: output-data
+
+  build-ios:
+    needs: [set-version]
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@feature/initial-infrastructure
+    with:
+      environment: 'production'
+      major: ${{ needs.set-version.outputs.major }}
+      minor: ${{needs.set-version.outputs.minor}}
+      patch: ${{needs.set-version.outputs.patch}}
+    secrets:
+      APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
+      DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+      DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
+      FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+      MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+      GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+      PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+      TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+      TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+
+  build-android:
+    needs: [set-version]
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@feature/initial-infrastructure
+    secrets:
+      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+    with:
+      environment: 'production'
+      major: ${{ needs.set-version.outputs.major }}
+      minor: ${{needs.set-version.outputs.minor}}
+      patch: ${{needs.set-version.outputs.patch}}
+
