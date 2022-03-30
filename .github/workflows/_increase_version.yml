@@ -18,10 +18,6 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
 
-      - name: pokus
-        run: |
-          ls -la
-
       - name: Run read-yaml action
         id: yaml-data
         uses: KJ002/read-yaml@main
@@ -53,7 +49,6 @@ jobs:
           subdirectory: ios
       - name: Commit the change
         run: |
-          git branch
           git add pubspec.yaml
           git config --global user.name 'GitHub Bot'
           git config --global user.email 'apps@simplio.io'
