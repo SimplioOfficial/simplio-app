@@ -15,7 +15,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   // On wallet creation we only add/create a new wallet if it was not yet added
   // In case it was it can get only back enabled or disabled.
-  void _onWalletAddedOrEnabled(WalletAddedOrEnabled ev, Emitter<WalletState> emit) {
+  void _onWalletAddedOrEnabled(
+      WalletAddedOrEnabled ev, Emitter<WalletState> emit) {
     final state = this.state;
     if (state is! Wallets) return;
 
@@ -43,9 +44,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
     if (state is! Wallets) return;
 
-    var disabled = state.wallets.map((w) => (w.project.ticker == ev.project.ticker)
-        ? w.copyWith(enabled: false)
-        : w);
+    var disabled = state.wallets.map((w) =>
+        (w.project.ticker == ev.project.ticker)
+            ? w.copyWith(enabled: false)
+            : w);
     emit(Wallets(wallets: disabled.toList()));
   }
 }

@@ -14,7 +14,7 @@ class Wallet {
   Wallet.generate({required WalletProject project})
       : this(uuidGen.v4(), project, true);
 
-  Wallet copyWith({ bool? enabled }) {
+  Wallet copyWith({bool? enabled}) {
     return Wallet(
       uuid,
       project,
