@@ -7,6 +7,7 @@ on:
 
 jobs:
   run-tests:
+    if: "!contains(github.event.commits[0].message, '[automated commit]')"
     uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-infrastructure
     with:
       e2e: true
@@ -14,9 +15,12 @@ jobs:
   increase-version:
     needs: [run-tests]
     uses: SimplioOfficial/simplio-app/.github/workflows/_increase_version.yml@feature/initial-infrastructure
+    secrets:
+      GIT_TOKEN: '${{ secrets.GIT_TOKEN }}'
+
 
   build-ios:
-    needs: [increase-version]
+    if: "contains(github.event.commits[0].message, '[automated commit]')"
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@feature/initial-infrastructure
     with:
       environment: 'dev'
@@ -33,7 +37,7 @@ jobs:
       TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
 
   build-android:
-    needs: [increase-version]
+    if: "contains(github.event.commits[0].message, '[automated commit]')"
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@feature/initial-infrastructure
     secrets:
       ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
