@@ -26,8 +26,9 @@ class _WalletListItem extends State<WalletListItem> {
           child: Row(
             children: [
               CircleAvatar(
-                backgroundColor: widget.wallet.asset.primaryColor,
-                foregroundColor: widget.wallet.asset.foregroundColor,
+                backgroundColor: widget.wallet.project.primaryColor,
+                child: Icon(widget.wallet.project.icon, size: 18.0),
+                foregroundColor: widget.wallet.project.foregroundColor,
               ),
               Padding(
                 padding:
@@ -36,12 +37,12 @@ class _WalletListItem extends State<WalletListItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.wallet.asset.name,
+                      widget.wallet.project.name,
                       textScaleFactor: 1.2,
                     ),
-                    Text(
-                      widget.wallet.asset.ticker.toUpperCase(),
-                      style: const TextStyle(color: Colors.black26),
+                    Opacity(
+                      opacity: 0.4,
+                      child: Text(widget.wallet.project.ticker.toUpperCase()),
                     ),
                   ],
                 ),

@@ -15,7 +15,7 @@ class _WalletScreen extends State<WalletScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.wallet.asset.name),
+        title: Text(widget.wallet.project.name),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,

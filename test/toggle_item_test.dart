@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:simplio_app/config/assets.dart';
-import 'package:simplio_app/view/widgets/asset_toggle_item.dart';
+import 'package:simplio_app/config/projects.dart';
+
+import 'package:simplio_app/view/widgets/project_toggle_item.dart';
 
 void main() {
   testWidgets('Toggle item test', (WidgetTester tester) async {
-    const testWidget = AssetToggleItem(
-      asset: Assets.bitcoin,
+    const testWidget = ProjectToggleItem(
+      project: Projects.bitcoin,
       toggled: false,
     );
 
@@ -19,8 +20,8 @@ void main() {
     expect(find.text('Solana'), findsNothing);
 
     // Try with another coin
-    const testWidget2 = AssetToggleItem(
-      asset: Assets.solana,
+    const testWidget2 = ProjectToggleItem(
+      project: Projects.solana,
       toggled: true,
     );
     await tester.pumpWidget(wrap(child: wrap2(child: testWidget2)));

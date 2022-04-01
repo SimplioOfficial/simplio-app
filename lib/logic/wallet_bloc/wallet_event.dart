@@ -14,10 +14,10 @@ class WalletAddedOrEnabled extends WalletEvent {
 }
 
 class WalletDisabled extends WalletEvent {
-  final Asset asset;
+  final WalletProject project;
 
-  const WalletDisabled({required this.asset});
+  const WalletDisabled({required this.project});
 
   @override
-  List<Object?> get props => [asset];
+  List<Object?> get props => [project];
 }
