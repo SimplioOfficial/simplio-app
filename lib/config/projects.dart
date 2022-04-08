@@ -9,7 +9,6 @@ class Projects {
     primaryColor: Colors.blue,
     foregroundColor: Colors.white,
     icon: Icons.wb_sunny_outlined,
-    // change this in future
     coinType: TWCoinType.TWCoinTypeSolana,
     networks: [solana],
   );
