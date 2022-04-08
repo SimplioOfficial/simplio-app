@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/wallet.dart';
+import 'package:simplio_app/logic/trust_wallet_core_bloc/trust_wallet_core_bloc.dart';
 import 'package:simplio_app/logic/wallet_bloc/wallet_bloc.dart';
 import 'package:simplio_app/view/widgets/wallet_list_item.dart';
 import 'package:simplio_app/view/router/app_router.dart';
@@ -13,6 +14,7 @@ class DashboardScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Wallets'),
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           elevation: 1,
           foregroundColor: Colors.black87,
