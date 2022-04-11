@@ -1,8 +1,9 @@
-name:  Build and Test Flutter App
+name:  Run Integration Tests
 on:
   push:
     branches:
       - 'feature/*'
+      - 'Mario_initial_inf'
   pull_request:
     branches:
       - '*'

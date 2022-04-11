@@ -1,4 +1,4 @@
-name:  Build and Test Flutter App -manual trigger
+name:  Run Integration Tests -manual
 on:
   workflow_dispatch
 
