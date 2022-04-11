@@ -35,7 +35,7 @@ jobs:
         run: |
           UDID=$(xcrun xctrace list devices | awk '!/Watch/ && /${{ matrix.device }}/{gsub( /\(|\)/ , "" );print $NF}')
           xcrun simctl boot ${UDID}
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
@@ -49,7 +49,7 @@ jobs:
     strategy:
       #set of different configurations of the virtual environment.
       matrix:
-        api-level: [29]
+        api-level: [28,31]
         target: [default]
     needs: test
     steps:
