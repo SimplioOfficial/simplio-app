@@ -1,6 +1,12 @@
 name:  Run Integration Tests
-
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - 'feature/*'
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
 
 jobs:
 
@@ -49,7 +55,7 @@ jobs:
     strategy:
       #set of different configurations of the virtual environment.
       matrix:
-        api-level: [28, 31]
+        api-level: [31]
         target: [default]
     needs: test
     steps:
