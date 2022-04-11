@@ -1,0 +1,39 @@
+name: Run tests
+env:
+  FLUTTER_VERSION: '2.10.2'
+
+on:
+  workflow_call:
+    inputs:
+      e2e:
+        description: 'Boolean value which trigger running e2e tests'
+        default: true
+        required: true
+        type: boolean
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    name: Unit tests
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: $FLUTTER_VERSION
+      - run: flutter pub get
+      - name: Analyze files
+        run: flutter analyze .
+      - run: flutter test
+
+  run-e2e-tests:
+    if: ${{ inputs.e2e }}
+    runs-on: ubuntu-latest
+    name: e2e tests
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: $FLUTTER_VERSION
+      - run: flutter pub get
+  #      TODO
+  #      - run: flutter test
+

@@ -1,0 +1,10 @@
+name: Run unit & e2e tests
+
+on:
+  pull_request:
+
+jobs:
+  run-tests:
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-infrastructure
+    with:
+      e2e: true

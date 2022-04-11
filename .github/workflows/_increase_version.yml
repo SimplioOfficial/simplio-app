@@ -1,0 +1,56 @@
+name: Increase application version
+env:
+  FLUTTER_VERSION: '2.10.2'
+
+on:
+  workflow_call:
+    secrets:
+      GIT_TOKEN:
+        required: true
+
+jobs:
+  increase-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GIT_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Run read-yaml action
+        id: yaml-data
+        uses: KJ002/read-yaml@main
+        with:
+          file: './pubspec.yaml'
+          key-path: '["version"]'
+
+      - name: Get parsed version
+        run: |
+          IFS='.'
+          read -ra parsed_versions <<< "${{ steps.yaml-data.outputs.data }}"
+          echo "MAJOR=${parsed_versions[0]}" >> $GITHUB_ENV
+          echo "MINOR=${parsed_versions[1]}" >> $GITHUB_ENV
+          patch_build=$(echo ${parsed_versions[2]} | tr "+" "\n")
+          read -ra temp <<< "$patch_build"
+          echo "PATCH=${temp[0]}" >> $GITHUB_ENV
+
+      - name: Write version to the version.yml
+        run: |
+          echo "---" > ./version.yml
+          echo "major: ${{ env.MAJOR }}" >> ./version.yml
+          echo "minor: ${{ env.MINOR }}" >> ./version.yml
+          echo "patch: ${{ env.PATCH }}" >> ./version.yml
+
+      - name: Run Fastlane
+        uses: maierj/fastlane-action@v2.2.0
+        with:
+          lane: increase_patch_version
+          subdirectory: ios
+      - name: Commit the change
+        run: |
+          git add pubspec.yaml
+          git config --global user.name 'GitHub Bot'
+          git config --global user.email 'apps@simplio.io'
+          git commit -m "[automated commit] Version increase"
+          git push

@@ -1,0 +1,74 @@
+name: Publish Android
+env:
+  FLUTTER_VERSION: '2.10.2'
+
+on:
+  workflow_call:
+    secrets:
+      ANDROID_KEYS_SECRET_PASSPHRASE:
+        required: true
+    inputs:
+      environment:
+        description: 'String value that determines if production or dev packages are built'
+        default: 'dev'
+        required: true
+        type: string
+      major:
+        required: false
+        type: string
+      minor:
+        required: false
+        type: string
+      patch:
+        required: false
+        type: string
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    name: Build Android
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 12.x
+      - name: Decrypt Android keys
+        run: sh ./.github/scripts/decrypt_android_secrets.sh
+        env:
+          ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: $FLUTTER_VERSION
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
+      - name: Write version to the version.yml
+        if: ${{ inputs.environment == 'production' }}
+        run: |
+          echo "---" > ./version.yml
+          echo "major: ${{ inputs.major }}" >> ./version.yml
+          echo "minor: ${{ inputs.minor }}" >> ./version.yml
+          echo "patch: ${{ inputs.patch }}" >> ./version.yml
+          tail ./version.yml
+
+      - name: Set version
+        if: ${{ inputs.environment == 'production' }}
+        uses: maierj/fastlane-action@v2.2.0
+        with:
+          lane: apply_new_version
+          subdirectory: android
+
+      - name: Build app
+        run: flutter build apk --release
+      - name: Run Fastlane
+        uses: maierj/fastlane-action@v2.2.0
+        with:
+          lane: build_and_deploy
+          subdirectory: android
+          env: ${{ inputs.environment }}

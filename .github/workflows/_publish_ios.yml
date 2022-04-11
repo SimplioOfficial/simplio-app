@@ -1,0 +1,93 @@
+name: Publish iOS
+env:
+  FLUTTER_VERSION: '2.10.2'
+
+on:
+  workflow_call:
+    secrets:
+      APP_STORE_CONNECT_TEAM_ID:
+        required: true
+      DEVELOPER_APP_ID:
+        required: true
+      DEVELOPER_PORTAL_TEAM_ID:
+        required: true
+      FASTLANE_APPLE_ID:
+        required: true
+      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD:
+        required: true
+      MATCH_PASSWORD:
+        required: true
+      GIT_AUTHORIZATION:
+        required: true
+      PROVISIONING_PROFILE_SPECIFIER:
+        required: true
+      TEMP_KEYCHAIN_PASSWORD:
+        required: true
+      TEMP_KEYCHAIN_USER:
+        required: true
+    inputs:
+      environment:
+        description: 'String value that determines if production or dev packages are built'
+        default: 'dev'
+        required: true
+        type: string
+      major:
+        required: false
+        type: string
+      minor:
+        required: false
+        type: string
+      patch:
+        required: false
+        type: string
+
+jobs:
+  build-ios:
+    name: Build iOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: $FLUTTER_VERSION
+      - run: flutter pub get
+
+      - name: Write version to the version.yml
+        if: ${{ inputs.environment == 'production' }}
+        run: |
+          echo "---" > ./version.yml
+          echo "major: ${{ inputs.major }}" >> ./version.yml
+          echo "minor: ${{ inputs.minor }}" >> ./version.yml
+          echo "patch: ${{ inputs.patch }}" >> ./version.yml
+          tail ./version.yml
+
+      - name: Set version
+        if: ${{ inputs.environment == 'production' }}
+        uses: maierj/fastlane-action@v2.2.0
+        with:
+          lane: apply_new_version
+          subdirectory: ios
+
+      - run: flutter build ios --release --no-codesign
+      - name: Run Fastlane
+        uses: maierj/fastlane-action@v2.2.0
+        with:
+          lane: build_and_deploy
+          subdirectory: ios
+          env: ${{ inputs.environment }}
+        env:
+          APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
+          DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+          PRODUCTION_DEVELOPER_APP_IDENTIFIER: '${{ secrets.PRODUCTION_DEVELOPER_APP_IDENTIFIER }}'
+          DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
+          FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+          MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+          GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+          PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+          TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+          GIT_BRANCH: '${{ github.event.head_commit.message }}'
