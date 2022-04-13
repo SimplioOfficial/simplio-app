@@ -12,6 +12,7 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          key: const Key('dashboard_screen_app_bar'),
           title: const Text('Wallets'),
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
@@ -19,6 +20,7 @@ class DashboardScreen extends StatelessWidget {
           foregroundColor: Colors.black87,
           actions: [
             IconButton(
+                key: const Key('dashboard_screen_add_wallet_button'),
                 onPressed: () => Navigator.of(context).pushNamed(
                       AppRouter.walletProjects,
                     ),
@@ -35,8 +37,11 @@ class DashboardScreen extends StatelessWidget {
                 ? const Center(
                     child: Opacity(
                         opacity: 0.4,
-                        child: Text('You have no wallet',
-                            style: TextStyle(color: Colors.black))),
+                        child: Text(
+                          'You have no wallet',
+                          style: TextStyle(color: Colors.black),
+                          key: Key('no-wallets-loaded-text'),
+                        )),
                   )
                 : ListView.builder(
                     itemCount: enabled.length,
@@ -44,6 +49,7 @@ class DashboardScreen extends StatelessWidget {
                       Wallet wallet = enabled[i];
 
                       return WalletListItem(
+                        key: Key('dashboard_screen_wallet_list_item_$i'),
                         wallet: wallet,
                         onTap: () => Navigator.of(context)
                             .pushNamed(AppRouter.wallet, arguments: wallet),

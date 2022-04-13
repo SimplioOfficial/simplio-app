@@ -37,6 +37,7 @@ class _WalletScreen extends State<WalletScreen> {
               children: <Widget>[
                 Text(
                   widget.wallet.project.name,
+                  key: const Key('wallet_screen_project_name'),
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -45,6 +46,7 @@ class _WalletScreen extends State<WalletScreen> {
                 Text(
                   trustWallet!
                       .getAddressForCoin(widget.wallet.project.coinType),
+                  key: const Key('wallet_screen_address'),
                   style: const TextStyle(
                     fontSize: 16,
                   ),
