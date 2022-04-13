@@ -1,11 +1,16 @@
 name:  Run Integration Tests
+
+env:
+  FLUTTER_VERSION: '2.10.2'
+
 on:
-  push:
-    branches:
-      - 'feature/*'
-  pull_request:
-    branches:
-      - '*'
+  workflow_call:
+    inputs:
+      e2e:
+        description:'Boolean value which trigger running e2e tests'
+        default: true
+        required: true
+        type: boolean
   workflow_dispatch:
 
 jobs:
