@@ -12,8 +12,10 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pumpWidget(const SimplioApp());
       const switchKey = 'switch_widget';
+      const keyButtonNext = 'seed_import_button';
 
-      await tester.tap(find.text('Next'));
+      await tester.tap(find.byKey(const ValueKey(keyButtonNext)));
+      //await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();
       expect(find.text('You have no wallet'), findsOneWidget);
 
