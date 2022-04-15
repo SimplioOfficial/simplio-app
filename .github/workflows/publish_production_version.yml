@@ -9,7 +9,7 @@ on:
 
 jobs:
   run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/run_integration_tests.yml@Mario_initial_inf
+    uses: SimplioOfficial/simplio-app/.github/workflows/run_integration_tests.yml@master
     with:
       e2e: true
 
