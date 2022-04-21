@@ -29,6 +29,7 @@ dependencies:
   sio_core: ^0.0.5
 
   uuid: ^3.0.6
+  appium_driver: ^0.5.2
 
 dev_dependencies:
   flutter_test:
