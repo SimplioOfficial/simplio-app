@@ -1,42 +1,30 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:simplio_app/main.dart';
 
 void main() {
-  final IntegrationTestWidgetsFlutterBinding binding =
-      IntegrationTestWidgetsFlutterBinding();
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('screenshot', (WidgetTester tester) async {
-    const keyButtonNext = 'seed_import_button';
+  group('Testing App Performance Tests', () {
+    testWidgets('add wallet', (tester) async {
+      const switchKey = 'switch_widget';
+      const keyButtonNext = 'seed_import_button';
 
-    String platformName = '';
+      await tester.pumpWidget(const SimplioApp());
 
-    if (!kIsWeb) {
-      // Not required for the web. This is required prior to taking the screenshot.
-      await binding.convertFlutterSurfaceToImage();
+      await tester.tap(find.byKey(const ValueKey(keyButtonNext)));
 
-      if (Platform.isAndroid) {
-        platformName = "android";
-      } else {
-        platformName = "ios";
-      }
-    } else {
-      platformName = "web";
-    }
-    await tester.pumpWidget(const SimplioApp());
-    // Take the screenshot
-    await binding.takeScreenshot('1-screenshot-$platformName');
+      await tester.pumpAndSettle();
+      expect(find.text('You have no wallet'), findsOneWidget);
 
-    await tester.tap(find.byKey(const ValueKey(keyButtonNext)));
-    await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.add));
 
-    expect(find.text('You have no wallet'), findsOneWidget);
-    // Take the screenshot
-    await binding.takeScreenshot('screenshot-$platformName');
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey(switchKey)), findsWidgets);
+
+      await tester.pumpAndSettle();
+    });
   });
 }
