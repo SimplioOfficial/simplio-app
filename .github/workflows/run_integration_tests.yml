@@ -53,6 +53,12 @@ jobs:
       # Run flutter integrate tests
       - name: Run Flutter Driver tests
         run: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
+        #screenshot
+      - name: upload screenshot
+        uses: actions/upload-artifact@master
+          with:
+            name: screenshot_${{ matrix.device }}
+            path: /tmp/iwfpapp_screenshot
 
   drive_android:
     runs-on: macos-latest
