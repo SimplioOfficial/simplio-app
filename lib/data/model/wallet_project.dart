@@ -10,7 +10,6 @@ class WalletProject extends Equatable {
   final Color primaryColor;
   final Color foregroundColor;
   final IconData icon;
-  final int coinType;
   final List<WalletProject>? networks;
 
   const WalletProject({
@@ -19,7 +18,6 @@ class WalletProject extends Equatable {
     required this.primaryColor,
     required this.foregroundColor,
     required this.icon,
-    required this.coinType,
     this.networks,
   });
 
