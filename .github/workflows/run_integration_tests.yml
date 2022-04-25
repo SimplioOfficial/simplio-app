@@ -84,11 +84,18 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
-      - name: Run Flutter Driver tests
+      - name: Run Flutter Driver tests - test print
         uses: reactivecircus/android-emulator-runner@v1
         with:
           api-level: ${{ matrix.api-level }}
           target: ${{ matrix.target }}
           arch: x86_64
           profile: Nexus 6
-          script: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
+          script: flutter drive \ --driver=test_driver/utilities/screenshot_test.dart \ --target=integration_test/screenshot_test.dart \
+      # Upload Recordings As Artifacts
+      - name: upload screenshot
+        uses: actions/upload-artifact@master
+        with:
+          name: screenshot_${{ matrix.device }}
+          path: /screenshots
+          retention-days : 10  # days for automatic deletion
