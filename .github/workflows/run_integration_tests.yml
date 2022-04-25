@@ -61,13 +61,12 @@ jobs:
           sleep 5
           kill -SIGINT $RECORDING_PID
           sleep 10
-          cp recording.mov path/to/artifact/
        # Upload Recordings As Artifacts
       - name: upload screenshot
         uses: actions/upload-artifact@master
         with:
           name: online_screenshot_${{ matrix.device }}
-          path: path/to/artifact/recording.mov
+          path: recording.mov
           retenção-days : 10  # days for automatic deletion
 
 
