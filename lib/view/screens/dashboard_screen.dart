@@ -13,7 +13,6 @@ class DashboardScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Wallets'),
-          automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           elevation: 1,
           foregroundColor: Colors.black87,
