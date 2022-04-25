@@ -91,11 +91,19 @@ jobs:
           target: ${{ matrix.target }}
           arch: x86_64
           profile: Nexus 6
-          script: flutter drive \ --driver=test_driver/utilities/screenshot_test.dart \ --target=integration_test/screenshot_test.dart \
+          script: |
+          xcrun simctl io booted recordVideo recording.mov &
+          sleep 5
+          export RECORDING_PID=${!}
+          echo "Recording process up with pid: ${RECORDING_PID}"
+          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
+          sleep 5
+          kill -SIGINT $RECORDING_PID
+          sleep 10
       # Upload Recordings As Artifacts
       - name: upload screenshot
         uses: actions/upload-artifact@master
         with:
           name: screenshot_${{ matrix.device }}
-          path: /screenshots
+          path: recording.mov
           retention-days : 10  # days for automatic deletion
