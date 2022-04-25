@@ -5,7 +5,6 @@ description: A new Flutter project.
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-# DO NOT MANUALLY EDIT PATCH VERSION. It is automatically increased by the build script.
 # For production version we use tags on master branch, e.g. 'v1.2.4'
 version: 2.0.0+1
 
