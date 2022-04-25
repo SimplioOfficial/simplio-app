@@ -67,7 +67,7 @@ jobs:
         with:
           name: online_screenshot_${{ matrix.device }}
           path: recording.mov
-          retenção-days : 10  # days for automatic deletion
+          retention-days : 10  # days for automatic deletion
 
 
   drive_android:
