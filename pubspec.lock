@@ -7,7 +7,7 @@ packages:
       name: archive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.0"
+    version: "3.2.2"
   args:
     dependency: transitive
     description:
@@ -85,20 +85,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
-  ffi:
-    dependency: transitive
-    description:
-      name: ffi
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.2"
-  fixnum:
-    dependency: transitive
-    description:
-      name: fixnum
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -130,20 +116,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  http:
-    dependency: transitive
-    description:
-      name: http
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.13.4"
-  http_parser:
-    dependency: transitive
-    description:
-      name: http_parser
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.0"
   image:
     dependency: transitive
     description:
@@ -200,13 +172,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.4.0"
-  protobuf:
-    dependency: transitive
-    description:
-      name: protobuf
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   provider:
     dependency: transitive
     description:
@@ -214,13 +179,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.2"
-  sio_core:
-    dependency: "direct main"
-    description:
-      name: sio_core
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.5"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -268,13 +226,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.8"
-  trust_wallet_core_lib:
-    dependency: "direct main"
-    description:
-      name: trust_wallet_core_lib
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.4+2.7.2"
   typed_data:
     dependency: transitive
     description:
@@ -312,4 +263,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.16.1 <3.0.0"
-  flutter: ">=2.5.0"
+  flutter: ">=1.16.0"

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:simplio_app/data/model/wallet_project.dart';
-import 'package:trust_wallet_core_lib/trust_wallet_core_ffi.dart';
 
 class Projects {
   static const WalletProject simplio = WalletProject(
@@ -9,7 +8,6 @@ class Projects {
     primaryColor: Colors.blue,
     foregroundColor: Colors.white,
     icon: Icons.wb_sunny_outlined,
-    coinType: TWCoinType.TWCoinTypeSolana,
     networks: [solana],
   );
 
@@ -19,7 +17,6 @@ class Projects {
     icon: Icons.wb_sunny_outlined,
     primaryColor: Colors.orange,
     foregroundColor: Colors.black,
-    coinType: TWCoinType.TWCoinTypeBitcoin,
   );
 
   static const WalletProject solana = WalletProject(
@@ -28,7 +25,6 @@ class Projects {
     icon: Icons.wb_sunny_outlined,
     primaryColor: Colors.purple,
     foregroundColor: Colors.white,
-    coinType: TWCoinType.TWCoinTypeSolana,
   );
 
   static const List<WalletProject> supported = [

@@ -15,7 +15,6 @@ class WalletProjectsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: true,
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,

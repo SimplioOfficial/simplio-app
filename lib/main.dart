@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:simplio_app/view/router/app_router.dart';
-import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,16 +22,10 @@ class _SimplioAppState extends State<SimplioApp> {
   final AppRouter _router = AppRouter();
 
   @override
-  void initState() {
-    TrustWalletCoreLib.init();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Simplio',
-      initialRoute: AppRouter.generateSeed,
+      initialRoute: AppRouter.home,
       onGenerateRoute: _router.generateRoute,
     );
   }
