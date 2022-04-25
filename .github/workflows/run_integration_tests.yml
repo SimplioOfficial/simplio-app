@@ -51,7 +51,7 @@ jobs:
         with:
           channel: 'stable'
       # Run flutter integrate tests
-      - name: Run Flutter Driver tests
+      - name: Run Flutter Driver tests - screen recording test
         run: |
           xcrun simctl io booted recordVideo recording.mov &
           sleep 5
