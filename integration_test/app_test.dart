@@ -5,7 +5,6 @@ import 'package:simplio_app/main.dart' as app;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  print("*************** RUNNING SIMPLIO E2E TESTS*****");
   group('end-to-end test', () {
     testWidgets('Simple test for beginning',
             (WidgetTester tester) async {

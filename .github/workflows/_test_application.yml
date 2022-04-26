@@ -13,7 +13,6 @@ on:
 
 jobs:
   tests:
-    if: ${{ inputs.unitTests }}
     runs-on: ubuntu-latest
     name: Unit tests
     steps:
@@ -28,6 +27,7 @@ jobs:
 
   run-e2e-tests:
     if: ${{ inputs.e2e }}
+    name: E2E tests
     runs-on: macos-latest
     #sequence of tasks called
     steps:
