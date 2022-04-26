@@ -7,6 +7,6 @@ on:
 
 jobs:
   run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@11_initial_tests
     with:
       e2e: true
