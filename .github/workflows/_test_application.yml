@@ -27,7 +27,7 @@ jobs:
 
   run-e2e-tests:
     if: ${{ inputs.e2e }}
-    name: E2E tests
+    name: e2e tests
     runs-on: macos-latest
     #sequence of tasks called
     steps:
@@ -57,7 +57,7 @@ jobs:
             run: |
               UDID=$(xcrun xctrace list devices | awk '!/Watch/ && /${{ matrix.device }}/{gsub( /\(|\)/ , "" );print $NF}')
               xcrun simctl boot ${UDID}
-          - uses: actions/checkout@v1
+          - uses: actions/checkout@v2
           - uses: subosito/flutter-action@v2
             with:
               channel: 'stable'
