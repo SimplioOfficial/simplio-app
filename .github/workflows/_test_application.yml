@@ -47,7 +47,7 @@ jobs:
            - "iPhone 12 Pro Simulator"
       fail-fast: false
     runs-on: macos-latest
-    needs: test
+    needs: tests
     steps:
        - name: List all simulators
          run: xcrun xctrace list devices
@@ -72,7 +72,7 @@ jobs:
        matrix:
          api-level: [ 28 ]
          target: [ default ]
-    needs: test
+    needs: tests
     steps:
         - uses: actions/checkout@v2
         - uses: subosito/flutter-action@v2
