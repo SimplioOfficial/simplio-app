@@ -97,5 +97,5 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: online_screenshot_${{ matrix.device }}
-          path: screenshots/$screenshotName.png
+          path: $screenshotName.png
           retention-days : 10  # days for automatic deletion

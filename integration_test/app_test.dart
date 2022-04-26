@@ -16,9 +16,8 @@ void main() {
     String platformName = '';
 
     if (!kIsWeb) {
-      await binding.convertFlutterSurfaceToImage();
-
       if (Platform.isAndroid) {
+        await binding.convertFlutterSurfaceToImage();
         platformName = "android";
       } else {
         platformName = "ios";
