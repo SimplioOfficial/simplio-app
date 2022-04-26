@@ -10,10 +10,16 @@ on:
         default: true
         required: true
         type: boolean
-#  workflow_dispatch:
+      unitTests:
+        description: 'Boolean value which trigger running unitTests tests'
+        default: true
+        required: true
+        type: boolean
+  workflow_dispatch:
 
 jobs:
   tests:
+    if: ${{ inputs.unitTests }}
     runs-on: ubuntu-latest
     name: Unit tests
     steps:
