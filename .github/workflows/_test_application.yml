@@ -10,7 +10,7 @@ on:
         default: true
         required: true
         type: boolean
-  workflow_dispatch:
+#  workflow_dispatch:
 
 jobs:
   tests:
