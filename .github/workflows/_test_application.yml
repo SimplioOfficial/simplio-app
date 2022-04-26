@@ -43,8 +43,8 @@ jobs:
       matrix:
          device:
            - "iPhone 13 Pro Simulator"
-              - "iPhone 11 Pro Max Simulator"
-              - "iPhone 12 Pro Simulator"
+           - "iPhone 11 Pro Max Simulator"
+           - "iPhone 12 Pro Simulator"
       fail-fast: false
     runs-on: macos-latest
     needs: test
