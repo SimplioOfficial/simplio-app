@@ -11,6 +11,7 @@ jobs:
     uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@master
     with:
       e2e: true
+      unitTests: true
 
   set-version:
     needs: [run-tests]

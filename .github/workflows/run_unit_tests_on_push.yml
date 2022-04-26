@@ -10,3 +10,4 @@ jobs:
     uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@master
     with:
       e2e: false
+      unitTests: true
