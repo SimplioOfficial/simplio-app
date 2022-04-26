@@ -10,8 +10,10 @@ on:
         default: true
         required: true
         type: boolean
+
 jobs:
   tests:
+    if: ${{ inputs.unitTests }}
     runs-on: ubuntu-latest
     name: Unit tests
     steps:
@@ -26,14 +28,62 @@ jobs:
 
   run-e2e-tests:
     if: ${{ inputs.e2e }}
-    runs-on: ubuntu-latest
-    name: e2e tests
+    runs-on: macos-latest
+    #sequence of tasks called
     steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: $FLUTTER_VERSION
-      - run: flutter pub get
-  #      TODO
-  #      - run: flutter test
+       - uses: actions/checkout@v2
+       # Setup a flutter environment.
+       # https://github.com/marketplace/actions/flutter-action
+       - uses: subosito/flutter-action@v1
+         with:
+          channel: 'stable'
+       - run: flutter pub get
 
+      drive_ios:
+        strategy:
+          matrix:
+            device:
+              - "iPhone 13 Pro Simulator"
+              - "iPhone 11 Pro Max Simulator"
+              - "iPhone 12 Pro Simulator"
+          fail-fast: false
+        runs-on: macos-latest
+        needs: test
+        steps:
+          - name: List all simulators
+            run: xcrun xctrace list devices
+          # get UUID  simulator and boot a simulator on mac from  command line
+          - name: Start Simulator
+            run: |
+              UDID=$(xcrun xctrace list devices | awk '!/Watch/ && /${{ matrix.device }}/{gsub( /\(|\)/ , "" );print $NF}')
+              xcrun simctl boot ${UDID}
+          - uses: actions/checkout@v1
+          - uses: subosito/flutter-action@v1
+            with:
+              channel: 'stable'
+          # Run flutter integrate tests
+          - name: Run Flutter Driver iOS tests
+            run: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
+
+      drive_android:
+        runs-on: macos-latest
+        #creates a build matrix for your jobs
+        strategy:
+          #set of different configurations of the virtual environment.
+          matrix:
+            api-level: [ 28 ]
+            target: [ default ]
+        needs: test
+        steps:
+          - uses: actions/checkout@v2
+          - uses: subosito/flutter-action@v1
+            with:
+              channel: 'stable'
+          - name: Run Flutter Driver Android tests
+            uses: reactivecircus/android-emulator-runner@v1
+            with:
+              api-level: ${{ matrix.api-level }}
+              target: ${{ matrix.target }}
+              arch: x86_64
+              profile: Nexus 6
+              script: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
