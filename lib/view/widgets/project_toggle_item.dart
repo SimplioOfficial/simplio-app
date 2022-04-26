@@ -49,7 +49,7 @@ class _ProjectToggleItem extends State<ProjectToggleItem> {
               ),
             ),
             Switch(
-              key: Key('switch_widget'),
+              key: Key('switch_widget_' + widget.project.ticker),
               value: widget.toggled,
               onChanged: (val) => widget.onToggle?.call(val, widget.project),
             ),

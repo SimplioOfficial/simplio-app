@@ -39,7 +39,7 @@ class _WalletListItem extends State<WalletListItem> {
                     Text(
                       widget.wallet.project.name,
                       textScaleFactor: 1.2,
-                      key: const Key('wallet-list-item-project-name'),
+                      key:  Key('wallet-list-item-project-name_' + widget.wallet.project.ticker),
                     ),
                     Opacity(
                       opacity: 0.4,

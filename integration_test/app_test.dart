@@ -7,26 +7,71 @@ import 'package:simplio_app/main.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
+  const switchKey = 'switch_widget_';
+  const sioTicker = 'sio';
+  const btcTicker = 'btc';
+  const solTicker = 'sol';
+  const walletListName = 'wallet-list-item-project-name_';
+  const keyButtonNext = 'seed_import_button';
+  const backButtonTolltip = 'Back';
+  const noWalletText = 'You have no wallet';
+  const coinNameSolana = 'Solana';
+  const coinNameBitcoin = 'Bitcoin';
+  const coinNameSimplio = 'Simplio';
+
   group('Testing App Performance Tests', () {
     testWidgets('add wallet', (tester) async {
       await tester.pumpAndSettle();
       await tester.pumpWidget(const SimplioApp());
-      const switchKey = 'switch_widget';
-      const keyButtonNext = 'seed_import_button';
-
       await tester.tap(find.byKey(const ValueKey(keyButtonNext)));
-      //await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();
-      expect(find.text('You have no wallet'), findsOneWidget);
+      expect(find.text(noWalletText), findsOneWidget);
 
       await tester.pumpAndSettle();
       await tester.tap(find.byIcon(Icons.add));
 
       await tester.pumpAndSettle();
-      expect(find.byKey(const ValueKey(switchKey)), findsWidgets);
+      final sioButton = find.byKey(const ValueKey(switchKey + sioTicker));
+      final solButton = find.byKey(const ValueKey(switchKey + solTicker));
+      final btcButton = find.byKey(const ValueKey(switchKey + btcTicker));
+
+      expect(sioButton, findsWidgets);
+      expect(solButton, findsWidgets);
+      expect(btcButton, findsWidgets);
       await tester.pumpAndSettle();
       //error for tap switch
-      //  await tester.tap(find.byKey(const ValueKey(switchKey)));
-    });
+      await tester.tap(sioButton);
+      await tester.pumpAndSettle();
+      await tester.tap(solButton);
+      await tester.pumpAndSettle();
+      await tester.tap(btcButton);
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip(backButtonTolltip));
+      await tester.pumpAndSettle();
+
+      expect(find.text(noWalletText), findsNothing);
+      expect(find.text(coinNameSolana), findsWidgets);
+      expect(find.text(coinNameSimplio), findsWidgets);
+      expect(find.text(coinNameBitcoin), findsWidgets);
+      
+      await tester.tap(find.byKey(const ValueKey(walletListName + sioTicker)));
+      await tester.pumpAndSettle();
+      expect(find.text(coinNameSimplio), findsWidgets);
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip(backButtonTolltip));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const ValueKey(walletListName + btcTicker)));
+      await tester.pumpAndSettle();
+      expect(find.text(coinNameBitcoin), findsWidgets);
+      await tester.tap(find.byTooltip(backButtonTolltip));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const ValueKey(walletListName + solTicker)));
+      await tester.pumpAndSettle();
+      expect(find.text(coinNameSolana), findsWidgets);
+      await tester.tap(find.byTooltip(backButtonTolltip));
+      await tester.pumpAndSettle();
+     });
   });
 }
