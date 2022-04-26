@@ -74,7 +74,7 @@ jobs:
     strategy:
     #set of different configurations of the virtual environment.
        matrix:
-         api-level: [ 28 ]
+         api-level: [ 31 ]
          target: [ default ]
     needs: run-e2e-tests
     steps:
