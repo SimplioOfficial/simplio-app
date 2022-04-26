@@ -4,8 +4,8 @@ import 'package:integration_test/integration_test.dart';
 import 'package:simplio_app/main.dart';
 
 void main() {
-  final binding = IntegrationTestWidgetsFlutterBinding();
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
   group('Testing App Performance Tests', () {
     testWidgets('add wallet', (tester) async {
       const switchKey = 'switch_widget';
@@ -24,9 +24,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(const ValueKey(switchKey)), findsWidgets);
 
-      await binding.convertFlutterSurfaceToImage();
       await tester.pumpAndSettle();
-      await binding.takeScreenshot('test-screenshot');
     });
   });
 }
