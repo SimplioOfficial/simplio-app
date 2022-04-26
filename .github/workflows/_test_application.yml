@@ -37,7 +37,6 @@ jobs:
          with:
           channel: 'stable'
        - run: flutter pub get
-
   drive_ios:
     strategy:
       matrix:
@@ -47,7 +46,7 @@ jobs:
            - "iPhone 12 Pro Simulator"
       fail-fast: false
     runs-on: macos-latest
-    needs: tests
+    needs: run-e2e-tests
     steps:
        - name: List all simulators
          run: xcrun xctrace list devices
@@ -72,7 +71,7 @@ jobs:
        matrix:
          api-level: [ 28 ]
          target: [ default ]
-    needs: tests
+    needs: run-e2e-tests
     steps:
         - uses: actions/checkout@v2
         - uses: subosito/flutter-action@v2
