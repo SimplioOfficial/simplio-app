@@ -1,4 +1,7 @@
+# https://joshuamdeguzman.com/continuous-delivery-for-flutter-using-fastlane-and-github-actions-pt-2-android/
 default_platform(:android)
+
+PACKAGE_NAME = ENV["PACKAGE_NAME"]
 
 platform :android do
   lane :apply_new_version do
@@ -18,12 +21,13 @@ platform :android do
         build_type: 'Release'
       )
       upload_to_play_store(
+        package_name: "#{PACKAGE_NAME}",
         track: 'internal',
         aab: '../build/app/outputs/bundle/release/app-release.aab',
         skip_upload_metadata: true,
         skip_upload_images: true,
         skip_upload_screenshots: true,
-        release_status: "completed",
+        release_status: "draft",
         version_code: flutter_version()["version_code"],
       )
     end

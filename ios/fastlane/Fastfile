@@ -1,3 +1,4 @@
+# https://joshuamdeguzman.com/continuous-delivery-for-flutter-using-fastlane-and-github-actions-pt-3-ios/
 default_platform(:ios)
 
 DEVELOPER_APP_ID = ENV["DEVELOPER_APP_ID"]
@@ -90,10 +91,6 @@ platform :ios do
       app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
       skip_waiting_for_build_processing: true,
       skip_submission: true,
-      distribute_external: false,
-      notify_external_testers: false,
-      ipa: "./Runner.ipa",
-      changelog: ENV["GIT_BRANCH"] # not working in 3/2022
     )
 
     delete_temp_keychain(keychain_name)

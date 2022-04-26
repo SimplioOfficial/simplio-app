@@ -4,12 +4,11 @@ on:
   push:
     tags:
       - 'v*'
-    branches:
-      - 'master'
 
 jobs:
   run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-infrastructure
+    if: github.ref == 'refs/heads/master'
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@master
     with:
       e2e: true
 
@@ -47,7 +46,7 @@ jobs:
 
   build-ios:
     needs: [set-version]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@feature/initial-infrastructure
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@master
     with:
       environment: 'production'
       major: ${{ needs.set-version.outputs.major }}
@@ -67,7 +66,7 @@ jobs:
 
   build-android:
     needs: [set-version]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@feature/initial-infrastructure
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@master
     secrets:
       ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
     with:
