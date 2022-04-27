@@ -9,6 +9,8 @@ on:
         required: true
       DEVELOPER_APP_ID:
         required: true
+      PRODUCTION_DEVELOPER_APP_ID:
+        required: true
       DEVELOPER_PORTAL_TEAM_ID:
         required: true
       FASTLANE_APPLE_ID:
@@ -81,6 +83,7 @@ jobs:
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+          PRODUCTION_DEVELOPER_APP_ID: '${{ secrets.PRODUCTION_DEVELOPER_APP_ID }}'
           PRODUCTION_DEVELOPER_APP_IDENTIFIER: '${{ secrets.PRODUCTION_DEVELOPER_APP_IDENTIFIER }}'
           DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
           FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
