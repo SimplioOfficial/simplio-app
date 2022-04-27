@@ -69,7 +69,7 @@ platform :ios do
       type: 'appstore',
       app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
       git_basic_authorization: ENV["GIT_AUTHORIZATION"], # base64 encoded personal access token in format <USER_NAME>:<PAT>
-      readonly: true,
+      readonly: false,
       keychain_name: keychain_name,
       keychain_password: keychain_password 
     )
