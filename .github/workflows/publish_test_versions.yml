@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'master'
+      - 'bug/15-fex_deployment_on_master'
 
 jobs:
   run-tests:
