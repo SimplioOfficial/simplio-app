@@ -21,12 +21,13 @@ jobs:
 
   build-ios:
 #    needs: [run-tests]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@master
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@bug/15-fex_deployment_on_master
     with:
       environment: 'dev'
     secrets:
       APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
       DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+      PRODUCTION_DEVELOPER_APP_ID: '${{ secrets.PRODUCTION_DEVELOPER_APP_ID }}'
       DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
       FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
       FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'

@@ -7,6 +7,11 @@ TEMP_KEYCHAIN_USER = ENV["TEMP_KEYCHAIN_USER"]
 TEMP_KEYCHAIN_PASSWORD = ENV["TEMP_KEYCHAIN_PASSWORD"]
 CONFIG_DEVELOPER_APP_IDENTIFIER = ENV["CONFIG_DEVELOPER_APP_IDENTIFIER"]
 
+if env == "prod"
+    APP_ID = ENV["PRODUCTION_DEVELOPER_APP_ID"]
+else
+    APP_ID = ENV["DEVELOPER_APP_ID"]
+end
 def delete_temp_keychain(name)
   delete_keychain(
     name: name
@@ -81,13 +86,13 @@ platform :ios do
       export_method: "app-store",
       export_options: {
         provisioningProfiles: { 
-            DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
+            APP_ID => PROVISIONING_PROFILE_SPECIFIER
         }
       }
     )
 
     pilot(
-      apple_id: "#{DEVELOPER_APP_ID}",
+      apple_id: "#{APP_ID}",
       app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
       skip_waiting_for_build_processing: true,
       skip_submission: true,
