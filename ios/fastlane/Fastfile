@@ -82,7 +82,7 @@ platform :ios do
       export_method: "app-store",
       export_options: {
         provisioningProfiles: { 
-            APP_ID => PROVISIONING_PROFILE_SPECIFIER
+            DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
         }
       }
     )
