@@ -7,11 +7,6 @@ TEMP_KEYCHAIN_USER = ENV["TEMP_KEYCHAIN_USER"]
 TEMP_KEYCHAIN_PASSWORD = ENV["TEMP_KEYCHAIN_PASSWORD"]
 CONFIG_DEVELOPER_APP_IDENTIFIER = ENV["CONFIG_DEVELOPER_APP_IDENTIFIER"]
 
-if env == "prod"
-    APP_ID = ENV["PRODUCTION_DEVELOPER_APP_ID"]
-else
-    APP_ID = ENV["DEVELOPER_APP_ID"]
-end
 def delete_temp_keychain(name)
   delete_keychain(
     name: name
@@ -69,6 +64,12 @@ platform :ios do
     keychain_name = TEMP_KEYCHAIN_USER
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
+
+    if env == "prod"
+        APP_ID = ENV["PRODUCTION_DEVELOPER_APP_ID"]
+    else
+        APP_ID = ENV["DEVELOPER_APP_ID"]
+    end
 
     match(
       type: 'appstore',
