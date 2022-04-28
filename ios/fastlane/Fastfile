@@ -67,7 +67,7 @@ platform :ios do
 
     match(
       type: 'appstore',
-      app_identifier: 'dev.simplio.wallet',
+      app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
       git_basic_authorization: ENV["GIT_AUTHORIZATION"], # base64 encoded personal access token in format <USER_NAME>:<PAT>
       readonly: true,
       keychain_name: keychain_name,
@@ -91,6 +91,10 @@ platform :ios do
       app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
       skip_waiting_for_build_processing: true,
       skip_submission: true,
+      distribute_external: false,
+      notify_external_testers: false,
+      ipa: "./Runner.ipa",
+      changelog: ENV["GIT_BRANCH"] # not working in 3/2022
     )
 
     delete_temp_keychain(keychain_name)
