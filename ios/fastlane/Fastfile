@@ -65,6 +65,7 @@ platform :ios do
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
 
+    # https://github.com/SimplioOfficial/certificates
     match(
       type: 'appstore',
       app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
