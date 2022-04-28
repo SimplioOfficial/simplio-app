@@ -65,12 +65,6 @@ platform :ios do
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
 
-    if env == "prod"
-        APP_ID = ENV["PRODUCTION_DEVELOPER_APP_ID"]
-    else
-        APP_ID = ENV["DEVELOPER_APP_ID"]
-    end
-
     match(
       type: 'appstore',
       app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
