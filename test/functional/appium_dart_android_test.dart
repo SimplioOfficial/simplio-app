@@ -17,20 +17,4 @@ void main() {
   tearDownAll(() async {
     await driver.quit();
   });
-
-  test('start activity', () async {
-    await driver.app.background(seconds: const Duration(seconds: -1));
-    expect(
-        await driver.appState.get('io.appium.android.apis') !=
-            AppState.RunningInForeground,
-        true);
-    await driver.device.startActivity(
-        appPackage: 'io.appium.android.apis',
-        appActivity: 'io.appium.android.apis.ApiDemos');
-    expect(await driver.appState.get('io.appium.android.apis'),
-        AppState.RunningInForeground);
-
-    expect('io.appium.android.apis', await driver.device.getCurrentPackage());
-    expect('.ApiDemos', await driver.device.getCurrentActivity());
-  });
 }

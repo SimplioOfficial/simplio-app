@@ -8,8 +8,6 @@ class TestHelper {
     'app': File('/build/app/outputs/apk/debug/app-debug.apk').absolute.path,
     'deviceName': 'Android',
     'automationName': 'UiAutomator2',
-    'appPackage': 'io.appium.android.apis',
-    'appActivity': 'io.appium.android.apis.ApiDemos',
     'unicodeKeyboard': true,
     'resetKeyboard': true,
     'disableWindowAnimation': true,

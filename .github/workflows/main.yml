@@ -29,4 +29,4 @@ jobs:
         target: ${{ matrix.target }}
         arch: x86_64
         profile: Nexus 6
-        script: flutter test test/functional/
+        script: ./gradlew test --info 
