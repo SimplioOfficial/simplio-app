@@ -82,8 +82,8 @@ platform :ios do
       export_method: "app-store",
       export_options: {
         provisioningProfiles: { 
-            "dev.simplio.wallet" => "dev.simplio.wallet (v2)",
-            "io.simplio.wallet" => "io.simplio.wallet (v2)"
+            "dev.simplio.wallet" => "dev.simplio.wallet",
+            "io.simplio.wallet" => "io.simplio.wallet"
         }
       }
     )
