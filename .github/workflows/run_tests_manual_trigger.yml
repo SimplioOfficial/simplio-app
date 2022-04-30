@@ -1,0 +1,16 @@
+name: Run e2e tests in all infrastructure branches
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Bump Version
+        default: v1.0.0
+        required: true
+
+jobs:
+  run-tests:
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@infrastructure/11_initial_tests
+    with:
+      unitTests: false
+      e2e: true
