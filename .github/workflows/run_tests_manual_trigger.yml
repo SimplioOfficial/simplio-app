@@ -1,5 +1,4 @@
-name: Run e2e tests in all infrastructure branches
-
+name: Run e2e tests manually
 on:
   workflow_dispatch:
     inputs:
