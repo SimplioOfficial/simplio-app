@@ -1,9 +1,6 @@
 name: Run e2e tests in all infrastructure branches
 
 on:
-  push:
-    branches:
-      - 'infrastructure/**'
   workflow_dispatch:
     inputs:
       logLevel:
