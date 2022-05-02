@@ -5,5 +5,5 @@ abstract class WalletCoreProviderInterface {
 
   String generateSeed();
 
-// More to come...
+  String? address(int coinType);
 }

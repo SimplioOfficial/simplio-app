@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
-import 'package:simplio_app/data/repositories/trust_wallet_repository.dart';
+import 'package:simplio_app/data/repositories/wallet_core_repository.dart';
 import 'package:simplio_app/logic/wallet_utils.dart';
-import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
 
 class WalletListItem extends StatefulWidget {
   final AssetWallet assetWallet;
   final GestureTapCallback onTap;
-  final HDWallet? trustWallet;
 
-  const WalletListItem(
-      {Key? key,
-      required this.assetWallet,
-      required this.onTap,
-      required this.trustWallet})
-      : super(key: key);
+  const WalletListItem({
+    Key? key,
+    required this.assetWallet,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _WalletListItem();
@@ -36,12 +33,10 @@ class _WalletListItem extends State<WalletListItem> {
 
   @override
   Widget build(BuildContext context) {
-    HDWallet? trustWallet = context.read<TrustWalletRepository>().trustWallet;
-    if (trustWallet != null) {
-      WalletUtils.getAssetBalance(
-              assetWallet: widget.assetWallet, trustWallet: trustWallet)
-          .then((value) => () => totalBalance = value);
-    }
+    var walletCore = context.read<WalletCoreRepository>();
+    WalletUtils.getAssetBalance(
+            assetWallet: widget.assetWallet, getAddress: walletCore.getAddress)
+        .then((value) => () => totalBalance = value);
 
     return GestureDetector(
       onTap: widget.onTap,

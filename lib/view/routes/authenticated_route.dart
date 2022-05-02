@@ -5,7 +5,9 @@ import 'package:simplio_app/view/screens/dashboard_screen.dart';
 import 'package:simplio_app/view/screens/not_found_screen.dart';
 import 'package:simplio_app/view/screens/seed_backup_screen.dart';
 import 'package:simplio_app/view/screens/seed_import_screen.dart';
-import 'package:simplio_app/view/screens/wallet_screen.dart';
+import 'package:simplio_app/view/screens/wallet_detail_screen.dart';
+import 'package:simplio_app/view/screens/wallet_receive_screen.dart';
+import 'package:simplio_app/view/screens/wallet_send_screen.dart';
 
 class AuthenticatedRoute {
   static final key = GlobalKey<NavigatorState>(
@@ -15,6 +17,8 @@ class AuthenticatedRoute {
   static const String home = '/';
   static const String assets = '/assets';
   static const String wallet = '/wallet';
+  static const String walletSend = '/wallet/send';
+  static const String walletReceive = '/wallet/receive';
   static const String seedBackup = '/seed-backup';
   static const String seedImport = '/seed-import';
 
@@ -26,7 +30,17 @@ class AuthenticatedRoute {
         );
       case wallet:
         return MaterialPageRoute(
-            builder: (_) => WalletScreen(
+            builder: (_) => WalletDetailScreen(
+                  assetWallet: settings.arguments! as AssetWallet,
+                ));
+      case walletSend:
+        return MaterialPageRoute(
+            builder: (_) => WalletSendScreen(
+                  assetWallet: settings.arguments! as AssetWallet,
+                ));
+      case walletReceive:
+        return MaterialPageRoute(
+            builder: (_) => WalletReceiveScreen(
                   assetWallet: settings.arguments! as AssetWallet,
                 ));
       case assets:

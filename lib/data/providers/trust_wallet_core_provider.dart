@@ -22,4 +22,9 @@ class TrustWalletCoreProvider extends WalletCoreProviderInterface {
 
   @override
   String generateSeed() => sio.Mnemonic().generate;
+
+  @override
+  String? address(int coinType) {
+    return _trustWallet?.getAddressForCoin(coinType);
+  }
 }

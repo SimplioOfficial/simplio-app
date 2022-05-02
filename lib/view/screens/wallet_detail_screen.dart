@@ -2,11 +2,10 @@ import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
-import 'package:simplio_app/logic/trust_wallet_core_bloc/trust_wallet_core_bloc.dart';
+import 'package:simplio_app/data/repositories/wallet_core_repository.dart';
 import 'package:simplio_app/logic/wallet_utils.dart';
-import 'package:simplio_app/view/routes/app_route.dart';
+import 'package:simplio_app/view/routes/authenticated_route.dart';
 import 'package:simplio_app/view/routes/home_wallet_route.dart';
-import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
 
 class WalletDetailScreen extends StatefulWidget {
   final AssetWallet assetWallet;
@@ -21,17 +20,14 @@ class WalletDetailScreen extends StatefulWidget {
 class _WalletDetailScreen extends State<WalletDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    HDWallet? trustWallet =
-        BlocProvider.of<TrustWalletCoreBloc>(context).state.trustWallet;
+    var walletCore = context.read<WalletCoreRepository>();
 
     BigInt balance = BigInt.zero;
     widget.assetWallet.asset.assetTypes
         .map((assetType) async {
           return await WalletUtils.getBalance(
             network: assetType.network,
-            address:
-                trustWallet?.getAddressForCoin(assetType.network.coinType) ??
-                    '',
+            address: walletCore.getAddress(assetType.network.coinType),
             contractAddress:
                 assetType is TokenAsset ? assetType.contractAddress : null,
           );
@@ -51,10 +47,11 @@ class _WalletDetailScreen extends State<WalletDetailScreen> {
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
             elevation: 0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new),
-              onPressed: () => AppRoute.authGuardNav.currentState?.pop(),
-            ),
+            // leading: IconButton(
+            //   icon: const Icon(Icons.arrow_back_ios_new),
+            //   onPressed: () => Navigator.of(context)
+            //       .pushReplacementNamed(AuthenticatedRoute.walletSend),
+            // ),
           ),
           backgroundColor: Colors.white,
           body: Column(
@@ -92,8 +89,8 @@ class _WalletDetailScreen extends State<WalletDetailScreen> {
                   child: ElevatedButton(
                     key: const Key('send_button'),
                     child: const Text('Send'),
-                    onPressed: () => AppRoute.walletNav.currentState?.pushNamed(
-                      HomeWalletRoute.send,
+                    onPressed: () => Navigator.of(context).pushReplacementNamed(
+                      AuthenticatedRoute.walletSend,
                       arguments: widget.assetWallet,
                     ),
                   ),
@@ -110,8 +107,8 @@ class _WalletDetailScreen extends State<WalletDetailScreen> {
                   child: ElevatedButton(
                     key: const Key('receive_button'),
                     child: const Text('Receive'),
-                    onPressed: () => AppRoute.walletNav.currentState?.pushNamed(
-                      HomeWalletRoute.receive,
+                    onPressed: () => Navigator.of(context).pushReplacementNamed(
+                      AuthenticatedRoute.walletReceive,
                       arguments: widget.assetWallet,
                     ),
                   ),

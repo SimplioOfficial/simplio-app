@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
-import 'package:simplio_app/logic/trust_wallet_core_bloc/trust_wallet_core_bloc.dart';
-import 'package:simplio_app/view/routes/app_route.dart';
-import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
+import 'package:simplio_app/data/repositories/wallet_core_repository.dart';
 
 class WalletReceiveScreen extends StatefulWidget {
   final AssetWallet assetWallet;
@@ -18,8 +16,7 @@ class WalletReceiveScreen extends StatefulWidget {
 class _WalletReceiveScreen extends State<WalletReceiveScreen> {
   @override
   Widget build(BuildContext context) {
-    HDWallet? trustWallet =
-        BlocProvider.of<TrustWalletCoreBloc>(context).state.trustWallet;
+    var walletCore = context.read<WalletCoreRepository>();
 
     print('23 ${widget.assetWallet.asset.assetTypes}');
 
@@ -29,10 +26,10 @@ class _WalletReceiveScreen extends State<WalletReceiveScreen> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () => AppRoute.walletNav.currentState?.pop(),
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back_ios_new),
+        //   onPressed: () => AppRoute.walletNav.currentState?.pop(),
+        // ),
       ),
       backgroundColor: Colors.white,
       body: Column(
@@ -50,7 +47,7 @@ class _WalletReceiveScreen extends State<WalletReceiveScreen> {
                   ),
                 ),
                 Text(
-                  trustWallet!.getAddressForCoin(widget
+                  walletCore.getAddress(widget
                       .assetWallet.asset.assetTypes.first.network.coinType),
                   style: const TextStyle(
                     fontSize: 16,

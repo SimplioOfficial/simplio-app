@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
-import 'package:simplio_app/view/screens/wallet/wallet_detail_screen.dart';
-import 'package:simplio_app/view/screens/wallet/wallet_receive_screen.dart';
-import 'package:simplio_app/view/screens/wallet/wallet_send_screen.dart';
+import 'package:simplio_app/view/screens/wallet_detail_screen.dart';
+import 'package:simplio_app/view/screens/wallet_receive_screen.dart';
+import 'package:simplio_app/view/screens/wallet_send_screen.dart';
 
 class HomeWalletRoute {
   static const String initial = '/';

@@ -18,6 +18,8 @@ class WalletCoreRepository {
 
   String get seed => _walletCore?.seed ?? '';
 
+  String getAddress(int coinType) => _walletCore?.address(coinType) ?? '';
+
   void importSeed({required String seed}) {
     return _walletCore?.importSeed(seed: seed);
   }
