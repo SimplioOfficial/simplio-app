@@ -1,18 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-// WalletProject is a configuration class holding all definitions of
-// a crypto project such is name, ticker and its network connection
-// settings.
-class WalletProject extends Equatable {
+class Asset extends Equatable {
   final String name;
   final String ticker;
   final Color primaryColor;
   final Color foregroundColor;
   final IconData icon;
-  final List<WalletProject>? networks;
+  final List<Asset>? networks;
 
-  const WalletProject({
+  const Asset({
     required this.name,
     required this.ticker,
     required this.primaryColor,

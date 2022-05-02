@@ -16,13 +16,12 @@ class DashboardScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           elevation: 1,
           foregroundColor: Colors.black87,
-          actions: [
-            IconButton(
-                onPressed: () => Navigator.of(context).pushNamed(
-                      AppRouter.walletProjects,
-                    ),
-                icon: const Icon(Icons.add)),
-          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => Navigator.of(context).pushNamed(
+            AppRouter.assets,
+          ),
+          child: const Icon(Icons.add),
         ),
         body: BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
           if (state is! Wallets) return const Text('No wallets loaded');
@@ -32,10 +31,8 @@ class DashboardScreen extends StatelessWidget {
           return Container(
             child: enabled.isEmpty
                 ? const Center(
-                    child: Opacity(
-                        opacity: 0.4,
-                        child: Text('You have no wallet',
-                            style: TextStyle(color: Colors.black))),
+                    child: Text('You have no wallet',
+                        style: TextStyle(color: Colors.black26)),
                   )
                 : ListView.builder(
                     itemCount: enabled.length,
