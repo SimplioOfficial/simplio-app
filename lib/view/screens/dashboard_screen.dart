@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
+import 'package:simplio_app/data/repositories/trust_wallet_repository.dart';
 import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
 import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
-import 'package:simplio_app/view/routes/app_route.dart';
+import 'package:simplio_app/logic/trust_wallet_core_bloc/trust_wallet_core_bloc.dart';
+import 'package:simplio_app/view/routes/home_route.dart';
 import 'package:simplio_app/view/widgets/wallet_list_item.dart';
+import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -33,7 +36,7 @@ class DashboardScreen extends StatelessWidget {
             children: [
               FloatingActionButton(
                 onPressed: () => Navigator.of(context).pushNamed(
-                  AppRoute.assets,
+                  HomeRoute.assets,
                 ),
                 child: const Icon(Icons.add),
               ),
@@ -48,6 +51,7 @@ class DashboardScreen extends StatelessWidget {
           body: BlocBuilder<AssetWalletBloc, AssetWalletState>(
             builder: (context, state) {
               var enabled = state.enabled;
+              _checkSeed(context);
 
               return Container(
                 child: enabled.isEmpty
@@ -66,7 +70,7 @@ class DashboardScreen extends StatelessWidget {
                             key: Key(wallet.assetId),
                             assetWallet: wallet,
                             onTap: () => Navigator.of(context)
-                                .pushNamed(AppRoute.wallet, arguments: wallet),
+                                .pushNamed(HomeRoute.wallet, arguments: wallet),
                           );
                         },
                       ),
@@ -75,4 +79,16 @@ class DashboardScreen extends StatelessWidget {
           ),
         ),
       );
+
+  _checkSeed(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      HDWallet? trustWallet = context.read<TrustWalletRepository>().trustWallet;
+      // if trust wallet is not initialized navigate to seed generation
+      if (trustWallet == null) {
+        Navigator.of(
+          context,
+        ).popAndPushNamed(HomeRoute.initialSettings);
+      }
+    });
+  }
 }

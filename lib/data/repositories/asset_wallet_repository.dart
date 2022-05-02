@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/data/providers/asset_wallet_db_provider.dart';
 
@@ -36,8 +37,10 @@ class AssetWalletRepository {
 
       return _db.save(assetWallet);
     } on Exception catch (e) {
-      print(e.toString());
-      throw Exception("Asset wallet of ${assetId} could not be enabled");
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      throw Exception("Asset wallet of $assetId could not be enabled");
     }
   }
 
@@ -49,8 +52,10 @@ class AssetWalletRepository {
 
       await _db.save(existingAssetWallet.copyWith(isEnabled: false));
     } on Exception catch (e) {
-      print(e.toString());
-      throw Exception("Asset wallet of ${assetId} could not be disabled");
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      throw Exception("Asset wallet of $assetId could not be disabled");
     }
   }
 

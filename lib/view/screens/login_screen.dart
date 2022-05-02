@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
@@ -21,7 +22,9 @@ class LoginScreen extends StatelessWidget {
         }
 
         if (res is LoginFailure) {
-          print('LOGIN HAS FAILED');
+          if (kDebugMode) {
+            print('LOGIN HAS FAILED');
+          }
         }
       },
       child: Scaffold(

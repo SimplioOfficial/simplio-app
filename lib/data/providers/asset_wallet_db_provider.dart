@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/data/model/wallet.dart';
@@ -37,7 +38,9 @@ class AssetWalletDbProvider {
 
       return _to(assetWallet);
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return null;
     }
   }
@@ -49,7 +52,9 @@ class AssetWalletDbProvider {
           .map((e) => _to(e))
           .toList();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return [];
     }
   }
