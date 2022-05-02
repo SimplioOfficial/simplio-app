@@ -25,9 +25,8 @@ class DashboardScreen extends StatelessWidget {
         children: [
           FloatingActionButton(
             heroTag: 'a',
-            onPressed: () => Navigator.of(context).pushNamed(
-              AuthenticatedRoute.assets,
-            ),
+            onPressed: () =>
+                Navigator.of(context).pushNamed(AuthenticatedRoute.assets),
             child: const Icon(Icons.add),
           ),
           FloatingActionButton(
@@ -37,6 +36,20 @@ class DashboardScreen extends StatelessWidget {
               context.read<AuthBloc>().add(const GotUnauthenticated());
             },
             child: const Icon(Icons.logout),
+          ),
+          FloatingActionButton(
+            backgroundColor: Colors.grey,
+            onPressed: () => Navigator.of(context).pushNamed(
+              AuthenticatedRoute.seedBackup,
+            ),
+            child: const Icon(Icons.settings),
+          ),
+          FloatingActionButton(
+            backgroundColor: Colors.red,
+            onPressed: () => Navigator.of(context).pushNamed(
+              AuthenticatedRoute.seedImport,
+            ),
+            child: const Icon(Icons.import_export),
           ),
         ],
       ),

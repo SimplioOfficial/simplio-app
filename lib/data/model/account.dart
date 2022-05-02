@@ -15,15 +15,13 @@ class Account extends Equatable {
   final AccountSettings settings;
   final List<AccountWallet> wallets;
 
-  const Account._(
-    this.id,
-    this.secret,
-    this.accessToken,
-    this.refreshToken,
-    this.lastLogin,
-    this.settings,
-    this.wallets,
-  ) : assert(id.length > 0);
+  const Account._(this.id,
+      this.secret,
+      this.accessToken,
+      this.refreshToken,
+      this.lastLogin,
+      this.settings,
+      this.wallets,) : assert(id.length > 0);
 
   const Account.builder({
     /// `id` is a Auth0 identifier. e.g apps@simplio.io
@@ -41,14 +39,14 @@ class Account extends Equatable {
     AccountSettings settings = const AccountSettings.preset(),
     List<AccountWallet> wallets = const <AccountWallet>[],
   }) : this._(
-          id,
-          secret,
-          accessToken,
-          refreshToken,
-          lastLogin,
-          settings,
-          wallets,
-        );
+    id,
+    secret,
+    accessToken,
+    refreshToken,
+    lastLogin,
+    settings,
+    wallets,
+  );
 
   Account copyWith({
     String? accessToken,
@@ -69,7 +67,8 @@ class Account extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         id,
         secret,
       ];
@@ -78,6 +77,8 @@ class Account extends Equatable {
     if (wallets.isNotEmpty) return wallets.first;
     return null;
   }
+
+  String? get accountSeed => accountWallet?.seed.mnemonic;
 }
 
 class LockableSecret with AesEncryption {

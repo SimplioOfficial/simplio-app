@@ -104,7 +104,9 @@ class LockableSeed with AesEncryption {
   }
 
   @override
-  String toString() {
+  String toString() => mnemonic;
+
+  String get mnemonic {
     return _mnemonic;
   }
 }
