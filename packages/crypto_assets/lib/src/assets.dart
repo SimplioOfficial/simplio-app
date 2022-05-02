@@ -118,18 +118,18 @@ class Assets {
           network: networks.flux,
           decimal: 10,
         ),
-        TokenAsset(
-          contractAddress: '',
-          network: networks.ethereum,
-          decimal: 10,
-        ),
+        // TokenAsset(
+        //   contractAddress: '0x720cd16b011b987da3518fbf38c3071d4f0d1495',
+        //   network: networks.ethereum,
+        //   decimal: 10,
+        // ),
       ],
     ),
     "binance-usd": Asset(
       detail: asset_detail.binanceUSD,
       assetTypes: [
         TokenAsset(
-          contractAddress: '',
+          contractAddress: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
           network: networks.binance,
           decimal: 10,
         ),
@@ -139,17 +139,17 @@ class Assets {
       detail: asset_detail.chainlink,
       assetTypes: [
         TokenAsset(
-          contractAddress: '',
+          contractAddress: 'CWE8jPTUYhdCTZYWPTe1o5DFqfdjzWKc9WKz6rSjQUdG',
           network: networks.solana,
           decimal: 10,
         ),
         TokenAsset(
-          contractAddress: '',
+          contractAddress: '0x514910771af9ca656af840dff83e8264ecf986ca',
           network: networks.ethereum,
           decimal: 10,
         ),
         TokenAsset(
-          contractAddress: '',
+          contractAddress: '0xf8a0bf9cf54bb92f17374d9e9a321e6a111a51bd',
           network: networks.binance,
           decimal: 10,
         ),

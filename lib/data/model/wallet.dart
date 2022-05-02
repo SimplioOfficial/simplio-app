@@ -7,14 +7,14 @@ part 'wallet.g.dart';
 class Wallet extends Equatable {
   final String uuid;
   final int coinType;
-  final String? derivationPath;
   final BigInt balance;
+  final String? derivationPath;
 
   const Wallet._({
     required this.uuid,
     required this.coinType,
-    required this.derivationPath,
     required this.balance,
+    required this.derivationPath,
   });
 
   Wallet.builder({
