@@ -26,8 +26,8 @@ class _WalletListItem extends State<WalletListItem> {
           child: Row(
             children: [
               CircleAvatar(
-                backgroundColor: widget.wallet.asset.style.primaryColor,
-                foregroundColor: widget.wallet.asset.style.foregroundColor,
+                backgroundColor: widget.wallet.asset.primaryColor,
+                foregroundColor: widget.wallet.asset.foregroundColor,
               ),
               Padding(
                 padding:
