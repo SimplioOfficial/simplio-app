@@ -7,18 +7,23 @@ part 'wallet.g.dart';
 class Wallet extends Equatable {
   final String uuid;
   final int coinType;
-  final String? derivationPath;
   final BigInt balance;
+  final String? derivationPath;
+
+  // TODO: Remove & refactor this when backend proxy endpoint is done
+  // final String balanceApi;
 
   const Wallet._({
     required this.uuid,
     required this.coinType,
-    required this.derivationPath,
     required this.balance,
+    required this.derivationPath,
+    // required this.balanceApi,
   });
 
   Wallet.builder({
     required int coinType,
+    // required String balanceApi,
     String? derivationPath,
     BigInt? balance,
   }) : this._(
@@ -26,6 +31,7 @@ class Wallet extends Equatable {
           coinType: coinType,
           derivationPath: derivationPath,
           balance: balance ?? BigInt.zero,
+          // balanceApi: balanceApi,
         );
 
   @override

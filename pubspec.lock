@@ -584,7 +584,7 @@ packages:
       name: sio_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.9"
+    version: "0.0.10"
   sky_engine:
     dependency: transitive
     description: flutter

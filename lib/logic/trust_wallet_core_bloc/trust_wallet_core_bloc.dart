@@ -20,6 +20,7 @@ class TrustWalletCoreBloc
       TrustWalletCoreSet ev, Emitter<TrustWalletCoreState> emit) {
     HDWallet trustWallet = ev.trustWallet;
     trustWalletRepository.trustWallet = trustWallet;
+    print('!!!!!!!!! trustWallet: ${trustWallet.mnemonic()}');
 
     emit(TrustWalletCoreState(trustWallet: trustWallet));
   }
