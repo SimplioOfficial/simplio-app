@@ -58,9 +58,9 @@ jobs:
           export RECORDING_PID=${!}
           echo "Recording process up with pid: ${RECORDING_PID}"
           flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
-          sleep 5
-          kill -SIGINT $RECORDING_PID
-          sleep 10
+#          sleep 5
+#          kill -SIGINT $RECORDING_PID
+#          sleep 10
        # Upload Recordings As Artifacts
       - name: upload screenshot
         uses: actions/upload-artifact@master
