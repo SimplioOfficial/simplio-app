@@ -15,7 +15,7 @@ on:
 
 jobs:
 
-  E2E_test:
+  test:
     runs-on: macos-latest
     #sequence of tasks called
     steps:
