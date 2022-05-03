@@ -12,13 +12,10 @@ on:
         required: true
         type: boolean
   workflow_dispatch:
-  push:
-    branches:
-      - '*'
 
 jobs:
 
-  test:
+  E2E_test:
     runs-on: macos-latest
     #sequence of tasks called
     steps:
@@ -70,7 +67,7 @@ jobs:
         with:
           name: online_screenshot_${{ matrix.device }}
           path: recording.mov
-          retention-days : 10  # days for automatic deletion
+          retention-days : 3  # days for automatic deletion
 
   drive_android:
     runs-on: macos-latest
