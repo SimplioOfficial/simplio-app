@@ -12,6 +12,9 @@ on:
         required: true
         type: boolean
   workflow_dispatch:
+  push:
+    branches:
+      - '*'
 
 jobs:
 
