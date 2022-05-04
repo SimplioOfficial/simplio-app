@@ -1,49 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/config/projects.dart';
 import 'package:simplio_app/data/model/wallet.dart';
-import 'package:simplio_app/logic/wallet_bloc/wallet_bloc.dart';
+import 'package:simplio_app/view/screens/assets_screen.dart';
 import 'package:simplio_app/view/screens/dashboard_screen.dart';
 import 'package:simplio_app/view/screens/wallet_screen.dart';
-import 'package:simplio_app/view/screens/wallet_projects_screen.dart';
 
 class AppRouter {
-  final WalletBloc _walletBloc = WalletBloc();
-
   // Defining names.
   static const String home = '/';
-  static const String walletProjects = '/wallet-projects';
+  static const String assets = '/assets';
   static const String wallet = '/wallet';
 
   Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case home:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider.value(
-            value: _walletBloc,
-            child: const DashboardScreen(),
-          ),
+          builder: (_) => const DashboardScreen(),
         );
-      case walletProjects:
+      case assets:
         return MaterialPageRoute(
-            builder: (context) => BlocProvider.value(
-                  value: _walletBloc,
-                  child: const WalletProjectsScreen(
-                    projects: Projects.supported,
-                  ),
-                ));
+          builder: (_) => const AssetsScreen(),
+        );
       case wallet:
         return MaterialPageRoute(
-            builder: (context) => WalletScreen(
+            builder: (_) => WalletScreen(
                   wallet: settings.arguments! as Wallet,
                 ));
 
       default:
         throw const FormatException('Screen not found');
     }
-  }
-
-  void dispose() {
-    _walletBloc.close();
   }
 }
