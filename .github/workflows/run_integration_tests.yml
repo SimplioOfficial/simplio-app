@@ -55,7 +55,7 @@ jobs:
           sleep 5
           export RECORDING_PID=${!}
           echo "Recording process up with pid: ${RECORDING_PID}"
-          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
+          flutter test integration_test/app_test.dart
           sleep 180
           kill -SIGINT $RECORDING_PID
           sleep 180
