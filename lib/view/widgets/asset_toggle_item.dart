@@ -39,9 +39,9 @@ class _AssetToggleItem extends State<AssetToggleItem>
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: widget.asset.primaryColor,
-              foregroundColor: widget.asset.foregroundColor,
-            ),
+                foregroundColor: widget.asset.style.foregroundColor,
+                backgroundColor: widget.asset.style.primaryColor,
+                child: const Center()),
             Expanded(
               child: Padding(
                 padding:

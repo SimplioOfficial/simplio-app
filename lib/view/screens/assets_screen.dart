@@ -3,87 +3,96 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/config/assets.dart';
 import 'package:simplio_app/data/model/asset.dart';
 import 'package:simplio_app/data/model/wallet.dart';
+import 'package:simplio_app/logic/asset_toggle_cubit/asset_toggle_cubit.dart';
 import 'package:simplio_app/logic/wallet_bloc/wallet_bloc.dart';
 import 'package:simplio_app/view/widgets/appbar_search.dart';
 import 'package:simplio_app/view/widgets/asset_toggle_item.dart';
+import 'package:simplio_app/view/widgets/text_header.dart';
 
 const String searchLabel = 'Search assets';
 
 class AssetsScreen extends StatelessWidget {
-  final List<Asset> assets = Assets.supported;
-
   const AssetsScreen({Key? key}) : super(key: key);
+
+  /// [_loadToggles] provides with emitting a method on [AssetToggleCubit]
+  /// instance. By manual function call we reduce the amount of widget tree
+  /// build.
+  List<AssetToggle> _loadToggles(BuildContext context) {
+    final walletState = context.read<WalletBloc>().state;
+    final List<Asset> enabled = (walletState is Wallets)
+        ? walletState.enabled.map((e) => e.asset).toList()
+        : [];
+
+    return context
+        .read<AssetToggleCubit>()
+        .loadToggles(Assets.supported, enabled);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            elevation: 0.4,
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            title: Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: AppBarSearch<String>(
-                label: searchLabel,
-                delegate: _AssetSearchDelegate(assets: assets),
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 60.0,
-              horizontal: 20.0,
-            ),
-            child: Container(
-              alignment: Alignment.bottomLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 6.0),
-                    child: Text(
-                      'Get your favorites.',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 24.0,
-                      ),
+    return BlocProvider(
+      create: (context) => AssetToggleCubit(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Builder(builder: (context) {
+          _loadToggles(context);
+
+          return CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                floating: true,
+                snap: true,
+                elevation: 0.4,
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                title: Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: AppBarSearch<String>(
+                    label: searchLabel,
+                    onTap: (context) => _loadToggles(context),
+                    delegate: _AssetSearchDelegate(
+                      assetToggleCubit: context.read<AssetToggleCubit>(),
+                      onClose: (_) => _loadToggles(context),
                     ),
                   ),
-                  Text(
-                    'Enable assets to add them to your portfolio.',
-                    style: TextStyle(color: Colors.black26),
-                  ),
-                ],
+                ),
               ),
-            ),
-          )),
-          BlocBuilder<WalletBloc, WalletState>(
-            builder: (context, state) => (state is Wallets)
-                ? _SliverAssetToggleList(
-                    assets: assets,
-                    activeAssets: state.enabled.map((w) => w.asset).toList(),
-                  )
-                : SliverToBoxAdapter(
-                    child: Container(),
+              const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 60.0,
+                    horizontal: 20.0,
                   ),
-          ),
-        ],
+                  child: TextHeader(
+                    title: 'Get your favorites.',
+                    subtitle: 'Enable assets to add them to your portfolio.',
+                  ),
+                ),
+              ),
+              BlocBuilder<AssetToggleCubit, AssetToggleState>(
+                  buildWhen: (previous, current) =>
+                      previous.toggles != current.toggles,
+                  builder: (context, state) =>
+                      _SliverAssetToggleList(toggles: state.toggles)),
+            ],
+          );
+        }),
       ),
     );
   }
 }
 
+/// [_AssetSearchDelegate] is a delegated functionality to a widget
+/// that is mounted at the material app level. Because the asset
+/// toggle functionality is provided by a local instance of
+/// [AssetToggleCubit], we provided it in constructor.
 class _AssetSearchDelegate extends SearchDelegate<String> {
-  final List<Asset> assets;
+  final AssetToggleCubit assetToggleCubit;
+  final Function(BuildContext context)? onClose;
 
   _AssetSearchDelegate({
-    required this.assets,
+    required this.assetToggleCubit,
+    this.onClose,
   }) : super();
 
   @override
@@ -113,7 +122,10 @@ class _AssetSearchDelegate extends SearchDelegate<String> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-        onPressed: () => close(context, ''),
+        onPressed: () {
+          onClose!(context);
+          close(context, '');
+        },
         icon: AnimatedIcon(
           icon: AnimatedIcons.menu_close,
           progress: transitionAnimation,
@@ -125,53 +137,47 @@ class _AssetSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    var state = context.read<WalletBloc>().state;
-    if (state is! Wallets) return Container();
-
-    final filtered = assets
-        .where((p) =>
-            p.name.toLowerCase().contains(query.toLowerCase()) ||
-            p.ticker.toLowerCase().contains(query.toLowerCase()))
+    final filtered = assetToggleCubit.state.toggles
+        .where((t) =>
+            t.asset.name.toLowerCase().contains(query.toLowerCase()) ||
+            t.asset.ticker.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
     return Container(
       color: Colors.white,
       child: CustomScrollView(
         slivers: [
-          _SliverAssetToggleList(
-            assets: filtered,
-            activeAssets: state.enabled.map((e) => e.asset).toList(),
-          ),
+          _SliverAssetToggleList(toggles: filtered),
         ],
       ),
     );
   }
 }
 
+/// [_SliverAssetToggleList] is a private library widget class that
+/// provided with a reusable asset toggling functionality.
+/// Toggling logic is delegated to [WalletBloc] accessed
+/// through [BuildContext].
 class _SliverAssetToggleList extends StatelessWidget {
-  final List<Asset> assets;
-  final List<Asset> activeAssets;
+  final List<AssetToggle> toggles;
 
   const _SliverAssetToggleList({
     Key? key,
-    required this.assets,
-    required this.activeAssets,
+    required this.toggles,
   }) : super(key: key);
 
   @override
-  SliverList build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, i) => AssetToggleItem(
-          key: UniqueKey(),
-          asset: assets[i],
-          toggled: activeAssets.contains(assets[i]),
-          onToggle: _toggleAsset(context),
+  Widget build(BuildContext context) => SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, i) => AssetToggleItem(
+            key: UniqueKey(),
+            asset: toggles[i].asset,
+            toggled: toggles[i].toggled,
+            onToggle: _toggleAsset(context),
+          ),
+          childCount: toggles.length,
         ),
-        childCount: assets.length,
-      ),
-    );
-  }
+      );
 
   AssetToggleAction _toggleAsset(BuildContext context) =>
       ({required bool value, required Asset asset}) => value

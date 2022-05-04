@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simplio_app/data/model/wallet.dart';
-import 'package:simplio_app/view/screens/dashboard_screen.dart';
 import 'package:simplio_app/view/screens/assets_screen.dart';
+import 'package:simplio_app/view/screens/dashboard_screen.dart';
 import 'package:simplio_app/view/screens/wallet_screen.dart';
 
 class AppRouter {
