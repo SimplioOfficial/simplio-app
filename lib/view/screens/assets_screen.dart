@@ -14,9 +14,6 @@ const String searchLabel = 'Search assets';
 class AssetsScreen extends StatelessWidget {
   const AssetsScreen({Key? key}) : super(key: key);
 
-  /// [_loadToggles] provides with emitting a method on [AssetToggleCubit]
-  /// instance. By manual function call we reduce the amount of widget tree
-  /// build.
   List<AssetToggle> _loadToggles(BuildContext context) {
     final walletState = context.read<WalletBloc>().state;
     final List<Asset> enabled = (walletState is Wallets)
@@ -82,10 +79,6 @@ class AssetsScreen extends StatelessWidget {
   }
 }
 
-/// [_AssetSearchDelegate] is a delegated functionality to a widget
-/// that is mounted at the material app level. Because the asset
-/// toggle functionality is provided by a local instance of
-/// [AssetToggleCubit], we provided it in constructor.
 class _AssetSearchDelegate extends SearchDelegate<String> {
   final AssetToggleCubit assetToggleCubit;
   final Function(BuildContext context)? onClose;
@@ -154,10 +147,6 @@ class _AssetSearchDelegate extends SearchDelegate<String> {
   }
 }
 
-/// [_SliverAssetToggleList] is a private library widget class that
-/// provided with a reusable asset toggling functionality.
-/// Toggling logic is delegated to [WalletBloc] accessed
-/// through [BuildContext].
 class _SliverAssetToggleList extends StatelessWidget {
   final List<AssetToggle> toggles;
 
