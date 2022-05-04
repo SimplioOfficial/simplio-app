@@ -23,7 +23,7 @@ class Asset extends Equatable {
       ];
 }
 
-class AssetStyle {
+class AssetStyle extends Equatable {
   final Color primaryColor;
   final Color foregroundColor;
   final IconData icon;
@@ -33,6 +33,13 @@ class AssetStyle {
     required this.primaryColor,
     required this.foregroundColor,
   });
+
+  @override
+  List<Object> get props => [
+        primaryColor,
+        foregroundColor,
+        icon,
+      ];
 }
 
 class AssetToggle extends Equatable {
