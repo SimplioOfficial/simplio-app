@@ -19,28 +19,27 @@ jobs:
 #      GIT_TOKEN: '${{ secrets.GIT_TOKEN }}'
 
 
-  build-ios:
+#  build-ios:
 #    needs: [run-tests]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@bug/15-fex_deployment_on_master
-    with:
-      environment: 'dev'
-    secrets:
-      APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
-      DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
-      PRODUCTION_DEVELOPER_APP_ID: '${{ secrets.PRODUCTION_DEVELOPER_APP_ID }}'
-      DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
-      FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
-      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
-      MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
-      GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
-      PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
-      TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
-      TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
-
-#  build-android:
-#    needs: [run-tests]
-#    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@master
-#    secrets:
-#      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@bug/15-fex_deployment_on_master
 #    with:
 #      environment: 'dev'
+#    secrets:
+#      APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
+#      DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+#      DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
+#      FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+#      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+#      MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+#      GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+#      PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+#      TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+#      TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+
+  build-android:
+#    needs: [run-tests]
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@bug/15-fex_deployment_on_master
+    secrets:
+      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+    with:
+      environment: 'dev'

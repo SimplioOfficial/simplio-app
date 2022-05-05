@@ -2,6 +2,7 @@
 default_platform(:android)
 
 PACKAGE_NAME = ENV["PACKAGE_NAME"]
+FLAVOR = ENV["FLAVOR"]
 
 platform :android do
   lane :apply_new_version do
@@ -15,15 +16,10 @@ platform :android do
   desc "Build and deploy app to the PlayStore"
   lane :build_and_deploy do
     begin
-      gradle(task: "clean")
-      gradle(
-        task: "bundle",
-        build_type: 'Release'
-      )
       upload_to_play_store(
         package_name: "#{PACKAGE_NAME}",
         track: 'internal',
-        aab: '../build/app/outputs/bundle/release/app-release.aab',
+        aab: "../build/app/outputs/bundle/#{FLAVOR}Release/app-#{FLAVOR}-release.aab",
         skip_upload_metadata: true,
         skip_upload_images: true,
         skip_upload_screenshots: true,
