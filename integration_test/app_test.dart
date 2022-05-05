@@ -118,6 +118,7 @@ void main() {
       await tester.pumpAndSettle();
       tester.printToConsole('After test sleep 5 seconds');
       sleep(const Duration(seconds: 5));
+      tester.printToConsole('TESTS ends');
       print(DateTime.now());
     });
   });
