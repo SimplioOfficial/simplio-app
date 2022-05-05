@@ -51,12 +51,12 @@ jobs:
       # Run flutter integrate tests
       - name: Run Flutter Driver tests - screen recording test
         run: |
-
-          echo "Starting tests"
-          flutter test integration_test/app_test.dart
           xcrun simctl io booted recordVideo recording.mov &
+          sleep 420
           export RECORDING_PID=${!}
           echo "Recording process up with pid: ${RECORDING_PID}"
+#          flutter test integration_test/app_test.dart
+          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
           sleep 5
           kill -SIGINT $RECORDING_PID
           sleep 10
