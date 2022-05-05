@@ -63,8 +63,8 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: online_screenshot_${{ matrix.device }}
-          path: recording.mov
-          retention-days : 3  # days for automatic deletion
+          path: recording.mp4
+          retention-days : 2  # days for automatic deletion
 
 #  drive_android:
 #    runs-on: macos-latest
