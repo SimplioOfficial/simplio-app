@@ -56,9 +56,9 @@ jobs:
           export RECORDING_PID=${!}
           echo "Recording process up with pid: ${RECORDING_PID}"
           flutter test integration_test/app_test.dart
-          sleep 180
+          sleep 5
           kill -SIGINT $RECORDING_PID
-          sleep 180
+          sleep 10
        # Upload Recordings As Artifacts
       - name: upload screenshot
         uses: actions/upload-artifact@master
