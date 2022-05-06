@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'master'
-      - 'bug/15-fex_deployment_on_master'
 
 jobs:
   run-tests:
@@ -38,7 +37,7 @@ jobs:
 
   build-android:
     needs: [run-tests]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@bug/15-fex_deployment_on_master
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@master
     secrets:
       ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
     with:
