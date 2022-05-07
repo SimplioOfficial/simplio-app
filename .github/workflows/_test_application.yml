@@ -60,10 +60,10 @@ jobs:
         run: |
           UDID=$(xcrun xctrace list devices | awk '!/Watch/ && /${{ matrix.device }}/{gsub( /\(|\)/ , "" );print $NF}')
           xcrun simctl boot ${UDID}
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
+#      - uses: actions/checkout@v2
+#      - uses: subosito/flutter-action@v2
+#        with:
+#          channel: 'stable'
           # Run flutter integrate tests
       - name: Run Flutter Driver iOS tests
         run: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
@@ -78,10 +78,10 @@ jobs:
         target: [ default ]
     needs: run-e2e-tests
     steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
+#      - uses: actions/checkout@v2
+#      - uses: subosito/flutter-action@v2
+#        with:
+#          channel: 'stable'
       - name: Run Flutter Driver Android tests
         uses: reactivecircus/android-emulator-runner@v1
         with:
