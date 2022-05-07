@@ -79,7 +79,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: recorded_video_${{ matrix.device }}
-          path: recording_${{ matrix.device }}.mp4
+          path: recording.mp4
           retention-days : 3 # days for automatic deletion
 
   drive_android:
