@@ -65,8 +65,22 @@ jobs:
         with:
           channel: 'stable'
           # Run flutter integrate tests
-      - name: Run Flutter Driver iOS tests
-        run: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
+      - name: Run Flutter Driver tests - screen recording test
+        run: |
+          xcrun simctl io booted recordVideo --codec=h264 recording.mp4 &
+          sleep 5
+          export RECORDING_PID=${!}
+          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
+          sleep 5
+          kill -SIGINT $RECORDING_PID
+          sleep 10
+      # Upload Recordings As Artifacts
+      - name: upload recordedVideo
+        uses: actions/upload-artifact@master
+        with:
+          name: recorded_video_${{ matrix.device }}
+          path: recording_${{ matrix.device }}.mp4
+          retention-days : 2  # days for automatic deletion
 
   drive_android:
     runs-on: macos-latest
