@@ -68,12 +68,12 @@ jobs:
       - name: Run Flutter Driver tests - screen recording test
         run: |
           xcrun simctl io booted recordVideo --codec=h264 recording.mp4 &
-          sleep 5
+          sleep 2
           export RECORDING_PID=${!}
           flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
-          sleep 5
+          sleep 3
           kill -SIGINT $RECORDING_PID
-          sleep 10
+          sleep 5
       # Upload Recordings As Artifact
       - name: upload recordedVideo
         uses: actions/upload-artifact@master

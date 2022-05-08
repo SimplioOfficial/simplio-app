@@ -38,8 +38,7 @@ void main() {
   group('Testing App Performance Tests', () {
     testWidgets('Simplio App tests', (tester) async {
       //Initialization an app
-      tester.printToConsole('Starting tests');
-      print(DateTime.now());
+      tester.printToConsole(DateTime.now().toString() + ' ' + 'Starting tests');
       await tester.pumpAndSettle();
       await tester.pumpWidget(const SimplioApp());
       //Checking first page
@@ -95,31 +94,33 @@ void main() {
       expect(find.text(coinNameSimplioText), findsWidgets);
       expect(find.text(coinNameBitcoinText), findsWidgets);
       //Checking each wallet - simplio
-      tester.printToConsole('Checking ' + sioTicker +  ' wallet page');
-      await tester.tap(find.byKey(const ValueKey(walletListNameKey + sioTicker)));
+      tester.printToConsole('Checking ' + sioTicker + ' wallet page');
+      await tester.tap(
+          find.byKey(const ValueKey(walletListNameKey + sioTicker)));
       await tester.pumpAndSettle();
       expect(find.text(coinNameSimplioText), findsWidgets);
       await tester.pumpAndSettle();
       await tester.tap(find.byTooltip(backButtonTolltip));
       await tester.pumpAndSettle();
       //Checking each wallet - bitcoin
-      tester.printToConsole('Checking ' + solTicker +  ' wallet page');
-      await tester.tap(find.byKey(const ValueKey(walletListNameKey + btcTicker)));
+      tester.printToConsole('Checking ' + solTicker + ' wallet page');
+      await tester.tap(
+          find.byKey(const ValueKey(walletListNameKey + btcTicker)));
       await tester.pumpAndSettle();
       expect(find.text(coinNameBitcoinText), findsWidgets);
       await tester.tap(find.byTooltip(backButtonTolltip));
       await tester.pumpAndSettle();
       //Checking each wallet - solna
-      tester.printToConsole('Checking ' + btcTicker +  ' wallet page');
-      await tester.tap(find.byKey(const ValueKey(walletListNameKey + solTicker)));
+      tester.printToConsole('Checking ' + btcTicker + ' wallet page');
+      await tester.tap(
+          find.byKey(const ValueKey(walletListNameKey + solTicker)));
       await tester.pumpAndSettle();
       expect(find.text(coinNameSolanaText), findsWidgets);
       await tester.tap(find.byTooltip(backButtonTolltip));
       await tester.pumpAndSettle();
       tester.printToConsole('After test sleep 5 seconds');
       sleep(const Duration(seconds: 5));
-      tester.printToConsole('TESTS ends');
-      print(DateTime.now());
+      tester.printToConsole(DateTime.now().toString() + ' ' + 'TESTS ends');
     });
   });
 }
