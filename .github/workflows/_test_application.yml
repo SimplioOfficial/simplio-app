@@ -74,7 +74,7 @@ jobs:
           sleep 5
           kill -SIGINT $RECORDING_PID
           sleep 10
-      # Upload Recordings As Artifacts
+      # Upload Recordings As Artifact
       - name: upload recordedVideo
         uses: actions/upload-artifact@master
         with:
