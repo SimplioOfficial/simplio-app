@@ -1,0 +1,106 @@
+name: Run tests
+env:
+  FLUTTER_VERSION: '2.10.2'
+
+on:
+  workflow_call:
+    inputs:
+      e2e:
+        description: 'Boolean value which trigger running e2e tests'
+        default: true
+        required: true
+        type: boolean
+      unitTests:
+        description: 'Boolean value which trigger running unitTests tests'
+        default: true
+        required: true
+        type: boolean
+
+jobs:
+  tests:
+    if: ${{ inputs.unitTests }}
+    runs-on: ubuntu-latest
+    name: Unit tests
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: $FLUTTER_VERSION
+      - run: flutter pub get
+      - name: Analyze files
+        run: flutter analyze .
+      - run: flutter test
+
+  run-e2e-tests:
+    if: ${{ inputs.e2e }}
+    runs-on: macos-latest
+    name: e2e tests
+    #sequence of tasks called
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+  drive_ios:
+    strategy:
+      matrix:
+        device:
+          - "iPhone 13 Pro Simulator"
+          - "iPhone 11 Pro Max Simulator"
+          - "iPhone 12 Pro Simulator"
+      fail-fast: false
+    runs-on: macos-latest
+    needs: run-e2e-tests
+    steps:
+      - name: List all simulators
+        run: xcrun xctrace list devices
+      # get UUID  simulator and boot a simulator on mac from  command line
+      - name: Start Simulator
+        run: |
+          UDID=$(xcrun xctrace list devices | awk '!/Watch/ && /${{ matrix.device }}/{gsub( /\(|\)/ , "" );print $NF}')
+          xcrun simctl boot ${UDID}
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          # Run flutter integrate tests
+      - name: Run Flutter Driver tests - screen recording test
+        run: |
+          xcrun simctl io booted recordVideo --codec=h264 recording.mp4 &
+          sleep 5
+          export RECORDING_PID=${!}
+          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
+          sleep 5
+          kill -SIGINT $RECORDING_PID
+          sleep 10
+      # Upload Recordings As Artifact
+      - name: upload recordedVideo
+        uses: actions/upload-artifact@master
+        with:
+          name: recorded_video_${{ matrix.device }}
+          path: recording.mp4
+          retention-days : 3 # days for automatic deletion
+
+  drive_android:
+    runs-on: macos-latest
+    #creates a build matrix for your jobs
+    strategy:
+      #set of different configurations of the virtual environment.
+      matrix:
+        api-level: [ 31 ]
+        target: [ default ]
+    needs: run-e2e-tests
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - name: Run Flutter Driver Android tests
+        uses: reactivecircus/android-emulator-runner@v1
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: x86_64
+          profile: Nexus 6
+          script: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
