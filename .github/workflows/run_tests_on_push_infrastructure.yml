@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'infrastructure/**'
+      - 'Mario'
   workflow_dispatch:
 
 jobs:
