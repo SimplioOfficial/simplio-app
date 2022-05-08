@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - 'infrastructure/**'
-      - '**Mario'
+      - '\S*Mario'
   workflow_dispatch:
 
 jobs:
