@@ -8,6 +8,7 @@ on:
 
 jobs:
   set-branch:
+
     runs-on: ubuntu-latest
     steps:
       - name: Extract branch name
@@ -16,7 +17,8 @@ jobs:
       - name: Test
         run: echo "${BRANCH_NAME}"
   run-tests:
-#    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@infrastructure/11_init_test
+    needs: [set-branch]
+    #    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@infrastructure/11_init_test
     uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@${BRANCH_NAME}
     with:
       e2e: true
