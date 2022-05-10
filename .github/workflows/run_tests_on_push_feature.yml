@@ -9,7 +9,7 @@ on:
 jobs:
   run-tests:
 #    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@41_IntegrationTests_Mario
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@$$${{github.ref}}
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@${{github.ref}}
     with:
       e2e: true
       unitTests: false
