@@ -12,6 +12,7 @@ jobs:
     uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-infrastructure
     with:
       e2e: true
+      unitTests: true
 
 #  increase-version:
 #    needs: [run-tests]
