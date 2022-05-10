@@ -15,9 +15,9 @@ jobs:
         run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
       - name: Test
         run: echo "${BRANCH_NAME}"
-#  run-tests:
-##    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@infrastructure/11_init_test
-#    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@${BRANCH_NAME}
-#    with:
-#      e2e: true
-#      unitTests: false
+  run-tests:
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@infrastructure/11_init_test
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@${BRANCH_NAME}
+    with:
+      e2e: true
+      unitTests: false
