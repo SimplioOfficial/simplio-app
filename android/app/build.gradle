@@ -49,13 +49,24 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "dev.simplio.v2.app"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
+
+        flavorDimensions "productVersion"
+        productFlavors {
+            dev {
+                dimension "productVersion"
+                applicationId "dev.simplio.wallet"
+            }
+
+            production {
+                dimension "productVersion"
+                applicationId "io.simplio.wallet"
+            }
+        }
 
    signingConfigs {
        release {

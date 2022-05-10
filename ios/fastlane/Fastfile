@@ -1,3 +1,4 @@
+# https://joshuamdeguzman.com/continuous-delivery-for-flutter-using-fastlane-and-github-actions-pt-3-ios/
 default_platform(:ios)
 
 DEVELOPER_APP_ID = ENV["DEVELOPER_APP_ID"]
@@ -5,6 +6,8 @@ PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"]
 TEMP_KEYCHAIN_USER = ENV["TEMP_KEYCHAIN_USER"]
 TEMP_KEYCHAIN_PASSWORD = ENV["TEMP_KEYCHAIN_PASSWORD"]
 CONFIG_DEVELOPER_APP_IDENTIFIER = ENV["CONFIG_DEVELOPER_APP_IDENTIFIER"]
+CONFIG_DEVELOPER_APP_ID = ENV["CONFIG_DEVELOPER_APP_ID"]
+CONFIG_CONFIGURATION = ENV["CONFIG_CONFIGURATION"]
 
 def delete_temp_keychain(name)
   delete_keychain(
@@ -64,36 +67,35 @@ platform :ios do
     keychain_password = TEMP_KEYCHAIN_PASSWORD
     ensure_temp_keychain(keychain_name, keychain_password)
 
+    # https://github.com/SimplioOfficial/certificates
     match(
       type: 'appstore',
       app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
       git_basic_authorization: ENV["GIT_AUTHORIZATION"], # base64 encoded personal access token in format <USER_NAME>:<PAT>
       readonly: true,
       keychain_name: keychain_name,
-      keychain_password: keychain_password 
+      keychain_password: keychain_password,
     )
 
     gym(
-      configuration: "Release",
+      configuration: "#{CONFIG_CONFIGURATION}",
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
       export_method: "app-store",
+      include_symbols: false,
+      include_bitcode: false,
       export_options: {
-        provisioningProfiles: { 
-            DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
+        provisioningProfiles: {
+            DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER,
         }
       }
     )
 
     pilot(
-      apple_id: "#{DEVELOPER_APP_ID}",
+      apple_id: "#{CONFIG_DEVELOPER_APP_ID}",
       app_identifier: "#{CONFIG_DEVELOPER_APP_IDENTIFIER}",
       skip_waiting_for_build_processing: true,
       skip_submission: true,
-      distribute_external: false,
-      notify_external_testers: false,
-      ipa: "./Runner.ipa",
-      changelog: ENV["GIT_BRANCH"] # not working in 3/2022
     )
 
     delete_temp_keychain(keychain_name)
