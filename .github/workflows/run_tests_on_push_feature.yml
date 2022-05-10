@@ -1,4 +1,4 @@
-name: Run e2e tests in all infrastructure branches
+name: Run e2e tests in all feature branches
 
 on:
   push:
@@ -8,8 +8,7 @@ on:
 
 jobs:
   run-tests:
-#    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@41_IntegrationTests_Mario
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@${{github.ref}}
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-infrastructure
     with:
       e2e: true
-      unitTests: false
+      unitTests: true

@@ -7,23 +7,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  set-branch:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
-      - name: Test
-        run: echo "${BRANCH_NAME}"
-      - name: jhfjdhfjh
-        uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@${BRANCH_NAME}
-        with:
-          e2e: true
-          unitTests: false
-#  run-tests:
-#    needs: [set-branch]
-#    #    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@infrastructure/11_init_test
-#    uses:
-#    with:
-#      e2e: true
-#      unitTests: false
+  run-tests:
+    needs: [set-branch]
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@infrastructure/11_init_test
+    with:
+      e2e: true
+      unitTests: false
