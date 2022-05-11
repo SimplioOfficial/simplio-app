@@ -1,24 +1,38 @@
-import 'package:simplio_app/data/model/wallet_project.dart';
+import 'package:equatable/equatable.dart';
+import 'package:simplio_app/data/model/network.dart';
 import 'package:uuid/uuid.dart';
 
-class Wallet {
-  late String _uuid;
-  final bool enabled;
-  final WalletProject project;
+class Wallet extends Equatable {
+  final String uuid;
+  final int coinType;
+  final Network network;
+  final String? derivationPath;
+  final BigInt balance;
 
-  String get uuid => _uuid;
-  static const uuidGen = Uuid();
+  const Wallet._(
+    this.uuid,
+    this.coinType,
+    this.network,
+    this.derivationPath,
+    this.balance,
+  );
 
-  Wallet(this._uuid, this.project, this.enabled);
+  Wallet.builder({
+    required int coinType,
+    required Network network,
+    String? derivationPath,
+    BigInt? balance,
+  }) : this._(
+          const Uuid().v4(),
+          coinType,
+          network,
+          derivationPath,
+          balance = BigInt.zero,
+        );
 
-  Wallet.generate({required WalletProject project})
-      : this(uuidGen.v4(), project, true);
-
-  Wallet copyWith({ bool? enabled }) {
-    return Wallet(
-      uuid,
-      project,
-      enabled ?? this.enabled,
-    );
-  }
+  @override
+  List<Object?> get props => [
+        uuid,
+        coinType,
+      ];
 }

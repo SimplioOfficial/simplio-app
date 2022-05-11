@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/config/assets.dart';
 import 'package:simplio_app/data/model/asset.dart';
 import 'package:simplio_app/data/model/wallet.dart';
 import 'package:simplio_app/logic/asset_toggle_cubit/asset_toggle_cubit.dart';
@@ -17,12 +16,15 @@ class AssetsScreen extends StatelessWidget {
   List<AssetToggle> _loadToggles(BuildContext context) {
     final walletState = context.read<WalletBloc>().state;
     final List<Asset> enabled = (walletState is Wallets)
-        ? walletState.enabled.map((e) => e.asset).toList()
-        : [];
+        ? walletState.enabled
+            .whereType<Wallet<Asset>>()
+            .map((e) => e.asset)
+            .toList()
+        : <Asset>[];
 
     return context
         .read<AssetToggleCubit>()
-        .loadToggles(Assets.supported, enabled);
+        .loadToggles(AssetList.supported, enabled);
   }
 
   @override
