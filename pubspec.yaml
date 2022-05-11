@@ -24,6 +24,9 @@ dependencies:
   flutter_bloc: ^8.0.1
   equatable: ^2.0.3
   uuid: ^3.0.6
+  integration_test: 
+    sdk: flutter
+    version: ^0.0.0
 
 dev_dependencies:
   flutter_test:
