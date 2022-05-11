@@ -4,13 +4,16 @@ on:
   push:
     branches:
       - 'master'
+      - 'test'
+# I would keep it here so in case someone needs to publish
+# new test version without merging into master
 
 jobs:
-  run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@master
-    with:
-      e2e: true
-      unitTests: true
+#  run-tests:
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@master
+#    with:
+#      e2e: true
+#      unitTests: true
 
 #  increase-version:
 #    needs: [run-tests]
@@ -20,7 +23,7 @@ jobs:
 
 
   build-ios:
-    needs: [run-tests]
+#    needs: [run-tests]
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@master
     with:
       environment: 'dev'
@@ -36,10 +39,10 @@ jobs:
       TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
       TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
 
-  build-android:
-    needs: [run-tests]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@master
-    secrets:
-      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
-    with:
-      environment: 'dev'
+#  build-android:
+#    needs: [run-tests]
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@master
+#    secrets:
+#      ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+#    with:
+#      environment: 'dev'
