@@ -63,6 +63,7 @@ class _AssetToggleItem extends State<AssetToggleItem>
               ),
             ),
             Switch(
+              key: Key('switch_widget_' + widget.asset.ticker),
               value: _toggled,
               onChanged: (val) {
                 widget.onToggle?.call(value: val, asset: widget.asset);
