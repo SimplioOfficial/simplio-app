@@ -16,16 +16,17 @@ void main() {
       'Turning assets into <AssetToggle>[] based on enabled assets',
       build: () => assetToggleCubit,
       tearDown: () => assetToggleCubit.close(),
-      act: (AssetToggleCubit cubit) => cubit.loadToggles(Assets.supported, [
-        Assets.simplio,
+      act: (AssetToggleCubit cubit) => cubit.loadToggles(AssetLists.supported, [
+        AssetLists.find(AssetLists.supported, 'SIO'),
       ]),
       expect: () => <AssetToggleState>[
         AssetToggleState.success([
-          ...Assets.supported
+          ...AssetLists.supported
               .map((a) => AssetToggle(toggled: false, asset: a))
-              .map((a) => a.asset == Assets.simplio
-                  ? AssetToggle(toggled: true, asset: a.asset)
-                  : a)
+              .map((a) =>
+                  a.asset == AssetLists.find(AssetLists.supported, 'SIO')
+                      ? AssetToggle(toggled: true, asset: a.asset)
+                      : a)
               .toList(),
         ])
       ],
