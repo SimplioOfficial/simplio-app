@@ -85,7 +85,8 @@ platform :ios do
       include_bitcode: false,
       export_options: {
         provisioningProfiles: {
-            DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER,
+            DEVELOPER_APP_ID => "match AppStore dev.simplio.wallet",
+            DEVELOPER_APP_ID => "match AppStore io.simplio.wallet",
         }
       }
     )
