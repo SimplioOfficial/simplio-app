@@ -7,7 +7,6 @@ TEMP_KEYCHAIN_USER = ENV["TEMP_KEYCHAIN_USER"]
 TEMP_KEYCHAIN_PASSWORD = ENV["TEMP_KEYCHAIN_PASSWORD"]
 CONFIG_DEVELOPER_APP_IDENTIFIER = ENV["CONFIG_DEVELOPER_APP_IDENTIFIER"]
 CONFIG_DEVELOPER_APP_ID = ENV["CONFIG_DEVELOPER_APP_ID"]
-CONFIG_SCHEME = ENV["CONFIG_SCHEME"]
 
 def delete_temp_keychain(name)
   delete_keychain(
@@ -80,7 +79,7 @@ platform :ios do
     gym(
       configuration: "Release",
       workspace: "Runner.xcworkspace",
-      scheme: "#{CONFIG_SCHEME}",
+      scheme: "Runner",
       export_method: "app-store",
       include_symbols: false,
       include_bitcode: false,
