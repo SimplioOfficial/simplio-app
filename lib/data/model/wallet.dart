@@ -6,7 +6,7 @@ class Wallet extends Equatable {
   final String uuid;
   final int coinType;
   final String? derivationPath;
-  final BigInt balance; // 100000000000000000000
+  final BigInt balance;
 
   const Wallet._({
     required this.uuid,
