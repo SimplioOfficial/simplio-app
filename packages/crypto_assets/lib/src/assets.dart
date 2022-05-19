@@ -1,7 +1,8 @@
-import 'package:simplio_app/config/asset_details.dart';
-import 'package:simplio_app/config/networks.dart';
-import 'package:simplio_app/data/model/asset.dart';
-import 'package:simplio_app/data/model/network.dart';
+import 'package:crypto_assets/src/model/asset.dart';
+import 'package:crypto_assets/src/model/asset_type.dart';
+import 'package:crypto_assets/src/networks.dart';
+
+import 'asset_details.dart';
 
 class Assets {
   static Map<String, Asset> get enabled {
@@ -12,12 +13,6 @@ class Assets {
   static List<Asset> from(List<String> tickers) {
     return Assets.all.values
         .where((element) => tickers.contains(element.detail.ticker))
-        .toList();
-  }
-
-  static List<Asset> whereNetwork<T extends Network>() {
-    return Assets.all.values
-        .where((a) => a.assetTypes.where((a) => a.network is T).isNotEmpty)
         .toList();
   }
 

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:crypto_assets/crypto_assets.dart';
 import 'package:equatable/equatable.dart';
-import 'package:simplio_app/data/model/asset.dart';
 
 part 'asset_toggle_state.dart';
 

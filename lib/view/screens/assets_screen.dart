@@ -1,9 +1,7 @@
+import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/data/model/asset.dart';
-import 'package:simplio_app/data/model/wallet.dart';
 import 'package:simplio_app/logic/asset_toggle_cubit/asset_toggle_cubit.dart';
-import 'package:simplio_app/logic/wallet_bloc/wallet_bloc.dart';
 import 'package:simplio_app/view/widgets/appbar_search.dart';
 import 'package:simplio_app/view/widgets/asset_toggle_item.dart';
 import 'package:simplio_app/view/widgets/text_header.dart';
@@ -14,17 +12,21 @@ class AssetsScreen extends StatelessWidget {
   const AssetsScreen({Key? key}) : super(key: key);
 
   List<AssetToggle> _loadToggles(BuildContext context) {
-    final walletState = context.read<WalletBloc>().state;
-    final List<Asset> enabled = (walletState is Wallets)
-        ? walletState.enabled
-            .whereType<Wallet<Asset>>()
-            .map((e) => e.asset)
-            .toList()
-        : <Asset>[];
+    // final walletState = context.read<WalletBloc>().state;
+    // final List<Asset> enabled = (walletState is Wallets)
+    //     ? walletState.enabled
+    //         .whereType<Wallet<Asset>>()
+    //         .map((e) => e.asset)
+    //         .toList()
+    //     : <Asset>[];
+    //
+    // final enabled = <Asset>[];
+    //
+    // return context
+    //     .read<AssetToggleCubit>()
+    //     .loadToggles(Assets.all.values.toList(), enabled);
 
-    return context
-        .read<AssetToggleCubit>()
-        .loadToggles(AssetList.supported, enabled);
+    return [];
   }
 
   @override
@@ -134,8 +136,8 @@ class _AssetSearchDelegate extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     final filtered = assetToggleCubit.state.toggles
         .where((t) =>
-            t.asset.name.toLowerCase().contains(query.toLowerCase()) ||
-            t.asset.ticker.toLowerCase().contains(query.toLowerCase()))
+            t.asset.detail.name.toLowerCase().contains(query.toLowerCase()) ||
+            t.asset.detail.ticker.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
     return Container(
@@ -171,9 +173,10 @@ class _SliverAssetToggleList extends StatelessWidget {
       );
 
   AssetToggleAction _toggleAsset(BuildContext context) =>
-      ({required bool value, required Asset asset}) => value
-          ? context
-              .read<WalletBloc>()
-              .add(WalletAddedOrEnabled(wallet: Wallet.generate(asset: asset)))
-          : context.read<WalletBloc>().add(WalletDisabled(asset: asset));
+      ({required bool value, required Asset asset}) {};
+
+  // ({required bool value, required Asset asset}) => value
+  //     ? context.read<AssetWalletBloc>().add(
+  //         AssetWalletEnabled(wallet: AssetWallet.generate(asset: asset)))
+  //     : context.read<WalletBloc>().add(WalletDisabled(asset: asset));
 }
