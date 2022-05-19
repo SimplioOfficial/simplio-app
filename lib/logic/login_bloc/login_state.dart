@@ -1,45 +1,60 @@
 part of 'login_bloc.dart';
 
-abstract class LoginState extends Equatable {
-  const LoginState();
-}
+// abstract class LoginState extends Equatable {
+//   const LoginState();
+// }
 
-class LoginForm extends LoginState {
+class LoginState extends Equatable {
   final String email;
   final String password;
+  final LoginResponse? response;
 
-  const LoginForm._(this.email, this.password);
+  const LoginState._({
+    required this.email,
+    required this.password,
+    this.response,
+  });
 
-  const LoginForm.empty() : this._('', '');
+  const LoginState.init() : this._(email: '', password: '');
 
-  const LoginForm.of({
+  const LoginState.of({
     required String email,
     required String password,
-  }) : this._(email, password);
+  }) : this._(email: email, password: password);
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [email, password, response];
 
-  LoginForm copyWith({String? email, String? password}) => LoginForm._(
-        email ?? this.email,
-        password ?? this.password,
+  LoginState copyWith({
+    String? email,
+    String? password,
+    LoginResponse? response,
+  }) =>
+      LoginState._(
+        email: email ?? this.email,
+        password: password ?? this.password,
+        response: response ?? this.response,
       );
 }
 
-class LoginSuccess extends LoginState {
+abstract class LoginResponse extends Equatable {
+  const LoginResponse();
+}
+
+class LoginSuccess extends LoginResponse {
   final Account account;
 
-  const LoginSuccess(this.account);
+  const LoginSuccess({required this.account});
 
   @override
   List<Object?> get props => [account];
 }
 
-class LoginFailure extends LoginState {
-  final Exception error;
+class LoginFailure extends LoginResponse {
+  final Exception exception;
 
-  const LoginFailure(this.error);
+  const LoginFailure({required this.exception});
 
   @override
-  List<Object?> get props => [error];
+  List<Object?> get props => [exception];
 }

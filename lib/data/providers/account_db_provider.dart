@@ -5,14 +5,11 @@ import 'package:simplio_app/data/model/account_wallet.dart';
 
 class AccountDbProvider {
   static const accountBoxName = 'accountBox';
-  late Box<AccountLocal> _accountBox;
+  late final Box<AccountLocal> _accountBox;
 
   AccountDbProvider();
 
   Future<AccountDbProvider> init() async {
-    print('ACCOUNT init');
-    // if (_accountBox.isOpen) return this;
-
     Hive.registerAdapter(AccountLocalAdapter());
     Hive.registerAdapter(AccountSettingsLocalAdapter());
     Hive.registerAdapter(ThemeModesAdapter());
@@ -29,9 +26,7 @@ class AccountDbProvider {
     try {
       final AccountLocal? account = _accountBox.get(id);
 
-      if (account != null) _to(account);
-
-      return null;
+      return account != null ? _to(account) : null;
     } on Exception {
       return null;
     }
