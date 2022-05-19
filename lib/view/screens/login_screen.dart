@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
 import 'package:simplio_app/logic/login_bloc/login_bloc.dart';
+import 'package:simplio_app/view/widgets/text_header.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -26,34 +27,46 @@ class LoginScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        body: Column(
-          children: [
-            const Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: 60.0,
-                  left: 20.0,
-                  right: 20.0,
+        body: SafeArea(
+          top: true,
+          child: Column(
+            children: [
+              Expanded(
+                child: Column(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 60.0,
+                        right: 20.0,
+                        bottom: 20.0,
+                        left: 20.0,
+                      ),
+                      child: TextHeader(
+                          title: "Enter Simplio.",
+                          subtitle: "It's good to see you back."),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                      ),
+                      child: LoginFormFields(),
+                    ),
+                  ],
                 ),
-                child: LoginFormFields(),
               ),
-            ),
-            BlocBuilder<LoginBloc, LoginState>(
-              builder: (_, state) => Text(state.email),
-            ),
-            BlocBuilder<LoginBloc, LoginState>(
-              builder: (_, state) => Text(state.password),
-            ),
-            BlocBuilder<AccountBloc, AccountState>(
-              builder: (_, state) =>
-                  state is Accounts ? Text(state.toString()) : Container(),
-            ),
-            ElevatedButton(
-              onPressed: () =>
-                  context.read<LoginBloc>().add(const LoginRequested()),
-              child: const Text('Login'),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () =>
+                        context.read<LoginBloc>().add(const LoginRequested()),
+                    child: const Text('Login'),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
