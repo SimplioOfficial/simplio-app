@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/data/model/wallet.dart';
-import 'package:simplio_app/logic/wallet_bloc/wallet_bloc.dart';
+import 'package:simplio_app/data/model/asset_wallet.dart';
+import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
 import 'package:simplio_app/view/router/app_router.dart';
 import 'package:simplio_app/view/widgets/wallet_list_item.dart';
 
@@ -23,8 +23,9 @@ class DashboardScreen extends StatelessWidget {
           ),
           child: const Icon(Icons.add),
         ),
-        body: BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
-          if (state is! Wallets) return const Text('No wallets loaded');
+        body: BlocBuilder<AssetWalletBloc, AssetWalletState>(
+            builder: (context, state) {
+          if (state is! AssetWallets) return const Text('No wallets loaded');
 
           var enabled = state.enabled;
 
@@ -37,10 +38,10 @@ class DashboardScreen extends StatelessWidget {
                 : ListView.builder(
                     itemCount: enabled.length,
                     itemBuilder: (BuildContext ctx, int i) {
-                      Wallet wallet = enabled[i];
+                      final AssetWallet wallet = enabled[i];
 
                       return WalletListItem(
-                        wallet: wallet,
+                        assetWallet: wallet,
                         onTap: () => Navigator.of(context)
                             .pushNamed(AppRouter.wallet, arguments: wallet),
                       );

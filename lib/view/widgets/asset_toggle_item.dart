@@ -1,5 +1,5 @@
+import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
-import 'package:simplio_app/data/model/asset.dart';
 
 typedef AssetToggleAction = void Function(
     {required bool value, required Asset asset});
@@ -39,8 +39,8 @@ class _AssetToggleItem extends State<AssetToggleItem>
         child: Row(
           children: [
             CircleAvatar(
-                foregroundColor: widget.asset.style.foregroundColor,
-                backgroundColor: widget.asset.style.primaryColor,
+                foregroundColor: widget.asset.detail.style.foregroundColor,
+                backgroundColor: widget.asset.detail.style.primaryColor,
                 child: const Center()),
             Expanded(
               child: Padding(
@@ -51,9 +51,9 @@ class _AssetToggleItem extends State<AssetToggleItem>
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.asset.name, textScaleFactor: 1.2),
+                        Text(widget.asset.detail.name, textScaleFactor: 1.2),
                         Text(
-                          widget.asset.ticker.toUpperCase(),
+                          widget.asset.detail.ticker.toUpperCase(),
                           style: const TextStyle(color: Colors.black26),
                         ),
                       ],

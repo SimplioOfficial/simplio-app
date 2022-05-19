@@ -1,64 +1,96 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
+import 'package:simplio_app/data/model/seed.dart';
 import 'package:uuid/uuid.dart';
 
-class AccountWallet<T extends AccountWalletType> extends Equatable {
+part 'account_wallet.g.dart';
+
+class AccountWallet extends Equatable {
   final String name;
   final String uuid;
   final String accountId;
-  final T walletType;
+  final Seed seed;
+  final AccountWalletTypes walletType;
   final DateTime updatedAt;
 
-  const AccountWallet._(
-    this.name,
-    this.uuid,
-    this.accountId,
-    this.walletType,
-    this.updatedAt,
-  );
+  const AccountWallet._({
+    required this.uuid,
+    required this.name,
+    required this.accountId,
+    required this.seed,
+    required this.walletType,
+    required this.updatedAt,
+  });
 
   AccountWallet.builder({
     required String name,
     required String accountId,
-    required T walletType,
-    bool enabled = true,
+    required AccountWalletTypes walletType,
+    required Seed seed,
     required DateTime updatedAt,
   }) : this._(
-          const Uuid().v4(),
-          name,
-          accountId,
-          walletType,
-          updatedAt,
+          uuid: const Uuid().v4(),
+          name: name,
+          accountId: accountId,
+          seed: seed,
+          walletType: walletType,
+          updatedAt: updatedAt,
         );
+
+  AccountWallet copyWith({
+    String? name,
+    DateTime? updatedAt,
+  }) {
+    return AccountWallet._(
+      name: name ?? this.name,
+      uuid: uuid,
+      accountId: accountId,
+      seed: seed,
+      walletType: walletType,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 
   @override
   List<Object?> get props => [
         uuid,
+        name,
+        accountId,
+        walletType,
         updatedAt,
       ];
-
-  AccountWallet copyWith({
-    String? name,
-    bool? enabled,
-    DateTime? updatedAt,
-  }) {
-    return AccountWallet._(
-      name ?? this.name,
-      uuid,
-      accountId,
-      walletType,
-      updatedAt ?? this.updatedAt,
-    );
-  }
 }
 
-abstract class AccountWalletType {
+enum AccountWalletTypes {
+  multicoin,
+}
+
+@HiveType(typeId: 3)
+class AccountWalletLocal extends HiveObject {
+  @HiveField(0)
+  final String name;
+
+  @HiveField(1)
+  final String uuid;
+
+  @HiveField(2)
+  final String accountId;
+
+  @HiveField(3)
   final String mnemonic;
 
-  const AccountWalletType({
-    required this.mnemonic,
-  });
-}
+  @HiveField(4)
+  final bool imported;
 
-class MultiCoinWallet extends AccountWalletType {
-  MultiCoinWallet({required String mnemonic}) : super(mnemonic: mnemonic);
+  @HiveField(5)
+  final AccountWalletTypes walletType;
+
+  AccountWalletLocal({
+    required this.uuid,
+    required this.name,
+    required this.accountId,
+    required this.mnemonic,
+    required this.imported,
+    required this.walletType,
+  });
 }

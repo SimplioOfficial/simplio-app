@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/logic/wallet_bloc/wallet_bloc.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:simplio_app/data/providers/account_db_provider.dart';
+import 'package:simplio_app/data/repositories/account_repository.dart';
+import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
+import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
 import 'package:simplio_app/view/router/app_router.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.white,
-  ));
 
-  runApp(const SimplioApp());
+  await Hive.initFlutter();
+
+  final accountRepository =
+      await AccountRepository.builder(db: AccountDbProvider()).init();
+
+  runApp(SimplioApp(
+    accountRepository: accountRepository,
+  ));
 }
 
 class SimplioApp extends StatefulWidget {
-  const SimplioApp({Key? key}) : super(key: key);
+  final AccountRepository accountRepository;
+
+  const SimplioApp({Key? key, required this.accountRepository})
+      : super(key: key);
 
   @override
   State<SimplioApp> createState() => _SimplioAppState();
@@ -25,14 +35,28 @@ class _SimplioAppState extends State<SimplioApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider(create: (_) => WalletBloc()),
+        RepositoryProvider.value(value: widget.accountRepository),
       ],
-      child: MaterialApp(
-        title: 'Simplio',
-        initialRoute: AppRouter.home,
-        onGenerateRoute: _router.generateRoute,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AccountBloc(
+              accountRepository:
+                  RepositoryProvider.of<AccountRepository>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => AssetWalletBloc(),
+          )
+          // Implement providers
+        ],
+        child: MaterialApp(
+          title: 'Simplio',
+          initialRoute: AppRouter.login,
+          onGenerateRoute: _router.generateRoute,
+        ),
       ),
     );
   }

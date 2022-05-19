@@ -1,5 +1,6 @@
+import 'package:crypto_assets/src/model/asset_detail.dart';
+import 'package:crypto_assets/src/model/asset_style.dart';
 import 'package:flutter/material.dart';
-import 'package:simplio_app/data/model/asset.dart';
 
 class AssetDetails {
   AssetDetails._();

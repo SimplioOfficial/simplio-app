@@ -1,27 +1,49 @@
-import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
-class CustomWallet extends Equatable {
+@HiveType(typeId: 8)
+class CustomWallet extends HiveObject {
+  @HiveField(0)
   final String uuid;
+
+  @HiveField(1)
   final String name;
+
+  @HiveField(2)
   final String ticker;
+
+  @HiveField(3)
   final String parent;
+
+  @HiveField(4)
   final String contractAddress;
+
+  @HiveField(5)
   final String accountWalletId;
-  final int networkType;
+
+  @HiveField(6)
+  final int coinType;
+
+  @HiveField(7)
   final bool enabled;
+
+  @HiveField(8)
   final BigInt balance;
 
-  const CustomWallet._(
+  @HiveField(9)
+  final int decimal;
+
+  CustomWallet(
     this.uuid,
     this.name,
     this.ticker,
     this.parent,
     this.contractAddress,
     this.accountWalletId,
-    this.networkType,
+    this.coinType,
     this.enabled,
     this.balance,
+    this.decimal,
   );
 
   CustomWallet.builder({
@@ -30,27 +52,20 @@ class CustomWallet extends Equatable {
     required String parent,
     required String contractAddress,
     required String accountWalletId,
-    required int networkType,
+    required int coinType,
     bool enabled = true,
     required BigInt balance,
-  }) : this._(
+    required int decimal,
+  }) : this(
           const Uuid().v4(),
           name,
           ticker,
           parent,
           contractAddress,
           accountWalletId,
-          networkType,
+          coinType,
           enabled,
           balance,
+          decimal,
         );
-
-  @override
-  List<Object?> get props => [
-        uuid,
-        name,
-        ticker,
-        contractAddress,
-        networkType,
-      ];
 }
