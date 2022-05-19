@@ -13,7 +13,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AccountRepository accountRepository;
 
   LoginBloc({required this.accountRepository})
-      : super(const LoginForm.empty()) {
+      : super(const LoginState.init()) {
     on<LoginRequested>(_onLoginRequested);
     on<LoginFormChanged>(_onLoginFormChanged);
   }
@@ -23,18 +23,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     try {
-      final state = this.state;
-      if (state is LoginForm) {
-        final Account account = await accountRepository.login(
-          state.email,
-          state.password,
-        );
+      final Account account = await accountRepository.login(
+        state.email,
+        state.password,
+      );
 
-        emit(LoginSuccess(account));
-      }
+      final a = state.copyWith(response: LoginSuccess(account: account));
+      emit(a);
     } on Exception catch (err, _) {
       // TODO: handle exceptions
-      emit(LoginFailure(err));
+      emit(state.copyWith(response: LoginFailure(exception: err)));
     }
   }
 
@@ -42,9 +40,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginFormChanged event,
     Emitter<LoginState> emit,
   ) async {
-    emit(LoginForm.of(
-      email: event.id ?? '',
-      password: event.password ?? '',
+    emit(LoginState.of(
+      email: event.id ?? state.email,
+      password: event.password ?? state.password,
     ));
   }
 }

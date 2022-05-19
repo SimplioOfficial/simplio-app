@@ -10,15 +10,19 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
-        print("LISTENING ${state.runtimeType}");
-        if (state is LoginSuccess) {
-          context
-              .read<AccountBloc>()
-              .add(AccountChanged(account: state.account));
-        }
-
-        if (state is LoginFailure) {
-          print('LOGIN HAS FAILED');
+        switch (state.response.runtimeType) {
+          case LoginSuccess:
+            final res = state.response as LoginSuccess;
+            context
+                .read<AccountBloc>()
+                .add(AccountChanged(account: res.account));
+            break;
+          case LoginFailure:
+            print('LOGIN HAS FAILED');
+            break;
+          default:
+            print("STATE HAS NOT RESPONSE");
+            break;
         }
       },
       child: Scaffold(
@@ -35,16 +39,14 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             BlocBuilder<LoginBloc, LoginState>(
-              builder: (_, state) =>
-                  state is LoginForm ? Text(state.email) : Container(),
+              builder: (_, state) => Text(state.email),
+            ),
+            BlocBuilder<LoginBloc, LoginState>(
+              builder: (_, state) => Text(state.password),
             ),
             BlocBuilder<AccountBloc, AccountState>(
-              builder: (_, state) {
-                print("BUILDER ${state.props}");
-                return state is Accounts && state.account != null
-                    ? Text(state.account!.id)
-                    : Container();
-              },
+              builder: (_, state) =>
+                  state is Accounts ? Text(state.toString()) : Container(),
             ),
             ElevatedButton(
               onPressed: () =>
