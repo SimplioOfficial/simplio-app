@@ -28,8 +28,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         state.password,
       );
 
-      final a = state.copyWith(response: LoginSuccess(account: account));
-      emit(a);
+      emit(state.copyWith(
+        response: LoginSuccess(
+          account: account.copyWith(lastLogin: DateTime.now()),
+        ),
+      ));
     } on Exception catch (err, _) {
       // TODO: handle exceptions
       emit(state.copyWith(response: LoginFailure(exception: err)));

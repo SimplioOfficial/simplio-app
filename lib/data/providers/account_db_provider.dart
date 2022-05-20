@@ -17,7 +17,7 @@ class AccountDbProvider {
     _accountBox = await Hive.openBox<AccountLocal>(accountBoxName);
 
     // TODO - remove. Clear is for testing purposes only.
-    await _accountBox.clear();
+    // await _accountBox.clear();
 
     return this;
   }
@@ -38,11 +38,15 @@ class AccountDbProvider {
     return account;
   }
 
-  Account last() {
-    final lastLocal = _accountBox.values.toList().reduce(
-        (acc, curr) => acc.lastLogin.isAfter(curr.lastLogin) ? acc : curr);
+  Account? last() {
+    try {
+      final lastLocal = _accountBox.values.toList().reduce(
+          (acc, curr) => acc.lastLogin.isAfter(curr.lastLogin) ? acc : curr);
 
-    return _to(lastLocal);
+      return _to(lastLocal);
+    } on Exception {
+      return null;
+    }
   }
 
   AccountLocal _from(Account account) {

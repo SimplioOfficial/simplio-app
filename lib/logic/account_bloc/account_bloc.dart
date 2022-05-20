@@ -31,7 +31,10 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   ) {
     final Account? account = accountRepository.latest();
 
-    if (account != null) emit(Accounts.authenticated(account));
-    emit(const Accounts.unauthenticated());
+    emit(
+      account != null
+          ? Accounts.authenticated(account)
+          : const Accounts.unauthenticated(),
+    );
   }
 }
