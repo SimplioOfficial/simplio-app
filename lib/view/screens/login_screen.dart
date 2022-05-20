@@ -63,8 +63,10 @@ class LoginScreen extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () =>
-                        context.read<LoginBloc>().add(const LoginRequested()),
+                    onPressed: () {
+                      context.read<LoginBloc>().add(const LoginRequested());
+                      Navigator.of(context).popAndPushNamed('aaa');
+                    },
                     child: const Text('Login'),
                   ),
                 ),
