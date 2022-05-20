@@ -15,6 +15,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       : super(const Accounts.unauthenticated()) {
     on<AccountLastRequested>(_onAccountLastRequested);
     on<AccountChanged>(_onAccountChanged);
+    on<AccountRemoved>(_onAccountRemoved);
   }
 
   Future<void> _onAccountChanged(
@@ -23,6 +24,13 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   ) async {
     final account = await accountRepository.save(event.account);
     emit(Accounts.authenticated(account));
+  }
+
+  Future<void> _onAccountRemoved(
+    AccountRemoved event,
+    Emitter<AccountState> emit,
+  ) async {
+    emit(const Accounts.unauthenticated());
   }
 
   void _onAccountLastRequested(

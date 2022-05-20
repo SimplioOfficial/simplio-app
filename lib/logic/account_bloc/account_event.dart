@@ -7,6 +7,8 @@ abstract class AccountEvent {
 
 class AccountLastRequested extends AccountEvent {}
 
+class AccountRemoved extends AccountEvent {}
+
 class AccountChanged extends AccountEvent {
   final Account account;
 

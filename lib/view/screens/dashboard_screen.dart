@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
+import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
 import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
 import 'package:simplio_app/view/router/app_router.dart';
 import 'package:simplio_app/view/widgets/wallet_list_item.dart';
@@ -17,11 +18,22 @@ class DashboardScreen extends StatelessWidget {
           elevation: 0.4,
           foregroundColor: Colors.black87,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.of(context).pushNamed(
-            AppRouter.assets,
-          ),
-          child: const Icon(Icons.add),
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              onPressed: () => Navigator.of(context).pushNamed(
+                AppRouter.assets,
+              ),
+              child: const Icon(Icons.add),
+            ),
+            FloatingActionButton(
+              backgroundColor: Colors.black,
+              onPressed: () =>
+                  context.read<AccountBloc>().add(AccountRemoved()),
+              child: const Icon(Icons.logout),
+            ),
+          ],
         ),
         body: BlocBuilder<AssetWalletBloc, AssetWalletState>(
             builder: (context, state) {
