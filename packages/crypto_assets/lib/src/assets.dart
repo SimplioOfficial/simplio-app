@@ -1,8 +1,8 @@
 import 'package:crypto_assets/src/model/asset.dart';
 import 'package:crypto_assets/src/model/asset_type.dart';
-import 'package:crypto_assets/src/networks.dart';
+import 'package:crypto_assets/src/networks.dart' as networks;
 
-import 'asset_details.dart';
+import 'asset_details.dart' as asset_detail;
 
 class Assets {
   static Map<String, Asset> get enabled {
@@ -20,137 +20,137 @@ class Assets {
 
   static const Map<String, Asset> all = {
     "simplio": Asset(
-      detail: AssetDetails.simplio,
+      detail: asset_detail.simplio,
       assetTypes: [
         TokenAsset(
           contractAddress: '',
-          network: Networks.solana,
+          network: networks.solana,
           decimal: 10,
         ),
       ],
     ),
     "bitcoin": Asset(
-      detail: AssetDetails.bitcoin,
+      detail: asset_detail.bitcoin,
       assetTypes: [
         NativeAsset(
-          network: Networks.bitcoin,
+          network: networks.bitcoin,
           decimal: 10,
         ),
       ],
     ),
     "ethereum": Asset(
-      detail: AssetDetails.ethereum,
+      detail: asset_detail.ethereum,
       assetTypes: [
         NativeAsset(
-          network: Networks.ethereum,
+          network: networks.ethereum,
           decimal: 10,
         ),
       ],
     ),
     "solana": Asset(
-      detail: AssetDetails.solana,
+      detail: asset_detail.solana,
       assetTypes: [
         NativeAsset(
-          network: Networks.solana,
+          network: networks.solana,
           decimal: 10,
         ),
       ],
     ),
     "bitcoin-cash": Asset(
-      detail: AssetDetails.bitcoinCash,
+      detail: asset_detail.bitcoinCash,
       assetTypes: [
         NativeAsset(
-          network: Networks.bitcoinCash,
+          network: networks.bitcoinCash,
           decimal: 10,
         ),
       ],
     ),
     "dogecoin": Asset(
-      detail: AssetDetails.dogecoin,
+      detail: asset_detail.dogecoin,
       enabled: false,
       assetTypes: [
         NativeAsset(
-          network: Networks.dogecoin,
+          network: networks.dogecoin,
           decimal: 10,
         ),
       ],
     ),
     "dash": Asset(
-      detail: AssetDetails.dash,
+      detail: asset_detail.dash,
       assetTypes: [
         NativeAsset(
-          network: Networks.dash,
+          network: networks.dash,
           decimal: 10,
         ),
       ],
     ),
     "digibyte": Asset(
-      detail: AssetDetails.digibyte,
+      detail: asset_detail.digibyte,
       assetTypes: [
         NativeAsset(
-          network: Networks.digibyte,
+          network: networks.digibyte,
           decimal: 10,
         ),
       ],
     ),
     "litecoin": Asset(
-      detail: AssetDetails.litecoin,
+      detail: asset_detail.litecoin,
       assetTypes: [
         NativeAsset(
-          network: Networks.litecoin,
+          network: networks.litecoin,
           decimal: 10,
         ),
       ],
     ),
     "zcash": Asset(
-      detail: AssetDetails.zcash,
+      detail: asset_detail.zcash,
       assetTypes: [
         NativeAsset(
-          network: Networks.zcash,
+          network: networks.zcash,
           decimal: 10,
         ),
       ],
     ),
     "flux": Asset(
-      detail: AssetDetails.flux,
+      detail: asset_detail.flux,
       assetTypes: [
         NativeAsset(
-          network: Networks.flux,
+          network: networks.flux,
           decimal: 10,
         ),
         TokenAsset(
           contractAddress: '',
-          network: Networks.ethereum,
+          network: networks.ethereum,
           decimal: 10,
         ),
       ],
     ),
     "binance-usd": Asset(
-      detail: AssetDetails.binanceUSD,
+      detail: asset_detail.binanceUSD,
       assetTypes: [
         TokenAsset(
           contractAddress: '',
-          network: Networks.binance,
+          network: networks.binance,
           decimal: 10,
         ),
       ],
     ),
     "chainlink": Asset(
-      detail: AssetDetails.chainlink,
+      detail: asset_detail.chainlink,
       assetTypes: [
         TokenAsset(
           contractAddress: '',
-          network: Networks.solana,
+          network: networks.solana,
           decimal: 10,
         ),
         TokenAsset(
           contractAddress: '',
-          network: Networks.ethereum,
+          network: networks.ethereum,
           decimal: 10,
         ),
         TokenAsset(
           contractAddress: '',
-          network: Networks.binance,
+          network: networks.binance,
           decimal: 10,
         ),
       ],
