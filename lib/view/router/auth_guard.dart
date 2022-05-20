@@ -11,8 +11,8 @@ class AuthGuard extends StatefulWidget {
   final Widget waitingWidget;
 
   const AuthGuard({
-    required this.guardedWidget,
     Key? key,
+    required this.guardedWidget,
     this.redirectedWidget = const LoginScreen(),
     this.waitingWidget = const Scaffold(
         backgroundColor: Colors.white,
@@ -32,19 +32,18 @@ class _AuthGuard extends State<AuthGuard> {
         () => (BlocProvider.of<AccountBloc>(context).state as Accounts).status,
       ),
       builder: (BuildContext context, AsyncSnapshot<AccountStatus> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data == AccountStatus.unauthenticated) {
-            return BlocProvider(
-              create: (context) => LoginBloc(
-                  accountRepository:
-                      RepositoryProvider.of<AccountRepository>(context)),
-              child: widget.redirectedWidget,
-            );
-          } else {
-            return widget.guardedWidget;
-          }
+        if (!snapshot.hasData) return widget.waitingWidget;
+
+        if (snapshot.data == AccountStatus.unauthenticated) {
+          return BlocProvider(
+            create: (context) => LoginBloc(
+                accountRepository:
+                    RepositoryProvider.of<AccountRepository>(context)),
+            child: widget.redirectedWidget,
+          );
         }
-        return widget.waitingWidget;
+
+        return widget.guardedWidget;
       },
     );
   }
