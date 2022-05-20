@@ -8,6 +8,8 @@ import 'package:simplio_app/view/screens/dashboard_screen.dart';
 import 'package:simplio_app/view/screens/login_screen.dart';
 import 'package:simplio_app/view/screens/wallet_screen.dart';
 
+import 'auth_guard.dart';
+
 class AppRouter {
   // Defining names.
   static const String home = '/';
@@ -39,6 +41,12 @@ class AppRouter {
             builder: (_) => WalletScreen(
                   assetWallet: settings.arguments! as AssetWallet,
                 ));
+      case 'aaa':
+        return MaterialPageRoute(
+          builder: (_) => const AuthGuard(
+            guardedWidget: DashboardScreen(),
+          ),
+        );
 
       default:
         throw const FormatException('Screen not found');

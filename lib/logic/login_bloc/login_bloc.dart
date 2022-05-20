@@ -7,6 +7,7 @@ import 'package:simplio_app/data/model/account.dart';
 import 'package:simplio_app/data/repositories/account_repository.dart';
 
 part 'login_event.dart';
+
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
@@ -28,6 +29,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         state.password,
       );
 
+      print('30 ${account.id}');
       final a = state.copyWith(response: LoginSuccess(account: account));
       emit(a);
     } on Exception catch (err, _) {
