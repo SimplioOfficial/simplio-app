@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/data/repositories/account_repository.dart';
 import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
-import 'package:simplio_app/logic/login_bloc/login_bloc.dart';
-import 'package:simplio_app/view/screens/login_screen.dart';
 
 class AuthGuard extends StatefulWidget {
   final Widget guardedWidget;
@@ -13,7 +10,7 @@ class AuthGuard extends StatefulWidget {
   const AuthGuard({
     Key? key,
     required this.guardedWidget,
-    this.redirectedWidget = const LoginScreen(),
+    required this.redirectedWidget,
     this.waitingWidget = const Scaffold(
         backgroundColor: Colors.white,
         body: Center(child: CircularProgressIndicator())),
@@ -26,24 +23,22 @@ class AuthGuard extends StatefulWidget {
 class _AuthGuard extends State<AuthGuard> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<AccountStatus>(
-      future: Future.delayed(
-        const Duration(seconds: 1),
-        () => (BlocProvider.of<AccountBloc>(context).state as Accounts).status,
-      ),
-      builder: (BuildContext context, AsyncSnapshot<AccountStatus> snapshot) {
-        if (!snapshot.hasData) return widget.waitingWidget;
-
-        if (snapshot.data == AccountStatus.unauthenticated) {
-          return BlocProvider(
-            create: (context) => LoginBloc(
-                accountRepository:
-                    RepositoryProvider.of<AccountRepository>(context)),
-            child: widget.redirectedWidget,
-          );
+    return BlocBuilder<AccountBloc, AccountState>(
+      buildWhen: (previous, current) {
+        if (previous is Accounts && current is Accounts) {
+          return previous.status != current.status;
         }
+        return false;
+      },
+      builder: (context, state) {
+        if (state is! Accounts) return widget.waitingWidget;
 
-        return widget.guardedWidget;
+        switch (state.status) {
+          case AccountStatus.authenticated:
+            return widget.guardedWidget;
+          default:
+            return widget.redirectedWidget;
+        }
       },
     );
   }

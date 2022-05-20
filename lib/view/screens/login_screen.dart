@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
 import 'package:simplio_app/logic/login_bloc/login_bloc.dart';
+import 'package:simplio_app/view/router/app_router.dart';
 import 'package:simplio_app/view/widgets/text_header.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -65,7 +66,7 @@ class LoginScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       context.read<LoginBloc>().add(const LoginRequested());
-                      Navigator.of(context).popAndPushNamed('aaa');
+                      Navigator.of(context).popAndPushNamed(AppRouter.home);
                     },
                     child: const Text('Login'),
                   ),

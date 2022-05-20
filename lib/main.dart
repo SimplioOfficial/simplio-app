@@ -4,7 +4,6 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:simplio_app/data/providers/account_db_provider.dart';
 import 'package:simplio_app/data/repositories/account_repository.dart';
 import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
-import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
 import 'package:simplio_app/view/router/app_router.dart';
 
 Future<void> main() async {
@@ -47,14 +46,10 @@ class _SimplioAppState extends State<SimplioApp> {
                   RepositoryProvider.of<AccountRepository>(context),
             )..add(AccountLastRequested()),
           ),
-          BlocProvider(
-            create: (context) => AssetWalletBloc(),
-          )
-          // Implement providers
         ],
         child: MaterialApp(
           title: 'Simplio',
-          initialRoute: AppRouter.login,
+          initialRoute: AppRouter.home,
           onGenerateRoute: _router.generateRoute,
         ),
       ),
