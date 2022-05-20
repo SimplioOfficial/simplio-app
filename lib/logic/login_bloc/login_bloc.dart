@@ -6,8 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:simplio_app/data/model/account.dart';
 import 'package:simplio_app/data/repositories/account_repository.dart';
 
-part 'login_event.dart';.dart';
-
+part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
