@@ -45,7 +45,7 @@ class _SimplioAppState extends State<SimplioApp> {
             create: (context) => AccountBloc(
               accountRepository:
                   RepositoryProvider.of<AccountRepository>(context),
-            ),
+            )..add(AccountLastRequested()),
           ),
           BlocProvider(
             create: (context) => AssetWalletBloc(),

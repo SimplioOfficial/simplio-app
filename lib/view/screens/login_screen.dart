@@ -33,8 +33,8 @@ class LoginScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
-                  children: const [
-                    Padding(
+                  children: [
+                    const Padding(
                       padding: EdgeInsets.only(
                         top: 60.0,
                         right: 20.0,
@@ -45,11 +45,15 @@ class LoginScreen extends StatelessWidget {
                           title: "Enter Simplio.",
                           subtitle: "It's good to see you back."),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 20.0,
                       ),
                       child: LoginFormFields(),
+                    ),
+                    // TODO:  Remove this code. It's only for testing purposes
+                    BlocBuilder<AccountBloc, AccountState>(
+                      builder: (_, state) => Text(state.toString()),
                     ),
                   ],
                 ),
