@@ -1,7 +1,10 @@
 import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/logic/asset_toggle_cubit/asset_toggle_cubit.dart';
+import 'package:simplio_app/view/widgets/appbar_search.dart';
 import 'package:simplio_app/view/widgets/asset_toggle_item.dart';
+import 'package:simplio_app/view/widgets/text_header.dart';
 
 const String searchLabel = 'Search assets';
 
@@ -28,56 +31,56 @@ class AssetsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('AHOJ');
-    // return BlocProvider(
-    //   create: (context) => AssetToggleCubit(),
-    //   child: Scaffold(
-    //     backgroundColor: Colors.white,
-    //     body: Builder(builder: (context) {
-    //       _loadToggles(context);
-    //
-    //       return CustomScrollView(
-    //         slivers: [
-    //           SliverAppBar(
-    //             floating: true,
-    //             snap: true,
-    //             elevation: 0.4,
-    //             backgroundColor: Colors.white,
-    //             foregroundColor: Colors.black,
-    //             title: Padding(
-    //               padding: const EdgeInsets.only(right: 20.0),
-    //               child: AppBarSearch<String>(
-    //                 label: searchLabel,
-    //                 onTap: (context) => _loadToggles(context),
-    //                 delegate: _AssetSearchDelegate(
-    //                   assetToggleCubit: context.read<AssetToggleCubit>(),
-    //                   onClose: (_) => _loadToggles(context),
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //           const SliverToBoxAdapter(
-    //             child: Padding(
-    //               padding: EdgeInsets.symmetric(
-    //                 vertical: 60.0,
-    //                 horizontal: 20.0,
-    //               ),
-    //               child: TextHeader(
-    //                 title: 'Get your favorites.',
-    //                 subtitle: 'Enable assets to add them to your portfolio.',
-    //               ),
-    //             ),
-    //           ),
-    //           BlocBuilder<AssetToggleCubit, AssetToggleState>(
-    //               buildWhen: (previous, current) =>
-    //                   previous.toggles != current.toggles,
-    //               builder: (context, state) =>
-    //                   _SliverAssetToggleList(toggles: state.toggles)),
-    //         ],
-    //       );
-    //     }),
-    //   ),
-    // );
+    // return const Text('AHOJ');
+    return BlocProvider(
+      create: (context) => AssetToggleCubit(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Builder(builder: (context) {
+          _loadToggles(context);
+
+          return CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                floating: true,
+                snap: true,
+                elevation: 0.4,
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                title: Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: AppBarSearch<String>(
+                    label: searchLabel,
+                    onTap: (context) => _loadToggles(context),
+                    delegate: _AssetSearchDelegate(
+                      assetToggleCubit: context.read<AssetToggleCubit>(),
+                      onClose: (_) => _loadToggles(context),
+                    ),
+                  ),
+                ),
+              ),
+              const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 60.0,
+                    horizontal: 20.0,
+                  ),
+                  child: TextHeader(
+                    title: 'Get your favorites.',
+                    subtitle: 'Enable assets to add them to your portfolio.',
+                  ),
+                ),
+              ),
+              BlocBuilder<AssetToggleCubit, AssetToggleState>(
+                  buildWhen: (previous, current) =>
+                      previous.toggles != current.toggles,
+                  builder: (context, state) =>
+                      _SliverAssetToggleList(toggles: state.toggles)),
+            ],
+          );
+        }),
+      ),
+    );
   }
 }
 

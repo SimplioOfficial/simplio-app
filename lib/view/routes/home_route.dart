@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
+import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
 import 'package:simplio_app/view/screens/assets_screen.dart';
+import 'package:simplio_app/view/screens/dashboard_screen.dart';
 import 'package:simplio_app/view/screens/wallet_screen.dart';
 
-class HomeRouter {
-  // Defining names.
+class HomeRoute {
+  static const String home = '/';
   static const String assets = '/assets';
   static const String wallet = '/wallet';
 
   Route<dynamic> generateRoute(RouteSettings settings) {
-    print('Generating route: ${settings.name}');
     switch (settings.name) {
       case assets:
         return MaterialPageRoute(
@@ -20,9 +22,12 @@ class HomeRouter {
             builder: (_) => WalletScreen(
                   assetWallet: settings.arguments! as AssetWallet,
                 ));
-      case '/':
+      case home:
         return MaterialPageRoute(
-          builder: (_) => Container(),
+          builder: (context) => BlocProvider(
+            create: (context) => AssetWalletBloc(),
+            child: const DashboardScreen(),
+          ),
         );
 
       default:

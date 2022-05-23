@@ -4,7 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:simplio_app/data/providers/account_db_provider.dart';
 import 'package:simplio_app/data/repositories/account_repository.dart';
 import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
-import 'package:simplio_app/view/router/app_router.dart';
+import 'package:simplio_app/view/routes/app_route.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ class SimplioApp extends StatefulWidget {
 }
 
 class _SimplioAppState extends State<SimplioApp> {
-  final AppRouter _router = AppRouter();
+  final AppRoute _router = AppRoute();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _SimplioAppState extends State<SimplioApp> {
         ],
         child: MaterialApp(
           title: 'Simplio',
-          initialRoute: AppRouter.home,
+          initialRoute: AppRoute.home,
           onGenerateRoute: _router.generateRoute,
         ),
       ),
