@@ -5,23 +5,19 @@ enum AccountStatus {
   authenticated,
 }
 
-abstract class AccountState extends Equatable {
-  const AccountState();
-}
-
-class Accounts extends AccountState {
+class AccountState extends Equatable {
   final Account? account;
   final AccountStatus status;
 
-  const Accounts._({
+  const AccountState._({
     required this.account,
     required this.status,
   });
 
-  const Accounts.unauthenticated()
+  const AccountState.unauthenticated()
       : this._(account: null, status: AccountStatus.unauthenticated);
 
-  const Accounts.authenticated(Account account)
+  const AccountState.authenticated(Account account)
       : this._(account: account, status: AccountStatus.authenticated);
 
   @override
