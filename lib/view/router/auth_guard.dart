@@ -4,7 +4,7 @@ import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
 
 class AuthGuard extends StatefulWidget {
   final Widget guardedWidget;
-  final Widget redirectedWidget;
+  final String redirectedWidget;
   final Widget waitingWidget;
 
   const AuthGuard({
@@ -23,23 +23,34 @@ class AuthGuard extends StatefulWidget {
 class _AuthGuard extends State<AuthGuard> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AccountBloc, AccountState>(
-      buildWhen: (previous, current) {
-        if (previous is Accounts && current is Accounts) {
-          return previous.status != current.status;
-        }
-        return false;
-      },
-      builder: (context, state) {
-        if (state is! Accounts) return widget.waitingWidget;
+    return BlocListener<AccountBloc, AccountState>(
+      listener: (context, state) {
+        if (state is! Accounts) return;
 
-        switch (state.status) {
-          case AccountStatus.authenticated:
-            return widget.guardedWidget;
-          default:
-            return widget.redirectedWidget;
+        if (state.status == AccountStatus.unauthenticated) {
+          Navigator.of(context).popAndPushNamed('/home/asset');
         }
       },
+      child: widget.guardedWidget,
     );
+    // return BlocBuilder<AccountBloc, AccountState>(
+    //   buildWhen: (previous, current) {
+    //     if (previous is Accounts && current is Accounts) {
+    //       return previous.status != current.status;
+    //     }
+    //     return false;
+    //   },
+    //   builder: (context, state) {
+    //     if (state is! Accounts) return widget.waitingWidget;
+    //
+    //     switch (state.status) {
+    //       case AccountStatus.authenticated:
+    //         return widget.guardedWidget;
+    //       default:
+    //         Navigator.of(context).popAndPushNamed(widget.redirectedWidget);
+    //         return Container();
+    //     }
+    //   },
+    // );
   }
 }

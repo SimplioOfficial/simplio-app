@@ -14,20 +14,32 @@ import 'auth_guard.dart';
 class AppRouter {
   // Defining names.
   static const String home = '/';
+  static const String login = '/login';
   static const String assets = '/assets';
   static const String wallet = '/wallet';
 
   Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case login:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => LoginBloc(
+              accountRepository:
+                  RepositoryProvider.of<AccountRepository>(context),
+            ),
+            child: const LoginScreen(),
+          ),
+        );
       case home:
         return MaterialPageRoute(
           builder: (_) => AuthGuard(
-            redirectedWidget: BlocProvider(
-              create: (context) => LoginBloc(
-                  accountRepository:
-                      RepositoryProvider.of<AccountRepository>(context)),
-              child: const LoginScreen(),
-            ),
+            // redirectedWidget: BlocProvider(
+            //   create: (context) => LoginBloc(
+            //       accountRepository:
+            //           RepositoryProvider.of<AccountRepository>(context)),
+            //   child: const LoginScreen(),
+            // ),
+            redirectedWidget: login,
             guardedWidget: BlocProvider(
               create: (context) => AssetWalletBloc(),
               child: const DashboardScreen(),
