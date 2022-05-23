@@ -104,4 +104,11 @@ jobs:
           arch: x86_64
           profile: Nexus 6
           script: flutter drive \ --driver=test_driver/integration_test.dart \ --target=integration_test/screenshot_test.dart \
+      # Upload screenshot As Artifact
+      - name: upload screenshot
+        uses: actions/upload-artifact@master
+        with:
+          name: screenshot_${{ matrix.device }}
+          path: /tmp/screenshots/
+          retention-days : 3 # days for automatic deletion
           
