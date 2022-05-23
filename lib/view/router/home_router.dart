@@ -9,6 +9,7 @@ class HomeRouter {
   static const String wallet = '/wallet';
 
   Route<dynamic> generateRoute(RouteSettings settings) {
+    print('Generating route: ${settings.name}');
     switch (settings.name) {
       case assets:
         return MaterialPageRoute(
@@ -19,6 +20,10 @@ class HomeRouter {
             builder: (_) => WalletScreen(
                   assetWallet: settings.arguments! as AssetWallet,
                 ));
+      case '/':
+        return MaterialPageRoute(
+          builder: (_) => Container(),
+        );
 
       default:
         throw const FormatException('Screen not found');
