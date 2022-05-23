@@ -5,7 +5,7 @@ import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
 class AuthGuard extends StatelessWidget {
   final String initialRoute;
   final RouteFactory onGenerateRoute;
-  final Function(BuildContext, Accounts) onAccountChange;
+  final Function(BuildContext, AccountState) onAccountChange;
 
   const AuthGuard({
     Key? key,
@@ -18,8 +18,6 @@ class AuthGuard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AccountBloc, AccountState>(
       listener: (context, state) {
-        if (state is! Accounts) return;
-
         onAccountChange(context, state);
       },
       child: Navigator(
