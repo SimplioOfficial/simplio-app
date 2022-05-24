@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:simplio_app/data/model/account.dart';
 import 'package:simplio_app/data/model/account_settings.dart';
 import 'package:simplio_app/data/model/account_wallet.dart';
+import 'package:simplio_app/data/model/seed.dart';
 
 class AccountDbProvider {
   static const accountBoxName = 'accountBox';
@@ -11,6 +12,8 @@ class AccountDbProvider {
 
   Future<AccountDbProvider> init() async {
     Hive.registerAdapter(AccountLocalAdapter());
+    Hive.registerAdapter(AccountWalletLocalAdapter());
+    Hive.registerAdapter(AccountWalletTypesAdapter());
     Hive.registerAdapter(AccountSettingsLocalAdapter());
     Hive.registerAdapter(ThemeModesAdapter());
 
@@ -43,6 +46,11 @@ class AccountDbProvider {
       final lastLocal = _accountBox.values.toList().reduce(
           (acc, curr) => acc.lastLogin.isAfter(curr.lastLogin) ? acc : curr);
 
+      if (lastLocal.lastLogin
+          .isAtSameMomentAs(DateTime.fromMillisecondsSinceEpoch(0))) {
+        throw Exception("There's no logged in account");
+      }
+
       return _to(lastLocal);
     } catch (e) {
       print(e.toString());
@@ -60,19 +68,17 @@ class AccountDbProvider {
         themeMode: account.settings.themeMode,
       ),
       defaultWallet: account.defaultWallet,
-      wallets: HiveList(
-        _accountBox,
-        objects: account.wallets
-            .map((w) => AccountWalletLocal(
-                  uuid: w.uuid,
-                  name: w.name,
-                  accountId: w.accountId,
-                  mnemonic: w.seed.mnemonic,
-                  imported: w.seed.imported,
-                  walletType: w.walletType,
-                ))
-            .toList(),
-      ),
+      wallets: account.wallets
+          .map((w) => AccountWalletLocal(
+                uuid: w.uuid,
+                name: w.name,
+                accountId: w.accountId,
+                mnemonic: w.seed.mnemonic,
+                imported: w.seed.imported,
+                walletType: w.walletType,
+                updatedAt: w.updatedAt,
+              ))
+          .toList(),
     );
   }
 
@@ -83,7 +89,19 @@ class AccountDbProvider {
       refreshToken: accountLocal.refreshToken,
       lastLogin: accountLocal.lastLogin,
       defaultWallet: accountLocal.defaultWallet,
-      wallets: const [],
+      wallets: accountLocal.wallets
+          .map((e) => AccountWallet.builder(
+                uuid: e.uuid,
+                name: e.name,
+                accountId: e.accountId,
+                walletType: e.walletType,
+                seed: Seed(
+                  mnemonic: e.mnemonic,
+                  imported: e.imported,
+                ),
+                updatedAt: e.updatedAt,
+              ))
+          .toList(),
       settings: AccountSettings.builder(
         themeMode: accountLocal.settings.themeMode,
       ),

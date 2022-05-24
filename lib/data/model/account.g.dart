@@ -23,7 +23,7 @@ class AccountLocalAdapter extends TypeAdapter<AccountLocal> {
       lastLogin: fields[3] as DateTime,
       settings: fields[4] as AccountSettingsLocal,
       defaultWallet: fields[5] as String,
-      wallets: (fields[6] as HiveList).castHiveList(),
+      wallets: (fields[6] as List).cast<AccountWalletLocal>(),
     );
   }
 

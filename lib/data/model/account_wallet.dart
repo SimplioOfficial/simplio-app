@@ -23,13 +23,14 @@ class AccountWallet extends Equatable {
   });
 
   AccountWallet.builder({
+    String? uuid,
     required String name,
     required String accountId,
     required AccountWalletTypes walletType,
     required Seed seed,
     required DateTime updatedAt,
   }) : this._(
-          uuid: const Uuid().v4(),
+          uuid: uuid ?? const Uuid().v4(),
           name: name,
           accountId: accountId,
           seed: seed,
@@ -61,8 +62,10 @@ class AccountWallet extends Equatable {
       ];
 }
 
+@HiveType(typeId: 31)
 enum AccountWalletTypes {
-  multicoin,
+  @HiveField(0)
+  hdWallet,
 }
 
 @HiveType(typeId: 3)
@@ -85,6 +88,9 @@ class AccountWalletLocal extends HiveObject {
   @HiveField(5)
   final AccountWalletTypes walletType;
 
+  @HiveField(6)
+  final DateTime updatedAt;
+
   AccountWalletLocal({
     required this.uuid,
     required this.name,
@@ -92,5 +98,6 @@ class AccountWalletLocal extends HiveObject {
     required this.mnemonic,
     required this.imported,
     required this.walletType,
+    required this.updatedAt,
   });
 }

@@ -30,6 +30,10 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     AccountRemoved event,
     Emitter<AccountState> emit,
   ) async {
+    final account = state.account;
+    if (account == null) return;
+
+    await accountRepository.logout(account);
     emit(const AccountState.unauthenticated());
   }
 

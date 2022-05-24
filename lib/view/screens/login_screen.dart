@@ -34,8 +34,8 @@ class LoginScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
-                  children: [
-                    const Padding(
+                  children: const [
+                    Padding(
                       padding: EdgeInsets.only(
                         top: 60.0,
                         right: 20.0,
@@ -46,7 +46,7 @@ class LoginScreen extends StatelessWidget {
                           title: "Enter Simplio.",
                           subtitle: "It's good to see you back."),
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 20.0,
                       ),

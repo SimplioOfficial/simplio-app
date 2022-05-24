@@ -174,7 +174,7 @@ class AccountLocal extends HiveObject {
   final String defaultWallet;
 
   @HiveField(6)
-  final HiveList<AccountWalletLocal> wallets;
+  final List<AccountWalletLocal> wallets;
 
   AccountLocal({
     required this.id,

@@ -23,13 +23,14 @@ class AccountWalletLocalAdapter extends TypeAdapter<AccountWalletLocal> {
       mnemonic: fields[3] as String,
       imported: fields[4] as bool,
       walletType: fields[5] as AccountWalletTypes,
+      updatedAt: fields[6] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, AccountWalletLocal obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class AccountWalletLocalAdapter extends TypeAdapter<AccountWalletLocal> {
       ..writeByte(4)
       ..write(obj.imported)
       ..writeByte(5)
-      ..write(obj.walletType);
+      ..write(obj.walletType)
+      ..writeByte(6)
+      ..write(obj.updatedAt);
   }
 
   @override
@@ -51,6 +54,40 @@ class AccountWalletLocalAdapter extends TypeAdapter<AccountWalletLocal> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is AccountWalletLocalAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class AccountWalletTypesAdapter extends TypeAdapter<AccountWalletTypes> {
+  @override
+  final int typeId = 31;
+
+  @override
+  AccountWalletTypes read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return AccountWalletTypes.hdWallet;
+      default:
+        return AccountWalletTypes.hdWallet;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, AccountWalletTypes obj) {
+    switch (obj) {
+      case AccountWalletTypes.hdWallet:
+        writer.writeByte(0);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AccountWalletTypesAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
