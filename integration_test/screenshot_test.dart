@@ -11,26 +11,13 @@ void main() {
 
   testWidgets('screenshot', (WidgetTester tester) async {
     // Build the app.
-    const importRecoverySeedKey = 'manual_seed_import';
-    String platformName = '';
-    // This is required prior to taking the screenshot (Android only).
-    if (!kIsWeb) {
-      if (Platform.isAndroid) {
-        platformName = "android";
-        await binding.convertFlutterSurfaceToImage();
-      } else {
-        platformName = "ios";
-      }
-    } else {
-      platformName = "web";
-    }
     await tester.pumpWidget(const SimplioApp());
+
+    // This is required prior to taking the screenshot (Android only).
+    await binding.convertFlutterSurfaceToImage();
+
     // Trigger a frame.
     await tester.pumpAndSettle();
-    await binding.takeScreenshot('1-screenshot-$platformName');
-
-    await tester.tap(find.byKey(const ValueKey(importRecoverySeedKey)));
-    await tester.pumpAndSettle();
-    await binding.takeScreenshot('2-screenshot-$platformName');
+    await binding.takeScreenshot('screenshot-1');
   });
 }
