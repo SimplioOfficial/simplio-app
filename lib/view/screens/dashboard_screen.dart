@@ -36,38 +36,31 @@ class DashboardScreen extends StatelessWidget {
           ],
         ),
         body: BlocBuilder<AssetWalletBloc, AssetWalletState>(
-            builder: (context, state) {
-          if (state is! AssetWallets) {
-            return const Center(
-                child: Text(
-              'No wallets loaded',
-              style: TextStyle(color: Colors.black26),
-            ));
-          }
+          builder: (context, state) {
+            var enabled = state.enabled;
 
-          var enabled = state.enabled;
+            return Container(
+              child: enabled.isEmpty
+                  ? const Center(
+                      child: Text(
+                        'You have no wallet',
+                        style: TextStyle(color: Colors.black26),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: enabled.length,
+                      itemBuilder: (BuildContext ctx, int i) {
+                        final AssetWallet wallet = enabled[i];
 
-          return Container(
-            child: enabled.isEmpty
-                ? const Center(
-                    child: Text(
-                      'You have no wallet',
-                      style: TextStyle(color: Colors.black26),
+                        return WalletListItem(
+                          assetWallet: wallet,
+                          onTap: () => Navigator.of(context)
+                              .pushNamed(AppRoute.wallet, arguments: wallet),
+                        );
+                      },
                     ),
-                  )
-                : ListView.builder(
-                    itemCount: enabled.length,
-                    itemBuilder: (BuildContext ctx, int i) {
-                      final AssetWallet wallet = enabled[i];
-
-                      return WalletListItem(
-                        assetWallet: wallet,
-                        onTap: () => Navigator.of(context)
-                            .pushNamed(AppRoute.wallet, arguments: wallet),
-                      );
-                    },
-                  ),
-          );
-        }),
+            );
+          },
+        ),
       );
 }
