@@ -2,6 +2,7 @@ import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/logic/asset_toggle_cubit/asset_toggle_cubit.dart';
+import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
 import 'package:simplio_app/view/widgets/appbar_search.dart';
 import 'package:simplio_app/view/widgets/asset_toggle_item.dart';
 import 'package:simplio_app/view/widgets/text_header.dart';
@@ -12,26 +13,18 @@ class AssetsScreen extends StatelessWidget {
   const AssetsScreen({Key? key}) : super(key: key);
 
   List<AssetToggle> _loadToggles(BuildContext context) {
-    // final walletState = context.read<WalletBloc>().state;
-    // final List<Asset> enabled = (walletState is Wallets)
-    //     ? walletState.enabled
-    //         .whereType<Wallet<Asset>>()
-    //         .map((e) => e.asset)
-    //         .toList()
-    //     : <Asset>[];
-    //
-    // final enabled = <Asset>[];
-    //
-    // return context
-    //     .read<AssetToggleCubit>()
-    //     .loadToggles(Assets.all.values.toList(), enabled);
+    final walletState = context.read<AssetWalletBloc>().state;
+    // final List<AssetWallet> enabled = walletState.enabled;
 
-    return [];
+    return context
+        .read<AssetToggleCubit>()
+        .loadToggles(Assets.all.values.toList(), walletState.enabled);
+
+    // return [];
   }
 
   @override
   Widget build(BuildContext context) {
-    // return const Text('AHOJ');
     return BlocProvider(
       create: (context) => AssetToggleCubit(),
       child: Scaffold(
