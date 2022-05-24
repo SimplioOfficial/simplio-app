@@ -6,7 +6,7 @@ part 'asset_wallet_event.dart';
 part 'asset_wallet_state.dart';
 
 class AssetWalletBloc extends Bloc<AssetWalletEvent, AssetWalletState> {
-  AssetWalletBloc() : super(const AssetWalletsLoadingState()) {
+  AssetWalletBloc() : super(const AssetWalletState.empty()) {
     on<AssetWalletLoad>((event, emit) => null);
     on<AssetWalletEnabled>(_onAssetWalletEnabled);
     on<AssetWalletDisabled>(_onAssetWalletDisabled);

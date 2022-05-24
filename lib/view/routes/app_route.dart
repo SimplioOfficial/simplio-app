@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/repositories/account_repository.dart';
 import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
+import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
 import 'package:simplio_app/logic/login_bloc/login_bloc.dart';
 import 'package:simplio_app/view/guards/auth_guard.dart';
 import 'package:simplio_app/view/routes/home_route.dart';
@@ -27,14 +28,19 @@ class AppRoute {
         );
       case home:
         return MaterialPageRoute(
-          builder: (_) => AuthGuard(
-            initialRoute: HomeRoute.home,
-            onGenerateRoute: HomeRoute().generateRoute,
-            onAccountChange: (context, state) {
-              if (state.status == AccountStatus.unauthenticated) {
-                Navigator.of(context).popAndPushNamed(login);
-              }
-            },
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => AssetWalletBloc()),
+            ],
+            child: AuthGuard(
+              initialRoute: HomeRoute.home,
+              onGenerateRoute: HomeRoute().generateRoute,
+              onAccountChange: (context, state) {
+                if (state.status == AccountStatus.unauthenticated) {
+                  Navigator.of(context).popAndPushNamed(login);
+                }
+              },
+            ),
           ),
         );
 

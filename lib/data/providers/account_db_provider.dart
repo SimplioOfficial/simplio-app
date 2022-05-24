@@ -44,7 +44,8 @@ class AccountDbProvider {
           (acc, curr) => acc.lastLogin.isAfter(curr.lastLogin) ? acc : curr);
 
       return _to(lastLocal);
-    } on Exception {
+    } catch (e) {
+      print(e.toString());
       return null;
     }
   }
