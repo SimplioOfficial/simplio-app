@@ -40,10 +40,10 @@ class AssetWalletEnabled extends AssetWalletEvent {
 }
 
 class AssetWalletDisabled extends AssetWalletEvent {
-  final AssetWallet asset;
+  final String assetId;
 
-  const AssetWalletDisabled({required this.asset});
+  const AssetWalletDisabled({required this.assetId});
 
   @override
-  List<Object?> get props => [asset];
+  List<Object?> get props => [assetId];
 }

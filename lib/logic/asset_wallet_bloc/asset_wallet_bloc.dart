@@ -15,9 +15,17 @@ class AssetWalletBloc extends Bloc<AssetWalletEvent, AssetWalletState> {
   // On wallet creation we only add/create a new wallet if it was not yet added
   // In case it was it can get only back enabled or disabled.
   void _onAssetWalletEnabled(
-      AssetWalletEnabled ev, Emitter<AssetWalletState> emit) {}
+    AssetWalletEnabled ev,
+    Emitter<AssetWalletState> emit,
+  ) {
+    print('Enabling');
+  }
 
   // In case a wallet already exists it can be only disabled and not deleted.
   void _onAssetWalletDisabled(
-      AssetWalletDisabled ev, Emitter<AssetWalletState> emit) {}
+    AssetWalletDisabled ev,
+    Emitter<AssetWalletState> emit,
+  ) {
+    print('Disabling');
+  }
 }

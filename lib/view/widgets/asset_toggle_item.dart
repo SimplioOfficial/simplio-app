@@ -2,16 +2,16 @@ import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
 
 typedef AssetToggleAction = void Function(
-    {required bool value, required Asset asset});
+    {required bool value, required String assetId});
 
 class AssetToggleItem extends StatefulWidget {
-  final Asset asset;
+  final MapEntry<String, Asset> assetEntry;
   final bool toggled;
   final AssetToggleAction? onToggle;
 
   const AssetToggleItem({
     Key? key,
-    required this.asset,
+    required this.assetEntry,
     this.onToggle,
     this.toggled = false,
   }) : super(key: key);
@@ -31,6 +31,8 @@ class _AssetToggleItem extends State<AssetToggleItem>
   Widget build(BuildContext context) {
     super.build(context);
 
+    final Asset asset = widget.assetEntry.value;
+
     return Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 20.0,
@@ -39,8 +41,8 @@ class _AssetToggleItem extends State<AssetToggleItem>
         child: Row(
           children: [
             CircleAvatar(
-                foregroundColor: widget.asset.detail.style.foregroundColor,
-                backgroundColor: widget.asset.detail.style.primaryColor,
+                foregroundColor: asset.detail.style.foregroundColor,
+                backgroundColor: asset.detail.style.primaryColor,
                 child: const Center()),
             Expanded(
               child: Padding(
@@ -51,9 +53,9 @@ class _AssetToggleItem extends State<AssetToggleItem>
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.asset.detail.name, textScaleFactor: 1.2),
+                        Text(asset.detail.name, textScaleFactor: 1.2),
                         Text(
-                          widget.asset.detail.ticker.toUpperCase(),
+                          asset.detail.ticker.toUpperCase(),
                           style: const TextStyle(color: Colors.black26),
                         ),
                       ],
@@ -65,7 +67,10 @@ class _AssetToggleItem extends State<AssetToggleItem>
             Switch(
               value: _toggled,
               onChanged: (val) {
-                widget.onToggle?.call(value: val, asset: widget.asset);
+                widget.onToggle?.call(
+                  value: val,
+                  assetId: widget.assetEntry.key,
+                );
                 setState(() {
                   _toggled = !_toggled;
                 });

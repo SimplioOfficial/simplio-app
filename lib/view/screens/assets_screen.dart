@@ -1,6 +1,7 @@
 import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/logic/asset_toggle_cubit/asset_toggle_cubit.dart';
 import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
 import 'package:simplio_app/view/widgets/appbar_search.dart';
@@ -17,9 +18,7 @@ class AssetsScreen extends StatelessWidget {
 
     return context
         .read<AssetToggleCubit>()
-        .loadToggles(Assets.all.values.toList(), walletState.enabled);
-
-    // return [];
+        .loadToggles(Assets.all.entries.toList(), walletState.enabled);
   }
 
   @override
@@ -129,8 +128,12 @@ class _AssetSearchDelegate extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     final filtered = assetToggleCubit.state.toggles
         .where((t) =>
-            t.asset.detail.name.toLowerCase().contains(query.toLowerCase()) ||
-            t.asset.detail.ticker.toLowerCase().contains(query.toLowerCase()))
+            t.assetEntry.value.detail.name
+                .toLowerCase()
+                .contains(query.toLowerCase()) ||
+            t.assetEntry.value.detail.ticker
+                .toLowerCase()
+                .contains(query.toLowerCase()))
         .toList();
 
     return Container(
@@ -157,7 +160,7 @@ class _SliverAssetToggleList extends StatelessWidget {
         delegate: SliverChildBuilderDelegate(
           (context, i) => AssetToggleItem(
             key: UniqueKey(),
-            asset: toggles[i].asset,
+            assetEntry: toggles[i].assetEntry,
             toggled: toggles[i].toggled,
             onToggle: _toggleAsset(context),
           ),
@@ -165,11 +168,24 @@ class _SliverAssetToggleList extends StatelessWidget {
         ),
       );
 
-  AssetToggleAction _toggleAsset(BuildContext context) =>
-      ({required bool value, required Asset asset}) {};
-
-  // ({required bool value, required Asset asset}) => value
-  //     ? context.read<AssetWalletBloc>().add(
-  //         AssetWalletEnabled(wallet: AssetWallet.generate(asset: asset)))
-  //     : context.read<WalletBloc>().add(WalletDisabled(asset: asset));
+  void Function({
+    required String assetId,
+    required bool value,
+  }) _toggleAsset(BuildContext context) => ({
+        required bool value,
+        required String assetId,
+      }) =>
+          value
+              ? context.read<AssetWalletBloc>().add(
+                    AssetWalletEnabled(
+                      wallet: AssetWallet.builder(
+                        assetId: assetId,
+                        wallets: const [],
+                        accountWalletId: '',
+                      ),
+                    ),
+                  )
+              : context
+                  .read<AssetWalletBloc>()
+                  .add(AssetWalletDisabled(assetId: assetId));
 }

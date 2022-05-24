@@ -8,10 +8,11 @@ part 'asset_toggle_state.dart';
 class AssetToggleCubit extends Cubit<AssetToggleState> {
   AssetToggleCubit() : super(const AssetToggleState());
 
-  List<AssetToggle> loadToggles(List<Asset> assets, List<AssetWallet> enabled) {
+  List<AssetToggle> loadToggles(
+      List<MapEntry<String, Asset>> assets, List<AssetWallet> enabled) {
     final toggles = assets
         .map((a) => AssetToggle(
-              asset: a,
+              assetEntry: a,
               toggled: enabled.contains(a),
             ))
         .toList();
