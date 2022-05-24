@@ -15,10 +15,9 @@ void main() {
     String platformName = '';
     // This is required prior to taking the screenshot (Android only).
     if (!kIsWeb) {
-      await binding.convertFlutterSurfaceToImage();
-
       if (Platform.isAndroid) {
         platformName = "android";
+        await binding.convertFlutterSurfaceToImage();
       } else {
         platformName = "ios";
       }
