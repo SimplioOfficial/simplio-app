@@ -36,11 +36,10 @@ class DashboardScreen extends StatelessWidget {
           ],
         ),
         body: BlocListener<AccountBloc, AccountState>(
-          // listenWhen: (previous, current) {
-          //   return previous.accountWallet != current.accountWallet;
-          // },
+          listenWhen: (previous, current) {
+            return previous.accountWallet != current.accountWallet;
+          },
           listener: (context, state) {
-            print('LISTENING');
             final acc = state.accountWallet;
             if (acc != null) {
               context
