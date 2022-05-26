@@ -21,7 +21,7 @@ class AccountWalletLocalAdapter extends TypeAdapter<AccountWalletLocal> {
       name: fields[0] as String,
       accountId: fields[2] as String,
       mnemonic: fields[3] as String,
-      imported: fields[4] as bool,
+      isImported: fields[4] as bool,
       walletType: fields[5] as AccountWalletTypes,
       updatedAt: fields[6] as DateTime,
     );
@@ -40,7 +40,7 @@ class AccountWalletLocalAdapter extends TypeAdapter<AccountWalletLocal> {
       ..writeByte(3)
       ..write(obj.mnemonic)
       ..writeByte(4)
-      ..write(obj.imported)
+      ..write(obj.isImported)
       ..writeByte(5)
       ..write(obj.walletType)
       ..writeByte(6)

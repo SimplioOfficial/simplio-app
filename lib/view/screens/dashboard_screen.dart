@@ -35,32 +35,47 @@ class DashboardScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: BlocBuilder<AssetWalletBloc, AssetWalletState>(
-          builder: (context, state) {
-            var enabled = state.enabled;
-
-            return Container(
-              child: enabled.isEmpty
-                  ? const Center(
-                      child: Text(
-                        'You have no wallet',
-                        style: TextStyle(color: Colors.black26),
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: enabled.length,
-                      itemBuilder: (BuildContext ctx, int i) {
-                        final AssetWallet wallet = enabled[i];
-
-                        return WalletListItem(
-                          assetWallet: wallet,
-                          onTap: () => Navigator.of(context)
-                              .pushNamed(AppRoute.wallet, arguments: wallet),
-                        );
-                      },
-                    ),
-            );
+        body: BlocListener<AccountBloc, AccountState>(
+          // listenWhen: (previous, current) {
+          //   return previous.accountWallet != current.accountWallet;
+          // },
+          listener: (context, state) {
+            print('LISTENING');
+            final acc = state.accountWallet;
+            if (acc != null) {
+              context
+                  .read<AssetWalletBloc>()
+                  .add(AssetWalletLoaded(accountWalletId: acc.uuid));
+            }
           },
+          child: BlocBuilder<AssetWalletBloc, AssetWalletState>(
+            builder: (context, state) {
+              var enabled = state.enabled;
+
+              return Container(
+                child: enabled.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'You have no wallet',
+                          style: TextStyle(color: Colors.black26),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: enabled.length,
+                        itemBuilder: (BuildContext ctx, int i) {
+                          final AssetWallet wallet = enabled[i];
+
+                          return WalletListItem(
+                            key: Key(wallet.assetId),
+                            assetWallet: wallet,
+                            onTap: () => Navigator.of(context)
+                                .pushNamed(AppRoute.wallet, arguments: wallet),
+                          );
+                        },
+                      ),
+              );
+            },
+          ),
         ),
       );
 }

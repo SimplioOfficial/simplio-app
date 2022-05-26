@@ -1,8 +1,6 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
+import 'package:simplio_app/data/mixins/aes_encryption_mixin.dart';
 import 'package:simplio_app/data/model/account_settings.dart';
 import 'package:simplio_app/data/model/account_wallet.dart';
 
@@ -19,7 +17,6 @@ class Account extends Equatable {
   final String refreshToken;
   final DateTime lastLogin;
   final AccountSettings settings;
-  final String defaultWallet;
   final List<AccountWallet> wallets;
 
   const Account._(
@@ -29,7 +26,6 @@ class Account extends Equatable {
     this.refreshToken,
     this.lastLogin,
     this.settings,
-    this.defaultWallet,
     this.wallets,
   );
 
@@ -47,7 +43,6 @@ class Account extends Equatable {
     required String refreshToken,
     required DateTime lastLogin,
     AccountSettings settings = const AccountSettings.preset(),
-    required String defaultWallet,
     List<AccountWallet> wallets = const <AccountWallet>[],
   }) : this._(
           id,
@@ -56,7 +51,6 @@ class Account extends Equatable {
           refreshToken,
           lastLogin,
           settings,
-          defaultWallet,
           wallets,
         );
 
@@ -64,7 +58,6 @@ class Account extends Equatable {
     String? accessToken,
     String? refreshToken,
     DateTime? lastLogin,
-    String? defaultWallet,
     AccountSettings? settings,
     List<AccountWallet>? wallets,
   }) {
@@ -75,7 +68,6 @@ class Account extends Equatable {
       refreshToken ?? this.refreshToken,
       lastLogin ?? this.lastLogin,
       settings ?? this.settings,
-      defaultWallet ?? this.defaultWallet,
       wallets ?? this.wallets,
     );
   }
@@ -87,12 +79,10 @@ class Account extends Equatable {
       ];
 }
 
-class LockableSecret {
+class LockableSecret with AesEncryption {
   static String generateSecret() {
     return Hive.generateSecureKey().toString();
   }
-
-  static const int _offset = 128;
 
   String _secret;
   bool _isLocked;
@@ -107,44 +97,16 @@ class LockableSecret {
 
   String unlock(String key) {
     if (!_isLocked) return _secret;
-    return _decrypt(key);
+    return decrypt(key, _secret);
   }
 
   LockableSecret lock(String key) {
     if (_isLocked) return this;
 
-    _secret = _encrypt(key);
+    _secret = encrypt(key, _secret);
     _isLocked = true;
 
     return this;
-  }
-
-  String _decrypt(String key) {
-    return HiveAesCipher(key.codeUnits)
-        .decrypt(
-          utf8.encoder.convert(key),
-          _offset,
-          key.length,
-          Uint8List(0),
-          _offset,
-        )
-        .toString();
-  }
-
-  String _encrypt(String key) {
-    return HiveAesCipher(key.codeUnits)
-        .encrypt(
-          utf8.encoder.convert(key),
-          _offset,
-          key.length,
-          Uint8List(0),
-          _offset,
-        )
-        .toString();
-  }
-
-  bool isValid(String key) {
-    return true;
   }
 
   @override
@@ -171,9 +133,6 @@ class AccountLocal extends HiveObject {
   final AccountSettingsLocal settings;
 
   @HiveField(5)
-  final String defaultWallet;
-
-  @HiveField(6)
   final List<AccountWalletLocal> wallets;
 
   AccountLocal({
@@ -182,7 +141,6 @@ class AccountLocal extends HiveObject {
     required this.refreshToken,
     required this.lastLogin,
     required this.settings,
-    required this.defaultWallet,
     required this.wallets,
   });
 }

@@ -1,44 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'asset_wallet.dart';
+part of 'wallet.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class AssetWalletLocalAdapter extends TypeAdapter<AssetWalletLocal> {
+class WalletLocalAdapter extends TypeAdapter<WalletLocal> {
   @override
-  final int typeId = 4;
+  final int typeId = 5;
 
   @override
-  AssetWalletLocal read(BinaryReader reader) {
+  WalletLocal read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return AssetWalletLocal(
+    return WalletLocal(
       uuid: fields[0] as String,
-      accountWalletId: fields[1] as String,
-      assetId: fields[2] as String,
-      isEnabled: fields[3] as bool,
-      wallets: (fields[4] as List).cast<WalletLocal>(),
+      coinType: fields[1] as int,
+      derivationPath: fields[2] as String?,
+      balance: fields[3] as BigInt,
     );
   }
 
   @override
-  void write(BinaryWriter writer, AssetWalletLocal obj) {
+  void write(BinaryWriter writer, WalletLocal obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
-      ..write(obj.accountWalletId)
+      ..write(obj.coinType)
       ..writeByte(2)
-      ..write(obj.assetId)
+      ..write(obj.derivationPath)
       ..writeByte(3)
-      ..write(obj.isEnabled)
-      ..writeByte(4)
-      ..write(obj.wallets);
+      ..write(obj.balance);
   }
 
   @override
@@ -47,7 +44,7 @@ class AssetWalletLocalAdapter extends TypeAdapter<AssetWalletLocal> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AssetWalletLocalAdapter &&
+      other is WalletLocalAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

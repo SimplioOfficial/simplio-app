@@ -1,31 +1,48 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
+import 'package:simplio_app/data/repositories/asset_wallet_repository.dart';
 
 part 'asset_wallet_event.dart';
 part 'asset_wallet_state.dart';
 
 class AssetWalletBloc extends Bloc<AssetWalletEvent, AssetWalletState> {
-  AssetWalletBloc() : super(const AssetWalletState.empty()) {
-    on<AssetWalletLoad>((event, emit) => null);
+  final AssetWalletRepository assetWalletRepository;
+
+  AssetWalletBloc({required this.assetWalletRepository})
+      : super(const AssetWalletState.empty()) {
+    on<AssetWalletLoaded>(_onAssetWalletLoaded);
     on<AssetWalletEnabled>(_onAssetWalletEnabled);
     on<AssetWalletDisabled>(_onAssetWalletDisabled);
   }
 
-  // On wallet creation we only add/create a new wallet if it was not yet added
-  // In case it was it can get only back enabled or disabled.
-  void _onAssetWalletEnabled(
-    AssetWalletEnabled ev,
+  void _onAssetWalletLoaded(
+    AssetWalletLoaded ev,
     Emitter<AssetWalletState> emit,
   ) {
-    print('Enabling');
+    final assetWallets = assetWalletRepository.load(ev.accountWalletId);
+    emit(AssetWalletState.loaded(assetWallets));
   }
 
-  // In case a wallet already exists it can be only disabled and not deleted.
-  void _onAssetWalletDisabled(
+  Future<void> _onAssetWalletEnabled(
+    AssetWalletEnabled ev,
+    Emitter<AssetWalletState> emit,
+  ) async {
+    await assetWalletRepository.enable(ev.accountWalletId, ev.assetId);
+
+    final assetWallets = assetWalletRepository.load(ev.accountWalletId);
+
+    emit(AssetWalletState.loaded(assetWallets));
+  }
+
+  Future<void> _onAssetWalletDisabled(
     AssetWalletDisabled ev,
     Emitter<AssetWalletState> emit,
-  ) {
-    print('Disabling');
+  ) async {
+    await assetWalletRepository.disable(ev.accountWalletId, ev.assetId);
+
+    final assetWallets = assetWalletRepository.load(ev.accountWalletId);
+
+    emit(AssetWalletState.loaded(assetWallets));
   }
 }

@@ -26,8 +26,14 @@ class AccountState extends Equatable {
         status,
       ];
 
-  AccountWallet? get accountWallet => account?.wallets
-      .firstWhere((element) => element.uuid == account?.defaultWallet);
+  AccountWallet? get accountWallet {
+    final a = account;
+    if (a == null) return null;
+
+    if (a.wallets.isEmpty) return null;
+
+    return a.wallets[0];
+  }
 
   bool get isAuthenticated => account != null;
 }

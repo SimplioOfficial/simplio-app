@@ -1,7 +1,7 @@
 import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/data/model/asset_wallet.dart';
+import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
 import 'package:simplio_app/logic/asset_toggle_cubit/asset_toggle_cubit.dart';
 import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
 import 'package:simplio_app/view/widgets/appbar_search.dart';
@@ -16,9 +16,12 @@ class AssetsScreen extends StatelessWidget {
   List<AssetToggle> _loadToggles(BuildContext context) {
     final walletState = context.read<AssetWalletBloc>().state;
 
-    return context
-        .read<AssetToggleCubit>()
-        .loadToggles(Assets.all.entries.toList(), walletState.enabled);
+    print("WALLET STATE ${walletState.enabled.length}");
+
+    return context.read<AssetToggleCubit>().loadToggles(
+          Assets.all.entries.toList(),
+          walletState.enabled.map((e) => e.assetId).toList(),
+        );
   }
 
   @override
@@ -30,45 +33,53 @@ class AssetsScreen extends StatelessWidget {
         body: Builder(builder: (context) {
           _loadToggles(context);
 
-          return CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                floating: true,
-                snap: true,
-                elevation: 0.4,
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                title: Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
-                  child: AppBarSearch<String>(
-                    label: searchLabel,
-                    onTap: (context) => _loadToggles(context),
-                    delegate: _AssetSearchDelegate(
-                      assetToggleCubit: context.read<AssetToggleCubit>(),
-                      onClose: (_) => _loadToggles(context),
+          final accountWalletId =
+              context.read<AccountBloc>().state.accountWallet;
+
+          return accountWalletId != null
+              ? CustomScrollView(
+                  slivers: [
+                    SliverAppBar(
+                      floating: true,
+                      snap: true,
+                      elevation: 0.4,
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      title: Padding(
+                        padding: const EdgeInsets.only(right: 20.0),
+                        child: AppBarSearch<String>(
+                          label: searchLabel,
+                          onTap: (context) => _loadToggles(context),
+                          delegate: _AssetSearchDelegate(
+                            assetToggleCubit: context.read<AssetToggleCubit>(),
+                            onClose: (_) => _loadToggles(context),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              const SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 60.0,
-                    horizontal: 20.0,
-                  ),
-                  child: TextHeader(
-                    title: 'Get your favorites.',
-                    subtitle: 'Enable assets to add them to your portfolio.',
-                  ),
-                ),
-              ),
-              BlocBuilder<AssetToggleCubit, AssetToggleState>(
-                  buildWhen: (previous, current) =>
-                      previous.toggles != current.toggles,
-                  builder: (context, state) =>
-                      _SliverAssetToggleList(toggles: state.toggles)),
-            ],
-          );
+                    const SliverToBoxAdapter(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 60.0,
+                          horizontal: 20.0,
+                        ),
+                        child: TextHeader(
+                          title: 'Get your favorites.',
+                          subtitle:
+                              'Enable assets to add them to your portfolio.',
+                        ),
+                      ),
+                    ),
+                    BlocBuilder<AssetToggleCubit, AssetToggleState>(
+                        buildWhen: (previous, current) =>
+                            previous.toggles != current.toggles,
+                        builder: (context, state) =>
+                            _SliverAssetToggleList(toggles: state.toggles)),
+                  ],
+                )
+              : const Center(
+                  child: Text('No account wallet is selected'),
+                );
         }),
       ),
     );
@@ -171,21 +182,30 @@ class _SliverAssetToggleList extends StatelessWidget {
   void Function({
     required String assetId,
     required bool value,
-  }) _toggleAsset(BuildContext context) => ({
-        required bool value,
-        required String assetId,
-      }) =>
-          value
-              ? context.read<AssetWalletBloc>().add(
-                    AssetWalletEnabled(
-                      wallet: AssetWallet.builder(
-                        assetId: assetId,
-                        wallets: const [],
-                        accountWalletId: '',
-                      ),
-                    ),
-                  )
-              : context
-                  .read<AssetWalletBloc>()
-                  .add(AssetWalletDisabled(assetId: assetId));
+  }) _toggleAsset(BuildContext context) {
+    final accountWalletId =
+        context.read<AccountBloc>().state.accountWallet?.uuid;
+
+    if (accountWalletId == null) {
+      throw Exception('No account wallet is selected');
+    }
+
+    return ({
+      required String assetId,
+      required bool value,
+    }) =>
+        value
+            ? context.read<AssetWalletBloc>().add(
+                  AssetWalletEnabled(
+                    accountWalletId: accountWalletId,
+                    assetId: assetId,
+                  ),
+                )
+            : context.read<AssetWalletBloc>().add(
+                  AssetWalletDisabled(
+                    accountWalletId: accountWalletId,
+                    assetId: assetId,
+                  ),
+                );
+  }
 }

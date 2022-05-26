@@ -22,15 +22,14 @@ class AccountLocalAdapter extends TypeAdapter<AccountLocal> {
       refreshToken: fields[2] as String,
       lastLogin: fields[3] as DateTime,
       settings: fields[4] as AccountSettingsLocal,
-      defaultWallet: fields[5] as String,
-      wallets: (fields[6] as List).cast<AccountWalletLocal>(),
+      wallets: (fields[5] as List).cast<AccountWalletLocal>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, AccountLocal obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -42,8 +41,6 @@ class AccountLocalAdapter extends TypeAdapter<AccountLocal> {
       ..writeByte(4)
       ..write(obj.settings)
       ..writeByte(5)
-      ..write(obj.defaultWallet)
-      ..writeByte(6)
       ..write(obj.wallets);
   }
 

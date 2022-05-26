@@ -1,8 +1,10 @@
 import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
 
-typedef AssetToggleAction = void Function(
-    {required bool value, required String assetId});
+typedef AssetToggleAction = void Function({
+  required bool value,
+  required String assetId,
+});
 
 class AssetToggleItem extends StatefulWidget {
   final MapEntry<String, Asset> assetEntry;

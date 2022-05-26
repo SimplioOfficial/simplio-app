@@ -2,7 +2,6 @@ import 'package:hive/hive.dart';
 import 'package:simplio_app/data/model/account.dart';
 import 'package:simplio_app/data/model/account_settings.dart';
 import 'package:simplio_app/data/model/account_wallet.dart';
-import 'package:simplio_app/data/model/seed.dart';
 
 class AccountDbProvider {
   static const accountBoxName = 'accountBox';
@@ -67,14 +66,13 @@ class AccountDbProvider {
       settings: AccountSettingsLocal(
         themeMode: account.settings.themeMode,
       ),
-      defaultWallet: account.defaultWallet,
       wallets: account.wallets
           .map((w) => AccountWalletLocal(
                 uuid: w.uuid,
                 name: w.name,
                 accountId: w.accountId,
-                mnemonic: w.seed.mnemonic,
-                imported: w.seed.imported,
+                mnemonic: w.seed.toString(),
+                isImported: w.seed.isImported,
                 walletType: w.walletType,
                 updatedAt: w.updatedAt,
               ))
@@ -88,18 +86,17 @@ class AccountDbProvider {
       secret: LockableSecret.from(secret: accountLocal.secret),
       refreshToken: accountLocal.refreshToken,
       lastLogin: accountLocal.lastLogin,
-      defaultWallet: accountLocal.defaultWallet,
       wallets: accountLocal.wallets
-          .map((e) => AccountWallet.builder(
-                uuid: e.uuid,
-                name: e.name,
-                accountId: e.accountId,
-                walletType: e.walletType,
-                seed: Seed(
-                  mnemonic: e.mnemonic,
-                  imported: e.imported,
+          .map((w) => AccountWallet.builder(
+                uuid: w.uuid,
+                name: w.name,
+                accountId: w.accountId,
+                walletType: w.walletType,
+                seed: LockableSeed.from(
+                  mnemonic: w.mnemonic,
+                  isImported: w.isImported,
                 ),
-                updatedAt: e.updatedAt,
+                updatedAt: w.updatedAt,
               ))
           .toList(),
       settings: AccountSettings.builder(

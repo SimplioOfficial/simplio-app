@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
+part 'wallet.g.dart';
+
 class Wallet extends Equatable {
   final String uuid;
   final int coinType;
@@ -35,7 +37,7 @@ class Wallet extends Equatable {
       ];
 }
 
-@HiveField(6)
+@HiveType(typeId: 5)
 class WalletLocal extends HiveObject {
   @HiveField(0)
   final String uuid;
@@ -49,10 +51,10 @@ class WalletLocal extends HiveObject {
   @HiveField(3)
   final BigInt balance;
 
-  WalletLocal(
-    this.uuid,
-    this.coinType,
-    this.derivationPath,
-    this.balance,
-  );
+  WalletLocal({
+    required this.uuid,
+    required this.coinType,
+    required this.derivationPath,
+    required this.balance,
+  });
 }

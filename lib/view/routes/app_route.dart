@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/repositories/account_repository.dart';
+import 'package:simplio_app/data/repositories/asset_wallet_repository.dart';
 import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
 import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
 import 'package:simplio_app/logic/login_bloc/login_bloc.dart';
@@ -30,7 +31,12 @@ class AppRoute {
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider(create: (context) => AssetWalletBloc()),
+              BlocProvider(
+                create: (context) => AssetWalletBloc(
+                  assetWalletRepository:
+                      RepositoryProvider.of<AssetWalletRepository>(context),
+                ),
+              )
             ],
             child: AuthGuard(
               initialRoute: HomeRoute.home,

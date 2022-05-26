@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
-@HiveType(typeId: 8)
+@HiveType(typeId: 6)
 class CustomWallet extends HiveObject {
   @HiveField(0)
   final String uuid;

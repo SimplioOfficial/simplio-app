@@ -4,10 +4,10 @@ abstract class AssetWalletEvent extends Equatable {
   const AssetWalletEvent();
 }
 
-class AssetWalletLoad extends AssetWalletEvent {
+class AssetWalletLoaded extends AssetWalletEvent {
   final String accountWalletId;
 
-  const AssetWalletLoad({required this.accountWalletId});
+  const AssetWalletLoaded({required this.accountWalletId});
 
   @override
   List<Object?> get props => [accountWalletId];
@@ -31,19 +31,34 @@ class AssetWalletLoadFailure extends AssetWalletEvent {
 }
 
 class AssetWalletEnabled extends AssetWalletEvent {
-  final AssetWallet wallet;
-
-  const AssetWalletEnabled({required this.wallet});
-
-  @override
-  List<Object?> get props => [wallet];
-}
-
-class AssetWalletDisabled extends AssetWalletEvent {
+  final String accountWalletId;
   final String assetId;
 
-  const AssetWalletDisabled({required this.assetId});
+  const AssetWalletEnabled({
+    required this.accountWalletId,
+    required this.assetId,
+  });
 
   @override
-  List<Object?> get props => [assetId];
+  List<Object?> get props => [
+        assetId,
+        accountWalletId,
+      ];
+}
+
+// TODO: Target uuid
+class AssetWalletDisabled extends AssetWalletEvent {
+  final String accountWalletId;
+  final String assetId;
+
+  const AssetWalletDisabled({
+    required this.assetId,
+    required this.accountWalletId,
+  });
+
+  @override
+  List<Object?> get props => [
+        assetId,
+        accountWalletId,
+      ];
 }

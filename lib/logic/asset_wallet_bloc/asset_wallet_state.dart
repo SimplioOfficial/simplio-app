@@ -14,9 +14,6 @@ class AssetWalletState extends Equatable {
     required this.status,
   });
 
-  @override
-  List<Object?> get props => [];
-
   const AssetWalletState.empty()
       : this._(
           assetWallets: const <AssetWallet>[],
@@ -36,28 +33,11 @@ class AssetWalletState extends Equatable {
         );
 
   List<AssetWallet> get enabled =>
-      assetWallets.where((element) => element.enabled).toList();
-}
+      assetWallets.where((w) => w.isEnabled).toList();
 
-// class AssetWalletsLoadingState extends AssetWalletState {
-//   const AssetWalletsLoadingState();
-//
-//   @override
-//   List<Object?> get props => [];
-// }
-//
-// class AssetWallets extends AssetWalletState {
-//   final List<AssetWallet> wallets;
-//
-//   const AssetWallets({
-//     required this.wallets,
-//   });
-//
-//   @override
-//   List<Object?> get props => [
-//         wallets,
-//       ];
-//
-//   List<AssetWallet> get enabled =>
-//       wallets.where((wallet) => wallet.enabled).toList();
-// }
+  @override
+  List<Object?> get props => [
+        assetWallets,
+        status,
+      ];
+}

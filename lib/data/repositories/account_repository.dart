@@ -1,6 +1,5 @@
 import 'package:simplio_app/data/model/account.dart';
 import 'package:simplio_app/data/model/account_wallet.dart';
-import 'package:simplio_app/data/model/seed.dart';
 import 'package:simplio_app/data/providers/account_db_provider.dart';
 
 class AccountRepository {
@@ -42,9 +41,10 @@ class AccountRepository {
       name: 'Generated wallet',
       accountId: id,
       walletType: AccountWalletTypes.hdWallet,
-      seed: const Seed(
+      seed: LockableSeed.from(
         mnemonic: 'not your keys not your coins',
-        imported: false,
+        isImported: false,
+        isLocked: false,
       ),
       updatedAt: DateTime.now(),
     );
@@ -54,7 +54,6 @@ class AccountRepository {
         secret: LockableSecret.generate(),
         refreshToken: '',
         lastLogin: DateTime.now(),
-        defaultWallet: testWallet.uuid,
         wallets: <AccountWallet>[testWallet]));
   }
 

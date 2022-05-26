@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
-import 'package:simplio_app/data/model/seed.dart';
+import 'package:simplio_app/data/mixins/aes_encryption_mixin.dart';
 import 'package:uuid/uuid.dart';
 
 part 'account_wallet.g.dart';
@@ -9,7 +9,7 @@ class AccountWallet extends Equatable {
   final String name;
   final String uuid;
   final String accountId;
-  final Seed seed;
+  final LockableSeed seed;
   final AccountWalletTypes walletType;
   final DateTime updatedAt;
 
@@ -27,7 +27,7 @@ class AccountWallet extends Equatable {
     required String name,
     required String accountId,
     required AccountWalletTypes walletType,
-    required Seed seed,
+    required LockableSeed seed,
     required DateTime updatedAt,
   }) : this._(
           uuid: uuid ?? const Uuid().v4(),
@@ -62,6 +62,41 @@ class AccountWallet extends Equatable {
       ];
 }
 
+class LockableSeed with AesEncryption {
+  String _mnemonic;
+  final bool isImported;
+  bool _isLocked;
+
+  LockableSeed._(this._mnemonic, this.isImported, this._isLocked);
+
+  LockableSeed.from({
+    required String mnemonic,
+    required bool isImported,
+    bool isLocked = true,
+  }) : this._(mnemonic, isImported, isLocked);
+
+  bool get isLocked => _isLocked;
+
+  String unlock(String key) {
+    if (!_isLocked) return _mnemonic;
+    return decrypt(key, _mnemonic);
+  }
+
+  LockableSeed lock(String key) {
+    if (_isLocked) return this;
+
+    _mnemonic = encrypt(key, _mnemonic);
+    _isLocked = true;
+
+    return this;
+  }
+
+  @override
+  String toString() {
+    return _mnemonic;
+  }
+}
+
 @HiveType(typeId: 31)
 enum AccountWalletTypes {
   @HiveField(0)
@@ -83,7 +118,7 @@ class AccountWalletLocal extends HiveObject {
   final String mnemonic;
 
   @HiveField(4)
-  final bool imported;
+  final bool isImported;
 
   @HiveField(5)
   final AccountWalletTypes walletType;
@@ -96,7 +131,7 @@ class AccountWalletLocal extends HiveObject {
     required this.name,
     required this.accountId,
     required this.mnemonic,
-    required this.imported,
+    required this.isImported,
     required this.walletType,
     required this.updatedAt,
   });
