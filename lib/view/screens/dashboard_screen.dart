@@ -10,44 +10,42 @@ class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text('Wallets'),
+  Widget build(BuildContext context) => BlocListener<AccountBloc, AccountState>(
+        listenWhen: (prev, curr) => prev.accountWallet != curr.accountWallet,
+        listener: (context, state) {
+          final acc = state.accountWallet;
+          if (acc != null) {
+            context
+                .read<AssetWalletBloc>()
+                .add(AssetWalletLoaded(accountWalletId: acc.uuid));
+          }
+        },
+        child: Scaffold(
           backgroundColor: Colors.white,
-          elevation: 0.4,
-          foregroundColor: Colors.black87,
-        ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton(
-              onPressed: () => Navigator.of(context).pushNamed(
-                AppRoute.assets,
+          appBar: AppBar(
+            title: const Text('Wallets'),
+            backgroundColor: Colors.white,
+            elevation: 0.4,
+            foregroundColor: Colors.black87,
+          ),
+          floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                onPressed: () => Navigator.of(context).pushNamed(
+                  AppRoute.assets,
+                ),
+                child: const Icon(Icons.add),
               ),
-              child: const Icon(Icons.add),
-            ),
-            FloatingActionButton(
-              backgroundColor: Colors.black,
-              onPressed: () =>
-                  context.read<AccountBloc>().add(AccountRemoved()),
-              child: const Icon(Icons.logout),
-            ),
-          ],
-        ),
-        body: BlocListener<AccountBloc, AccountState>(
-          listenWhen: (previous, current) {
-            return previous.accountWallet != current.accountWallet;
-          },
-          listener: (context, state) {
-            final acc = state.accountWallet;
-            if (acc != null) {
-              context
-                  .read<AssetWalletBloc>()
-                  .add(AssetWalletLoaded(accountWalletId: acc.uuid));
-            }
-          },
-          child: BlocBuilder<AssetWalletBloc, AssetWalletState>(
+              FloatingActionButton(
+                backgroundColor: Colors.black,
+                onPressed: () =>
+                    context.read<AccountBloc>().add(AccountRemoved()),
+                child: const Icon(Icons.logout),
+              ),
+            ],
+          ),
+          body: BlocBuilder<AssetWalletBloc, AssetWalletState>(
             builder: (context, state) {
               var enabled = state.enabled;
 

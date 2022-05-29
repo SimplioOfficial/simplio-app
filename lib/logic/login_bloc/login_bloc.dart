@@ -36,6 +36,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } on Exception catch (err, _) {
       // TODO: handle exceptions
       emit(state.copyWith(response: LoginFailure(exception: err)));
+    } catch (err) {
+      // TODO: handle all errors
+      emit(state.copyWith(
+        response: LoginFailure(
+          exception: Exception('Login request error'),
+        ),
+      ));
     }
   }
 

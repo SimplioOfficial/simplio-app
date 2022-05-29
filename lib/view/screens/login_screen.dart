@@ -12,19 +12,16 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
-        switch (state.response.runtimeType) {
-          case LoginSuccess:
-            final res = state.response as LoginSuccess;
-            context
-                .read<AccountBloc>()
-                .add(AccountChanged(account: res.account));
-            break;
-          case LoginFailure:
-            print('LOGIN HAS FAILED');
-            break;
-          default:
-            print("STATE HAS NOT RESPONSE");
-            break;
+        final res = state.response;
+
+        if (res is LoginSuccess) {
+          context.read<AccountBloc>().add(AccountChanged(account: res.account));
+
+          Navigator.of(context).popAndPushNamed(AppRoute.home);
+        }
+
+        if (res is LoginFailure) {
+          print('LOGIN HAS FAILED');
         }
       },
       child: Scaffold(
@@ -62,7 +59,6 @@ class LoginScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       context.read<LoginBloc>().add(const LoginRequested());
-                      Navigator.of(context).popAndPushNamed(AppRoute.home);
                     },
                     child: const Text('Login'),
                   ),
