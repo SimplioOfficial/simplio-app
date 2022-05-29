@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:simplio_app/data/model/wallet.dart';
+import 'package:simplio_app/data/model/asset_wallet.dart';
 
 class WalletListItem extends StatefulWidget {
-  final Wallet wallet;
+  final AssetWallet assetWallet;
   final GestureTapCallback onTap;
 
-  const WalletListItem({Key? key, required this.wallet, required this.onTap})
+  const WalletListItem(
+      {Key? key, required this.assetWallet, required this.onTap})
       : super(key: key);
 
   @override
@@ -26,8 +27,10 @@ class _WalletListItem extends State<WalletListItem> {
           child: Row(
             children: [
               CircleAvatar(
-                backgroundColor: widget.wallet.asset.style.primaryColor,
-                foregroundColor: widget.wallet.asset.style.foregroundColor,
+                backgroundColor:
+                    widget.assetWallet.asset.detail.style.primaryColor,
+                foregroundColor:
+                    widget.assetWallet.asset.detail.style.foregroundColor,
               ),
               Padding(
                 padding:
@@ -36,11 +39,11 @@ class _WalletListItem extends State<WalletListItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.wallet.asset.name,
+                      widget.assetWallet.asset.detail.name,
                       textScaleFactor: 1.2,
                     ),
                     Text(
-                      widget.wallet.asset.ticker.toUpperCase(),
+                      widget.assetWallet.asset.detail.ticker.toUpperCase(),
                       style: const TextStyle(color: Colors.black26),
                     ),
                   ],
