@@ -12,7 +12,7 @@ class Account extends Equatable {
   }
 
   final String id;
-  final LockableSecret secret; // asdfghjkweihdiu
+  final LockableSecret secret;
   final String? accessToken;
   final String refreshToken;
   final DateTime lastLogin;
@@ -27,7 +27,7 @@ class Account extends Equatable {
     this.lastLogin,
     this.settings,
     this.wallets,
-  );
+  ) : assert(id.length > 0);
 
   const Account.builder({
     /// `id` is a Auth0 identifier. e.g apps@simplio.io
