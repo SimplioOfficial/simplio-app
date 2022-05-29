@@ -73,6 +73,7 @@ class AccountDbProvider {
                 accountId: w.accountId,
                 mnemonic: w.seed.toString(),
                 isImported: w.seed.isImported,
+                isBackedUp: w.seed.isBackedUp,
                 walletType: w.walletType,
                 updatedAt: w.updatedAt,
               ))
@@ -95,6 +96,7 @@ class AccountDbProvider {
                 seed: LockableSeed.from(
                   mnemonic: w.mnemonic,
                   isImported: w.isImported,
+                  isBackedUp: w.isBackedUp,
                 ),
                 updatedAt: w.updatedAt,
               ))

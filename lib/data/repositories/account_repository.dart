@@ -45,6 +45,7 @@ class AccountRepository {
         mnemonic: 'not your keys not your coins',
         isImported: false,
         isLocked: false,
+        isBackedUp: false,
       ),
       updatedAt: DateTime.now(),
     );

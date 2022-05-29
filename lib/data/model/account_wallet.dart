@@ -65,15 +65,27 @@ class AccountWallet extends Equatable {
 class LockableSeed with AesEncryption {
   String _mnemonic;
   final bool isImported;
+  final bool isBackedUp;
   bool _isLocked;
 
-  LockableSeed._(this._mnemonic, this.isImported, this._isLocked);
+  LockableSeed._(
+    this._mnemonic,
+    this.isImported,
+    this.isBackedUp,
+    this._isLocked,
+  );
 
   LockableSeed.from({
     required String mnemonic,
     required bool isImported,
+    required bool isBackedUp,
     bool isLocked = true,
-  }) : this._(mnemonic, isImported, isLocked);
+  }) : this._(
+          mnemonic,
+          isImported,
+          isBackedUp,
+          isLocked,
+        );
 
   bool get isLocked => _isLocked;
 
@@ -121,9 +133,12 @@ class AccountWalletLocal extends HiveObject {
   final bool isImported;
 
   @HiveField(5)
-  final AccountWalletTypes walletType;
+  final bool isBackedUp;
 
   @HiveField(6)
+  final AccountWalletTypes walletType;
+
+  @HiveField(7)
   final DateTime updatedAt;
 
   AccountWalletLocal({
@@ -132,6 +147,7 @@ class AccountWalletLocal extends HiveObject {
     required this.accountId,
     required this.mnemonic,
     required this.isImported,
+    required this.isBackedUp,
     required this.walletType,
     required this.updatedAt,
   });

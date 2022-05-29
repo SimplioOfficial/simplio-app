@@ -22,15 +22,16 @@ class AccountWalletLocalAdapter extends TypeAdapter<AccountWalletLocal> {
       accountId: fields[2] as String,
       mnemonic: fields[3] as String,
       isImported: fields[4] as bool,
-      walletType: fields[5] as AccountWalletTypes,
-      updatedAt: fields[6] as DateTime,
+      isBackedUp: fields[5] as bool,
+      walletType: fields[6] as AccountWalletTypes,
+      updatedAt: fields[7] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, AccountWalletLocal obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -42,8 +43,10 @@ class AccountWalletLocalAdapter extends TypeAdapter<AccountWalletLocal> {
       ..writeByte(4)
       ..write(obj.isImported)
       ..writeByte(5)
-      ..write(obj.walletType)
+      ..write(obj.isBackedUp)
       ..writeByte(6)
+      ..write(obj.walletType)
+      ..writeByte(7)
       ..write(obj.updatedAt);
   }
 
