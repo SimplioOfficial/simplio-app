@@ -16,8 +16,6 @@ class AssetsScreen extends StatelessWidget {
   List<AssetToggle> _loadToggles(BuildContext context) {
     final walletState = context.read<AssetWalletBloc>().state;
 
-    print("WALLET STATE ${walletState.enabled.length}");
-
     return context.read<AssetToggleCubit>().loadToggles(
           Assets.all.entries.toList(),
           walletState.enabled.map((e) => e.assetId).toList(),
