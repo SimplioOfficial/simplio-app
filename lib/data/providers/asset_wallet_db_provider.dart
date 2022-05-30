@@ -20,18 +20,6 @@ class AssetWalletDbProvider {
     return this;
   }
 
-  List<AssetWallet> load(String accountWalletId) {
-    try {
-      return _assetWalletBox.values
-          .where((element) => element.accountWalletId == accountWalletId)
-          .map((e) => _to(e))
-          .toList();
-    } on Exception {
-      print('Loading asset wallets has failed');
-      return [];
-    }
-  }
-
   AssetWallet? get(String uuid) {
     try {
       final AssetWalletLocal? assetWalletLocal = _assetWalletBox.get(uuid);
