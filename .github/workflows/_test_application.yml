@@ -70,7 +70,7 @@ jobs:
           xcrun simctl io booted recordVideo --codec=h264 recording.mp4 &
           sleep 2
           export RECORDING_PID=${!}
-          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/screenshot_test.dart
+          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
           sleep 3
           kill -SIGINT $RECORDING_PID
           sleep 5
@@ -103,4 +103,4 @@ jobs:
           target: ${{ matrix.target }}
           arch: x86_64
           profile: Nexus 6
-          script: flutter drive \ --driver=test_driver/integration_test.dart \ --target=integration_test/screenshot_test.dart \
+          script: flutter drive \ --driver=test_driver/integration_test.dart \ --target=integration_test/app_test.dart \
