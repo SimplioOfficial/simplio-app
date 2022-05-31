@@ -4,7 +4,6 @@ import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/data/repositories/trust_wallet_repository.dart';
 import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
 import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
-import 'package:simplio_app/logic/trust_wallet_core_bloc/trust_wallet_core_bloc.dart';
 import 'package:simplio_app/view/routes/home_route.dart';
 import 'package:simplio_app/view/widgets/wallet_list_item.dart';
 import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';

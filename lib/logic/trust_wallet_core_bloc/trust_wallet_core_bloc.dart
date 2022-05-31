@@ -18,8 +18,6 @@ class TrustWalletCoreBloc
 
   void _onTrustWalletCoreSet(
       TrustWalletCoreSet ev, Emitter<TrustWalletCoreState> emit) {
-    final state = this.state;
-
     HDWallet trustWallet = ev.trustWallet;
     trustWalletRepository.trustWallet = trustWallet;
 
