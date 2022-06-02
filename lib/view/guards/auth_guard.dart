@@ -6,12 +6,14 @@ class AuthGuard extends StatelessWidget {
   final String initialRoute;
   final RouteFactory onGenerateRoute;
   final Function(BuildContext, AccountState) onAccountChange;
+  final GlobalKey<NavigatorState> navigatorKey;
 
   const AuthGuard({
     Key? key,
     required this.initialRoute,
     required this.onGenerateRoute,
     required this.onAccountChange,
+    required this.navigatorKey,
   }) : super(key: key);
 
   @override
@@ -21,6 +23,7 @@ class AuthGuard extends StatelessWidget {
         onAccountChange(context, state);
       },
       child: Navigator(
+        key: navigatorKey,
         initialRoute: initialRoute,
         onGenerateRoute: onGenerateRoute,
       ),

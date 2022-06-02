@@ -4,6 +4,8 @@ import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/data/repositories/trust_wallet_repository.dart';
 import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
 import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
+import 'package:simplio_app/view/routes/app_route.dart';
+import 'package:simplio_app/view/routes/home_initial_route.dart';
 import 'package:simplio_app/view/routes/home_route.dart';
 import 'package:simplio_app/view/widgets/wallet_list_item.dart';
 import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
@@ -70,18 +72,13 @@ class DashboardScreen extends StatelessWidget {
                         HDWallet? trustWallet =
                             context.read<TrustWalletRepository>().trustWallet;
 
-                        if (trustWallet != null) {
-                          print('74 ${trustWallet.mnemonic()}');
-                          return WalletListItem(
-                            key: Key(wallet.assetId),
-                            assetWallet: wallet,
-                            trustWallet: trustWallet,
-                            onTap: () => Navigator.of(context)
-                                .pushNamed(HomeRoute.wallet, arguments: wallet),
-                          );
-                        } else {
-                          return Container();
-                        }
+                        return WalletListItem(
+                          key: Key(wallet.assetId),
+                          assetWallet: wallet,
+                          trustWallet: trustWallet,
+                          onTap: () => Navigator.of(context)
+                              .pushNamed(HomeRoute.wallet, arguments: wallet),
+                        );
                       },
                     ),
             );
@@ -96,11 +93,10 @@ class DashboardScreen extends StatelessWidget {
       HDWallet? trustWallet = context.read<TrustWalletRepository>().trustWallet;
       // if trust wallet is not initialized navigate to seed generation
       if (trustWallet == null) {
-        Navigator.of(
-          context,
-        ).popAndPushNamed(HomeRoute.initialSettings);
-      } else {
-        print('102 ${trustWallet.mnemonic()}');
+        // Navigator.pushNamed(context, '/home/initial-settings',
+        //     arguments: HomeRoute.dashboard);
+
+        AppRoute.authGuardNav.currentState?.pushNamed('/initial-settings');
       }
     });
   }

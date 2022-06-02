@@ -10,8 +10,12 @@ class HomeWalletRoute {
   static const String receive = '/receive';
   static const String send = '/send';
 
-  Route<dynamic> generateRoute(
-      {required RouteSettings settings, required AssetWallet assetWallet}) {
+  final AssetWallet assetWallet;
+
+  const HomeWalletRoute({required this.assetWallet});
+
+  Route<dynamic> generateRoute({required RouteSettings settings}) {
+    print('16 ${settings.name}');
     switch (settings.name) {
       case initial:
       case detail:
@@ -29,12 +33,5 @@ class HomeWalletRoute {
       default:
         throw const FormatException('Screen not found');
     }
-    return MaterialPageRoute(
-      builder: (context) => const Scaffold(
-        body: Center(
-          child: Text('No arguments provided'),
-        ),
-      ),
-    );
   }
 }

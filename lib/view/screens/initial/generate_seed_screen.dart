@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/logic/trust_wallet_core_bloc/trust_wallet_core_bloc.dart';
 import 'package:simplio_app/view/routes/app_route.dart';
 import 'package:simplio_app/view/routes/home_initial_route.dart';
+import 'package:simplio_app/view/routes/home_route.dart';
 import 'package:simplio_app/view/widgets/next_button.dart';
 import 'package:sio_core/sio_core.dart' as sio;
 
@@ -39,8 +40,9 @@ class _GenerateSeedScreen extends State<GenerateSeedScreen> {
               .read<TrustWalletCoreBloc>()
               .add(TrustWalletCoreSet(trustWallet: wallet));
 
-          Navigator.of(context, rootNavigator: true)
-              .popAndPushNamed(AppRoute.home);
+          // Navigator.of(context).pop();
+          // AppRoute.mainAppNav.currentState!.pop();
+          AppRoute.authGuardNav.currentState?.pop();
         },
       ),
       body: Column(

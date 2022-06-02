@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/logic/trust_wallet_core_bloc/trust_wallet_core_bloc.dart';
 import 'package:simplio_app/logic/wallet_utils.dart';
+import 'package:simplio_app/view/routes/app_route.dart';
+import 'package:simplio_app/view/routes/home_route.dart';
 import 'package:simplio_app/view/routes/home_wallet_route.dart';
 import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
 
@@ -20,8 +22,7 @@ class _WalletDetailScreen extends State<WalletDetailScreen> {
   @override
   Widget build(BuildContext context) {
     HDWallet? trustWallet =
-        (BlocProvider.of<TrustWalletCoreBloc>(context).state as TrustWalletCore)
-            .trustWallet;
+        BlocProvider.of<TrustWalletCoreBloc>(context).state.trustWallet;
 
     BigInt balance = BigInt.zero;
     widget.assetWallet.asset.assetTypes
@@ -50,7 +51,7 @@ class _WalletDetailScreen extends State<WalletDetailScreen> {
             elevation: 0,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios_new),
-              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              onPressed: () => AppRoute.authGuardNav.currentState?.pop(),
             ),
           ),
           backgroundColor: Colors.white,
@@ -89,7 +90,7 @@ class _WalletDetailScreen extends State<WalletDetailScreen> {
                   child: ElevatedButton(
                     key: const Key('send_button'),
                     child: const Text('Send'),
-                    onPressed: () => Navigator.of(context).pushNamed(
+                    onPressed: () => AppRoute.walletNav.currentState?.pushNamed(
                       HomeWalletRoute.send,
                       arguments: widget.assetWallet,
                     ),
@@ -107,7 +108,7 @@ class _WalletDetailScreen extends State<WalletDetailScreen> {
                   child: ElevatedButton(
                     key: const Key('receive_button'),
                     child: const Text('Receive'),
-                    onPressed: () => Navigator.of(context).pushNamed(
+                    onPressed: () => AppRoute.walletNav.currentState?.pushNamed(
                       HomeWalletRoute.receive,
                       arguments: widget.assetWallet,
                     ),

@@ -8,7 +8,7 @@ import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
 class WalletListItem extends StatefulWidget {
   final AssetWallet assetWallet;
   final GestureTapCallback onTap;
-  final HDWallet trustWallet;
+  final HDWallet? trustWallet;
 
   const WalletListItem(
       {Key? key,

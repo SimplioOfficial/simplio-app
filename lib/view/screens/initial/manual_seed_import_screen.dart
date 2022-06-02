@@ -43,8 +43,7 @@ class _ManualSeedImportScreen extends State<ManualSeedImportScreen> {
               .read<TrustWalletCoreBloc>()
               .add(TrustWalletCoreSet(trustWallet: wallet));
 
-          Navigator.of(context, rootNavigator: true)
-              .popAndPushNamed(AppRoute.home);
+          AppRoute.authGuardNav.currentState?.pop();
         },
       ),
       body: Column(

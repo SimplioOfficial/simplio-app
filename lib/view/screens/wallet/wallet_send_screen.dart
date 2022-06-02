@@ -5,6 +5,7 @@ import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/data/model/wallet.dart';
 import 'package:simplio_app/logic/trust_wallet_core_bloc/trust_wallet_core_bloc.dart';
 import 'package:simplio_app/logic/wallet_utils.dart';
+import 'package:simplio_app/view/routes/app_route.dart';
 import 'package:simplio_app/view/routes/home_wallet_route.dart';
 import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
 
@@ -28,27 +29,25 @@ class _WalletSendScreen extends State<WalletSendScreen> {
   @override
   Widget build(BuildContext context) {
     HDWallet? trustWallet =
-        (BlocProvider.of<TrustWalletCoreBloc>(context).state as TrustWalletCore)
+        BlocProvider
+            .of<TrustWalletCoreBloc>(context)
+            .state
             .trustWallet;
 
-    var balance = List<Future<BigInt>>.empty();
-    widget.assetWallet.asset.assetTypes
-        .map((assetType) async {
-          return await WalletUtils.getBalance(
-            network: assetType.network,
-            address:
-                trustWallet?.getAddressForCoin(assetType.network.coinType) ??
-                    '',
-          );
-        })
-        .toList()
-        .forEach((element) => balance.add(element));
+    List<Future<BigInt>> balance =
+    widget.assetWallet.asset.assetTypes.map((assetType) async {
+      return await WalletUtils.getBalance(
+        network: assetType.network,
+        address:
+        trustWallet?.getAddressForCoin(assetType.network.coinType) ?? '',
+      );
+    }).toList();
 
     return FutureBuilder<List<BigInt>>(
         future: Future.wait(balance),
         builder: (context, AsyncSnapshot<List<BigInt>> snapshot) {
-          print(snapshot.data);
-          print(widget.assetWallet.asset.assetTypes);
+          print('45 ${snapshot.data}');
+          print('46 ${widget.assetWallet.asset.assetTypes.length}');
 
           return Scaffold(
             appBar: AppBar(
@@ -56,6 +55,10 @@ class _WalletSendScreen extends State<WalletSendScreen> {
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
               elevation: 0,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new),
+                onPressed: () => AppRoute.walletNav.currentState?.pop(),
+              ),
             ),
             backgroundColor: Colors.white,
             body: Form(
@@ -66,26 +69,28 @@ class _WalletSendScreen extends State<WalletSendScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  ListView.builder(
-                    itemCount: balance.length,
-                    itemBuilder: (BuildContext ctx, int i) {
-                      final Wallet wallet = widget.assetWallet.wallets[i];
+                  // ListView.builder(
+                  //   itemCount: snapshot.data?.length,
+                  //   itemBuilder: (BuildContext ctx, int i) {
+                  //     var assetType = widget.assetWallet.asset.assetTypes[i];
+                  //
+                  //     return Padding(
+                  //       padding: const EdgeInsets.symmetric(
+                  //         horizontal: 20.0,
+                  //         vertical: 16.0,
+                  //       ),
+                  //       child: Text(
+                  //         '${assetType.network.coinType} - ${balance[i]}',
+                  //         style: const TextStyle(
+                  //           fontSize: 20,
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
 
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0,
-                          vertical: 16.0,
-                        ),
-                        child: Text(
-                          '${wallet.uuid} (${wallet.coinType}) - ${balance[i]}',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+
                   // Padding(
                   //   padding: const EdgeInsets.symmetric(
                   //     horizontal: 20.0,
@@ -119,7 +124,7 @@ class _WalletSendScreen extends State<WalletSendScreen> {
                         )
                       ],
                       keyboardType:
-                          const TextInputType.numberWithOptions(decimal: true),
+                      const TextInputType.numberWithOptions(decimal: true),
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Amount',
@@ -138,7 +143,7 @@ class _WalletSendScreen extends State<WalletSendScreen> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter destination address';
                         } else if (AnyAddress.isValid(value,
-                                widget.assetWallet.wallets.first.coinType) ==
+                            widget.assetWallet.wallets.first.coinType) ==
                             false) {
                           return 'Enter correct address';
                         }
@@ -164,7 +169,7 @@ class _WalletSendScreen extends State<WalletSendScreen> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter number';
                         } else if (double.parse(value) +
-                                (double.parse(amountController.text)) >
+                            (double.parse(amountController.text)) >
                             (snapshot.data as List<BigInt>).first.toInt()) {
                           return 'Fee and amount are greater than available '
                               'amount';
@@ -178,7 +183,7 @@ class _WalletSendScreen extends State<WalletSendScreen> {
                         )
                       ],
                       keyboardType:
-                          const TextInputType.numberWithOptions(decimal: true),
+                      const TextInputType.numberWithOptions(decimal: true),
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Fee',
@@ -199,13 +204,14 @@ class _WalletSendScreen extends State<WalletSendScreen> {
                       },
                       items: widget.assetWallet.wallets.isNotEmpty
                           ? widget.assetWallet.wallets
-                              .map(
-                                (wallet) => DropdownMenuItem(
-                                  child: Text(wallet.uuid),
-                                  value: wallet.uuid,
-                                ),
-                              )
-                              .toList()
+                          .map(
+                            (wallet) =>
+                            DropdownMenuItem(
+                              child: Text(wallet.uuid),
+                              value: wallet.uuid,
+                            ),
+                      )
+                          .toList()
                           : [],
                     ),
                   ),
@@ -218,7 +224,10 @@ class _WalletSendScreen extends State<WalletSendScreen> {
                 vertical: 16.0,
               ),
               child: SizedBox(
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 child: ElevatedButton(
                   key: const Key('send_button'),
                   child: const Text('Send'),
