@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
+import 'package:simplio_app/view/routes/_route_utils.dart';
+import 'package:simplio_app/view/routes/app_route.dart';
 import 'package:simplio_app/view/routes/home_initial_route.dart';
+import 'package:simplio_app/view/routes/home_wallet_route.dart';
 import 'package:simplio_app/view/screens/assets_screen.dart';
 import 'package:simplio_app/view/screens/dashboard_screen.dart';
-import 'package:simplio_app/view/screens/wallet_screen.dart';
 
 class HomeRoute {
-  static const String home = '/';
+  static const String dashboard = '/';
   static const String assets = '/assets';
   static const String wallet = '/wallet';
   static const String initialSettings = '/initial-settings';
 
   Route<dynamic> generateRoute(RouteSettings settings) {
+    print('45 ${settings.name}  ${settings.arguments}');
     switch (settings.name) {
-      case home:
+      // switch (RouteUtils.getSubroute(settings, '/home')) {
+      case dashboard:
         return MaterialPageRoute(
-          builder: (context) => const DashboardScreen(),
+          builder: (_) => const DashboardScreen(),
         );
       case wallet:
         return MaterialPageRoute(
-            builder: (_) => WalletScreen(
-                  assetWallet: settings.arguments! as AssetWallet,
-                ));
+          builder: (_) => Navigator(
+            key: AppRoute.walletNav,
+            onGenerateRoute: (_) =>
+                HomeWalletRoute(assetWallet: settings.arguments as AssetWallet)
+                    .generateRoute(settings: _),
+          ),
+        );
       case assets:
         return MaterialPageRoute(
           builder: (_) => const AssetsScreen(),
@@ -29,8 +37,7 @@ class HomeRoute {
       case initialSettings:
         return MaterialPageRoute(
           builder: (_) => Navigator(
-            onGenerateRoute: HomeInitialRoute().generateRoute,
-            initialRoute: '/',
+            onGenerateRoute: (_) => HomeInitialRoute().generateRoute(_),
           ),
         );
       default:

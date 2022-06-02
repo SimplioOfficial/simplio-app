@@ -23,7 +23,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   equatable: ^2.0.3
   trust_wallet_core_lib: ^0.0.5+2.7.2
-  sio_core: ^0.0.9
+  sio_core: ^0.0.10
   hive: ^2.2.1
   hive_flutter: ^1.1.0
   uuid: ^3.0.6

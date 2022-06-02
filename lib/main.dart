@@ -70,16 +70,11 @@ class _SimplioAppState extends State<SimplioApp> {
                   RepositoryProvider.of<AccountRepository>(context),
             )..add(AccountLastRequested()),
           ),
-          BlocProvider(
-            create: (context) => TrustWalletCoreBloc(
-              trustWalletRepository:
-                  RepositoryProvider.of<TrustWalletRepository>(context),
-            ),
-          ),
         ],
         child: MaterialApp(
           title: 'Simplio',
           initialRoute: AppRoute.home,
+          navigatorKey: AppRoute.mainAppNav,
           onGenerateRoute: _router.generateRoute,
         ),
       ),

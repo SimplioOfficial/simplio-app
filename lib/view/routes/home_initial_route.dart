@@ -8,6 +8,7 @@ class HomeInitialRoute {
   static const String manualSeedImport = '/manual-seed-import';
 
   Route<dynamic> generateRoute(RouteSettings settings) {
+    print('11 ${settings.name} ${settings.arguments}');
     switch (settings.name) {
       case initial:
       case generateSeed:
