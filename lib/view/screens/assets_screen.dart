@@ -1,9 +1,8 @@
 import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
+import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/logic/asset_toggle_cubit/asset_toggle_cubit.dart';
-import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
 import 'package:simplio_app/view/widgets/appbar_search.dart';
 import 'package:simplio_app/view/widgets/asset_toggle_item.dart';
 import 'package:simplio_app/view/widgets/text_header.dart';
@@ -14,11 +13,11 @@ class AssetsScreen extends StatelessWidget {
   const AssetsScreen({Key? key}) : super(key: key);
 
   List<AssetToggle> _loadToggles(BuildContext context) {
-    final walletState = context.read<AssetWalletBloc>().state;
+    final walletState = context.read<AccountCubit>().state.enabledAssetWallets;
 
     return context.read<AssetToggleCubit>().loadToggles(
           Assets.all.entries.toList(),
-          walletState.enabled.map((e) => e.assetId).toList(),
+          walletState.map((e) => e.assetId).toList(),
         );
   }
 
@@ -32,7 +31,7 @@ class AssetsScreen extends StatelessWidget {
           _loadToggles(context);
 
           final accountWalletId =
-              context.read<AccountBloc>().state.accountWallet;
+              context.read<AccountCubit>().state.account?.wallets[0];
 
           return accountWalletId != null
               ? CustomScrollView(
@@ -177,33 +176,16 @@ class _SliverAssetToggleList extends StatelessWidget {
         ),
       );
 
-  void Function({
+  Future<void> Function({
     required String assetId,
     required bool value,
   }) _toggleAsset(BuildContext context) {
-    final accountWalletId =
-        context.read<AccountBloc>().state.accountWallet?.uuid;
-
-    if (accountWalletId == null) {
-      throw Exception('No account wallet is selected');
-    }
-
     return ({
       required String assetId,
       required bool value,
-    }) =>
+    }) async =>
         value
-            ? context.read<AssetWalletBloc>().add(
-                  AssetWalletEnabled(
-                    accountWalletId: accountWalletId,
-                    assetId: assetId,
-                  ),
-                )
-            : context.read<AssetWalletBloc>().add(
-                  AssetWalletDisabled(
-                    accountWalletId: accountWalletId,
-                    assetId: assetId,
-                  ),
-                );
+            ? await context.read<AccountCubit>().enableAssetWallet(assetId)
+            : await context.read<AccountCubit>().disableAssetWallet(assetId);
   }
 }

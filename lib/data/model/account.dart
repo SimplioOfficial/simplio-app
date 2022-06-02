@@ -77,6 +77,11 @@ class Account extends Equatable {
         id,
         secret,
       ];
+
+  AccountWallet? get accountWallet {
+    if (wallets.isNotEmpty) return wallets.first;
+    return null;
+  }
 }
 
 class LockableSecret with AesEncryption {

@@ -35,9 +35,8 @@ class AssetWalletRepository {
       );
 
       return _db.save(assetWallet);
-    } on Exception catch (e) {
-      print(e.toString());
-      throw Exception("Asset wallet of ${assetId} could not be enabled");
+    } catch (_) {
+      throw Exception("Asset wallet of $assetId could not be enabled");
     }
   }
 
@@ -48,9 +47,8 @@ class AssetWalletRepository {
       if (existingAssetWallet == null) return;
 
       await _db.save(existingAssetWallet.copyWith(isEnabled: false));
-    } on Exception catch (e) {
-      print(e.toString());
-      throw Exception("Asset wallet of ${assetId} could not be disabled");
+    } catch (_) {
+      throw Exception("Asset wallet of $assetId could not be disabled");
     }
   }
 

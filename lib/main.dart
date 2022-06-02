@@ -5,8 +5,12 @@ import 'package:simplio_app/data/providers/account_db_provider.dart';
 import 'package:simplio_app/data/providers/asset_wallet_db_provider.dart';
 import 'package:simplio_app/data/repositories/account_repository.dart';
 import 'package:simplio_app/data/repositories/asset_wallet_repository.dart';
-import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
+import 'package:simplio_app/data/repositories/auth_repository.dart';
+import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
+import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
+import 'package:simplio_app/view/guards/auth_guard.dart';
 import 'package:simplio_app/view/routes/app_route.dart';
+import 'package:simplio_app/view/routes/home_route.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,21 +21,26 @@ Future<void> main() async {
       await AccountRepository.builder(db: AccountDbProvider()).init();
   final assetWalletRepository =
       await AssetWalletRepository.builder(db: AssetWalletDbProvider()).init();
+  final authRepository =
+      await AuthRepository.builder(db: AccountDbProvider()).init();
 
   runApp(SimplioApp(
     accountRepository: accountRepository,
     assetWalletRepository: assetWalletRepository,
+    authRepository: authRepository,
   ));
 }
 
 class SimplioApp extends StatefulWidget {
   final AccountRepository accountRepository;
   final AssetWalletRepository assetWalletRepository;
+  final AuthRepository authRepository;
 
   const SimplioApp({
     Key? key,
     required this.accountRepository,
     required this.assetWalletRepository,
+    required this.authRepository,
   }) : super(key: key);
 
   @override
@@ -39,7 +48,8 @@ class SimplioApp extends StatefulWidget {
 }
 
 class _SimplioAppState extends State<SimplioApp> {
-  final AppRoute _router = AppRoute();
+  final AppRoute _appRouter = AppRoute();
+  final HomeRoute _homeRouter = HomeRoute();
 
   @override
   Widget build(BuildContext context) {
@@ -47,20 +57,44 @@ class _SimplioAppState extends State<SimplioApp> {
       providers: [
         RepositoryProvider.value(value: widget.accountRepository),
         RepositoryProvider.value(value: widget.assetWalletRepository),
+        RepositoryProvider.value(value: widget.authRepository),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => AccountBloc(
-              accountRepository:
-                  RepositoryProvider.of<AccountRepository>(context),
-            )..add(AccountLastRequested()),
+            create: (context) => AuthBloc.builder(
+              authRepository: RepositoryProvider.of<AuthRepository>(context),
+            )..add(GotLastAuthenticated()),
           ),
         ],
         child: MaterialApp(
           title: 'Simplio',
-          initialRoute: AppRoute.home,
-          onGenerateRoute: _router.generateRoute,
+          home: AuthGuard(
+            onAuthenticated: (context, state) {
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) => AccountCubit.builder(
+                      accountRepository:
+                          RepositoryProvider.of<AccountRepository>(context),
+                      assetWalletRepository:
+                          RepositoryProvider.of<AssetWalletRepository>(context),
+                    )..loadAccount(state.accountId),
+                  ),
+                ],
+                child: Navigator(
+                  key: const Key('authenticated'),
+                  initialRoute: HomeRoute.home,
+                  onGenerateRoute: _homeRouter.generateRoute,
+                ),
+              );
+            },
+            onUnauthenticated: (context) => Navigator(
+              key: const Key('unauthenticated'),
+              initialRoute: AppRoute.home,
+              onGenerateRoute: _appRouter.generateRoute,
+            ),
+          ),
         ),
       ),
     );

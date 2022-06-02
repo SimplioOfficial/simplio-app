@@ -1,53 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/data/repositories/account_repository.dart';
-import 'package:simplio_app/data/repositories/asset_wallet_repository.dart';
-import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
-import 'package:simplio_app/logic/asset_wallet_bloc/asset_wallet_bloc.dart';
+import 'package:simplio_app/data/repositories/auth_repository.dart';
 import 'package:simplio_app/logic/login_bloc/login_bloc.dart';
-import 'package:simplio_app/view/guards/auth_guard.dart';
-import 'package:simplio_app/view/routes/home_route.dart';
 import 'package:simplio_app/view/screens/login_screen.dart';
+import 'package:simplio_app/view/screens/welcome_screen.dart';
 
 class AppRoute {
   static const String home = '/';
   static const String login = '/login';
-  static const String assets = '/assets';
-  static const String wallet = '/wallet';
 
   Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case login:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
+          builder: (context) => BlocProvider(
             create: (context) => LoginBloc(
-              accountRepository:
-                  RepositoryProvider.of<AccountRepository>(context),
+              authRepository: RepositoryProvider.of<AuthRepository>(context),
             ),
             child: const LoginScreen(),
           ),
         );
       case home:
         return MaterialPageRoute(
-          builder: (_) => MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => AssetWalletBloc(
-                  assetWalletRepository:
-                      RepositoryProvider.of<AssetWalletRepository>(context),
-                ),
-              )
-            ],
-            child: AuthGuard(
-              initialRoute: HomeRoute.home,
-              onGenerateRoute: HomeRoute().generateRoute,
-              onAccountChange: (context, state) {
-                if (state.status == AccountStatus.unauthenticated) {
-                  Navigator.of(context).popAndPushNamed(login);
-                }
-              },
-            ),
-          ),
+          builder: (context) => const WelcomeScreen(),
         );
 
       default:

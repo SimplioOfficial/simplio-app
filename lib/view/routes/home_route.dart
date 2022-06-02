@@ -13,7 +13,7 @@ class HomeRoute {
     switch (settings.name) {
       case home:
         return MaterialPageRoute(
-          builder: (context) => const DashboardScreen(),
+          builder: (_) => const DashboardScreen(),
         );
       case wallet:
         return MaterialPageRoute(

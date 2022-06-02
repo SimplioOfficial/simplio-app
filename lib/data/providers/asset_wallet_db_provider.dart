@@ -1,66 +1,65 @@
 import 'package:hive/hive.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/data/model/wallet.dart';
+import 'package:simplio_app/data/providers/box_provider.dart';
 
-class AssetWalletDbProvider {
-  static const assetWalletBoxName = 'assetWalletBox';
-  late final Box<AssetWalletLocal> _assetWalletBox;
+class AssetWalletDbProvider extends BoxProvider<AssetWalletLocal> {
+  static final AssetWalletDbProvider _instance = AssetWalletDbProvider._();
 
-  AssetWalletDbProvider();
+  @override
+  final String boxName = 'assetWalletBox';
 
-  Future<AssetWalletDbProvider> init() async {
+  AssetWalletDbProvider._();
+
+  factory AssetWalletDbProvider() {
+    return _instance;
+  }
+
+  @override
+  void registerAdapters() {
     Hive.registerAdapter(AssetWalletLocalAdapter());
     Hive.registerAdapter(WalletLocalAdapter());
-
-    _assetWalletBox = await Hive.openBox<AssetWalletLocal>(assetWalletBoxName);
-
-    // TODO - remove. Clear is for testing purposes only.
-    // await _assetWalletBox.clear();
-
-    return this;
   }
 
   AssetWallet? get(String uuid) {
     try {
-      final AssetWalletLocal? assetWalletLocal = _assetWalletBox.get(uuid);
+      final AssetWalletLocal? assetWalletLocal = box.get(uuid);
 
-      return assetWalletLocal != null ? _to(assetWalletLocal) : null;
-    } on Exception {
+      return assetWalletLocal != null ? _mapTo(assetWalletLocal) : null;
+    } catch (_) {
       return null;
     }
   }
 
   AssetWallet? find(String accountWalletId, String assetId) {
     try {
-      final assetWallet = _assetWalletBox.values.firstWhere(
-          (w) => w.accountWalletId == accountWalletId && w.assetId == assetId);
+      final assetWallet = box.values.firstWhere(
+        (w) => w.accountWalletId == accountWalletId && w.assetId == assetId,
+      );
 
-      return _to(assetWallet);
-    } catch (e) {
-      print(e);
+      return _mapTo(assetWallet);
+    } catch (_) {
       return null;
     }
   }
 
   List<AssetWallet> findAll(String accountWalletId) {
     try {
-      return _assetWalletBox.values
+      return box.values
           .where((w) => w.accountWalletId == accountWalletId)
-          .map((e) => _to(e))
+          .map((e) => _mapTo(e))
           .toList();
-    } catch (e) {
-      print(e);
+    } catch (_) {
       return [];
     }
   }
 
   Future<AssetWallet> save(AssetWallet assetWallet) async {
-    final _ = await _assetWalletBox.put(assetWallet.uuid, _from(assetWallet));
-
+    await box.put(assetWallet.uuid, _mapFrom(assetWallet));
     return assetWallet;
   }
 
-  AssetWalletLocal _from(AssetWallet assetWallet) {
+  AssetWalletLocal _mapFrom(AssetWallet assetWallet) {
     return AssetWalletLocal(
       uuid: assetWallet.uuid,
       accountWalletId: assetWallet.accountWalletId,
@@ -77,7 +76,7 @@ class AssetWalletDbProvider {
     );
   }
 
-  AssetWallet _to(AssetWalletLocal assetWalletLocal) {
+  AssetWallet _mapTo(AssetWalletLocal assetWalletLocal) {
     return AssetWallet.builder(
       uuid: assetWalletLocal.uuid,
       accountWalletId: assetWalletLocal.accountWalletId,

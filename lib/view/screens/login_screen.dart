@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
+import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/logic/login_bloc/login_bloc.dart';
-import 'package:simplio_app/view/routes/app_route.dart';
 import 'package:simplio_app/view/widgets/text_header.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -15,9 +14,9 @@ class LoginScreen extends StatelessWidget {
         final res = state.response;
 
         if (res is LoginSuccess) {
-          context.read<AccountBloc>().add(AccountChanged(account: res.account));
-
-          Navigator.of(context).popAndPushNamed(AppRoute.home);
+          context
+              .read<AuthBloc>()
+              .add(GotAuthenticated(accountId: res.account.id));
         }
 
         if (res is LoginFailure) {
@@ -25,6 +24,12 @@ class LoginScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          foregroundColor: Colors.black87,
+        ),
         body: SafeArea(
           top: true,
           child: Column(
@@ -33,12 +38,7 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   children: const [
                     Padding(
-                      padding: EdgeInsets.only(
-                        top: 60.0,
-                        right: 20.0,
-                        bottom: 20.0,
-                        left: 20.0,
-                      ),
+                      padding: EdgeInsets.all(20.0),
                       child: TextHeader(
                           title: "Enter Simplio.",
                           subtitle: "It's good to see you back."),
@@ -88,14 +88,14 @@ class _LoginForm extends State<LoginFormFields> {
       child: Column(
         children: [
           TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            autofillHints: const [AutofillHints.email],
+            autofocus: true,
             validator: (email) => null,
             decoration: const InputDecoration(
-              labelText: 'Email',
+              labelText: 'Username',
             ),
-            onChanged: (String? email) =>
-                context.read<LoginBloc>().add(LoginFormChanged(id: email)),
+            onChanged: (String? email) => context
+                .read<LoginBloc>()
+                .add(LoginFormChanged(username: email)),
           ),
           TextField(
             obscureText: _passwordDisplayed,
