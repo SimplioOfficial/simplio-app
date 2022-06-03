@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/logic/account_bloc/account_bloc.dart';
+import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 
 class AuthGuard extends StatelessWidget {
-  final String initialRoute;
-  final RouteFactory onGenerateRoute;
-  final Function(BuildContext, AccountState) onAccountChange;
+  final Widget Function(BuildContext context, Authenticated state)
+      onAuthenticated;
+  final Widget Function(BuildContext context) onUnauthenticated;
 
   const AuthGuard({
     Key? key,
-    required this.initialRoute,
-    required this.onGenerateRoute,
-    required this.onAccountChange,
+    required this.onAuthenticated,
+    required this.onUnauthenticated,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AccountBloc, AccountState>(
-      listener: (context, state) {
-        onAccountChange(context, state);
-      },
-      child: Navigator(
-        initialRoute: initialRoute,
-        onGenerateRoute: onGenerateRoute,
-      ),
+    return BlocBuilder<AuthBloc, AuthState>(
+      buildWhen: (previous, current) => previous != current,
+      builder: (context, state) => state is Authenticated
+          ? onAuthenticated(context, state)
+          : onUnauthenticated(context),
     );
   }
 }

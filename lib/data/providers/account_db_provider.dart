@@ -2,62 +2,61 @@ import 'package:hive/hive.dart';
 import 'package:simplio_app/data/model/account.dart';
 import 'package:simplio_app/data/model/account_settings.dart';
 import 'package:simplio_app/data/model/account_wallet.dart';
+import 'package:simplio_app/data/providers/box_provider.dart';
 
-class AccountDbProvider {
-  static const accountBoxName = 'accountBox';
-  late final Box<AccountLocal> _accountBox;
+class AccountDbProvider extends BoxProvider<AccountLocal> {
+  static final AccountDbProvider _instance = AccountDbProvider._();
 
-  AccountDbProvider();
+  @override
+  final String boxName = 'accountBox';
 
-  Future<AccountDbProvider> init() async {
+  AccountDbProvider._();
+
+  factory AccountDbProvider() {
+    return _instance;
+  }
+
+  @override
+  void registerAdapters() {
     Hive.registerAdapter(AccountLocalAdapter());
     Hive.registerAdapter(AccountWalletLocalAdapter());
     Hive.registerAdapter(AccountWalletTypesAdapter());
     Hive.registerAdapter(AccountSettingsLocalAdapter());
     Hive.registerAdapter(ThemeModesAdapter());
-
-    _accountBox = await Hive.openBox<AccountLocal>(accountBoxName);
-
-    // TODO - remove. Clear is for testing purposes only.
-    // await _accountBox.clear();
-
-    return this;
   }
 
   Account? get(String id) {
     try {
-      final AccountLocal? account = _accountBox.get(id);
-
-      return account != null ? _to(account) : null;
-    } on Exception {
+      final AccountLocal? account = box.get(id);
+      return account != null ? _mapTo(account) : null;
+    } catch (_) {
       return null;
     }
   }
 
   Future<Account> save(Account account) async {
-    final _ = await _accountBox.put(account.id, _from(account));
-
+    final _ = await box.put(account.id, _mapFrom(account));
     return account;
   }
 
   Account? last() {
     try {
-      final lastLocal = _accountBox.values.toList().reduce(
-          (acc, curr) => acc.lastLogin.isAfter(curr.lastLogin) ? acc : curr);
+      final localAccount = box.values.reduce(
+        (acc, curr) => acc.lastLogin.isAfter(curr.lastLogin) ? acc : curr,
+      );
 
-      if (lastLocal.lastLogin
-          .isAtSameMomentAs(DateTime.fromMillisecondsSinceEpoch(0))) {
-        throw Exception("There's no logged in account");
-      }
+      final isZero = localAccount.lastLogin.isAtSameMomentAs(
+        DateTime.fromMillisecondsSinceEpoch(0),
+      );
+      if (isZero) return null;
 
-      return _to(lastLocal);
-    } catch (e) {
-      print(e.toString());
+      return _mapTo(localAccount);
+    } catch (_) {
       return null;
     }
   }
 
-  AccountLocal _from(Account account) {
+  AccountLocal _mapFrom(Account account) {
     return AccountLocal(
       id: account.id,
       secret: account.secret.toString(),
@@ -81,7 +80,7 @@ class AccountDbProvider {
     );
   }
 
-  Account _to(AccountLocal accountLocal) {
+  Account _mapTo(AccountLocal accountLocal) {
     return Account.builder(
       id: accountLocal.id,
       secret: LockableSecret.from(secret: accountLocal.secret),

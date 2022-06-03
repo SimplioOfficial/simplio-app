@@ -4,7 +4,9 @@ import 'package:simplio_app/view/screens/assets_screen.dart';
 import 'package:simplio_app/view/screens/dashboard_screen.dart';
 import 'package:simplio_app/view/screens/wallet_screen.dart';
 
-class HomeRoute {
+class AuthenticatedRoute {
+  static final key = GlobalKey(debugLabel: 'authenticated_route');
+
   static const String home = '/';
   static const String assets = '/assets';
   static const String wallet = '/wallet';
@@ -13,7 +15,7 @@ class HomeRoute {
     switch (settings.name) {
       case home:
         return MaterialPageRoute(
-          builder: (context) => const DashboardScreen(),
+          builder: (_) => const DashboardScreen(),
         );
       case wallet:
         return MaterialPageRoute(

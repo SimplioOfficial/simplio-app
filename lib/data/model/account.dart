@@ -7,10 +7,6 @@ import 'package:simplio_app/data/model/account_wallet.dart';
 part 'account.g.dart';
 
 class Account extends Equatable {
-  static String generateSecret() {
-    return Hive.generateSecureKey().toString();
-  }
-
   final String id;
   final LockableSecret secret;
   final String? accessToken;
@@ -77,6 +73,11 @@ class Account extends Equatable {
         id,
         secret,
       ];
+
+  AccountWallet? get accountWallet {
+    if (wallets.isNotEmpty) return wallets.first;
+    return null;
+  }
 }
 
 class LockableSecret with AesEncryption {
