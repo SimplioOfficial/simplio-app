@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
-import 'package:simplio_app/view/routes/home_route.dart';
+import 'package:simplio_app/view/routes/authenticated_route.dart';
 import 'package:simplio_app/view/widgets/wallet_list_item.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -26,7 +26,7 @@ class DashboardScreen extends StatelessWidget {
           FloatingActionButton(
             heroTag: 'a',
             onPressed: () => Navigator.of(context).pushNamed(
-              HomeRoute.assets,
+              AuthenticatedRoute.assets,
             ),
             child: const Icon(Icons.add),
           ),
@@ -61,8 +61,9 @@ class DashboardScreen extends StatelessWidget {
                       return WalletListItem(
                         key: Key(wallet.assetId),
                         assetWallet: wallet,
-                        onTap: () => Navigator.of(context)
-                            .pushNamed(HomeRoute.wallet, arguments: wallet),
+                        onTap: () => Navigator.of(context).pushNamed(
+                            AuthenticatedRoute.wallet,
+                            arguments: wallet),
                       );
                     },
                   ),

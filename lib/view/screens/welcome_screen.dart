@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simplio_app/view/routes/app_route.dart';
+import 'package:simplio_app/view/routes/unuthenticated_route.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class WelcomeScreen extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(AppRoute.login);
+                  Navigator.of(context).pushNamed(UnauthenticatedRoute.login);
                 },
                 child: const Text('I have an account'),
               ),

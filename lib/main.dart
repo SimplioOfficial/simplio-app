@@ -9,8 +9,8 @@ import 'package:simplio_app/data/repositories/auth_repository.dart';
 import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/view/guards/auth_guard.dart';
-import 'package:simplio_app/view/routes/app_route.dart';
-import 'package:simplio_app/view/routes/home_route.dart';
+import 'package:simplio_app/view/routes/authenticated_route.dart';
+import 'package:simplio_app/view/routes/unuthenticated_route.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,8 +48,8 @@ class SimplioApp extends StatefulWidget {
 }
 
 class _SimplioAppState extends State<SimplioApp> {
-  final AppRoute _appRouter = AppRoute();
-  final HomeRoute _homeRouter = HomeRoute();
+  final UnauthenticatedRoute _unauthenticatedRouter = UnauthenticatedRoute();
+  final AuthenticatedRoute _authenticatedRouter = AuthenticatedRoute();
 
   @override
   Widget build(BuildContext context) {
@@ -83,16 +83,16 @@ class _SimplioAppState extends State<SimplioApp> {
                   ),
                 ],
                 child: Navigator(
-                  key: const Key('authenticated'),
-                  initialRoute: HomeRoute.home,
-                  onGenerateRoute: _homeRouter.generateRoute,
+                  key: AuthenticatedRoute.key,
+                  initialRoute: AuthenticatedRoute.home,
+                  onGenerateRoute: _authenticatedRouter.generateRoute,
                 ),
               );
             },
             onUnauthenticated: (context) => Navigator(
-              key: const Key('unauthenticated'),
-              initialRoute: AppRoute.home,
-              onGenerateRoute: _appRouter.generateRoute,
+              key: UnauthenticatedRoute.key,
+              initialRoute: UnauthenticatedRoute.home,
+              onGenerateRoute: _unauthenticatedRouter.generateRoute,
             ),
           ),
         ),
