@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
         }
 
         if (res is LoginFailure) {
-          print('LOGIN HAS FAILED');
+          //  TODO: Implement logic for failure.
         }
       },
       child: Scaffold(
