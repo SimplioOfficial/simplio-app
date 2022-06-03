@@ -10,7 +10,7 @@ import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/view/guards/auth_guard.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
-import 'package:simplio_app/view/routes/unuthenticated_route.dart';
+import 'package:simplio_app/view/routes/unauthenticated_route.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
