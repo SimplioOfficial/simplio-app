@@ -6,7 +6,9 @@ import 'package:simplio_app/view/screens/login_screen.dart';
 import 'package:simplio_app/view/screens/welcome_screen.dart';
 
 class UnauthenticatedRoute {
-  static final key = GlobalKey(debugLabel: 'unauthenticated_route');
+  static final key = GlobalKey<NavigatorState>(
+    debugLabel: 'unauthenticated_route',
+  );
 
   static const String home = '/';
   static const String login = '/login';

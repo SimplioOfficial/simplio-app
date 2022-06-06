@@ -5,7 +5,9 @@ import 'package:simplio_app/view/screens/dashboard_screen.dart';
 import 'package:simplio_app/view/screens/wallet_screen.dart';
 
 class AuthenticatedRoute {
-  static final key = GlobalKey(debugLabel: 'authenticated_route');
+  static final key = GlobalKey<NavigatorState>(
+    debugLabel: 'authenticated_route',
+  );
 
   static const String home = '/';
   static const String assets = '/assets';
