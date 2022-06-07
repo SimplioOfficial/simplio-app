@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "357697009843",
+    "project_id": "simplio-io",
+    "storage_bucket": "simplio-io.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357697009843:android:49c811e89284c16ad718c6",
+        "android_client_info": {
+          "package_name": "dev.simplio.v2.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "357697009843-hjkvr3j56vib81d7kmuqql7kuspebov6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYQ1B_zhV84S00bbDRbdtDUM0AxV8a8Lk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "357697009843-hjkvr3j56vib81d7kmuqql7kuspebov6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -99,19 +99,7 @@ class _GenerateSeedScreen extends State<GenerateSeedScreen> {
                   alignment: Alignment.topRight,
                   child: TextButton(
                     key: const Key('manual_seed_import'),
-                    onPressed: () {
-                      setState(() {
-                        _seed = '';
-                        _isSeedValid = false;
-                      });
-                      var wallet =
-                          sio.Mnemonic.import(mnemonic: _generatedSeed);
-                      context
-                          .read<TrustWalletCoreBloc>()
-                          .add(TrustWalletCoreSet(trustWallet: wallet));
-
-                      Navigator.of(context).pushNamed(manualSeedImport);
-                    },
+                    onPressed: () => throw Exception(),
                     child: const Text(
                       'Import recovery seed',
                       style: TextStyle(fontSize: 16, color: Colors.blue),
