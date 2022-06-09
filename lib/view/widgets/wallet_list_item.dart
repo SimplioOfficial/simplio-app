@@ -6,8 +6,7 @@ class WalletListItem extends StatefulWidget {
   final GestureTapCallback onTap;
 
   const WalletListItem(
-      {Key? key, required this.assetWallet, required this.onTap})
-      : super(key: key);
+      {super.key, required this.assetWallet, required this.onTap});
 
   @override
   State<StatefulWidget> createState() => _WalletListItem();

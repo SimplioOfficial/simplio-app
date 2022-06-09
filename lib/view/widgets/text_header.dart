@@ -5,10 +5,10 @@ class TextHeader extends StatelessWidget {
   final String subtitle;
 
   const TextHeader({
-    Key? key,
+    super.key,
     this.title = '',
     this.subtitle = '',
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

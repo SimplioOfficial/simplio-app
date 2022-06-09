@@ -4,6 +4,7 @@ import 'package:simplio_app/data/model/account.dart';
 import 'package:simplio_app/data/repositories/auth_repository.dart';
 
 part 'auth_event.dart';
+
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -30,9 +31,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     GotUnauthenticated event,
     Emitter<AuthState> emit,
   ) {
-    final _state = state;
-    if (_state is Authenticated) {
-      _authRepository.logout(accountId: _state.accountId);
+    if (state is Authenticated) {
+      _authRepository.logout(accountId: (state as Authenticated).accountId);
     }
 
     emit(const Unauthenticated());

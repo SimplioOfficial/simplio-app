@@ -38,11 +38,11 @@ class SimplioApp extends StatefulWidget {
   final AuthRepository authRepository;
 
   const SimplioApp({
-    Key? key,
+    super.key,
     required this.accountRepository,
     required this.assetWalletRepository,
     required this.authRepository,
-  }) : super(key: key);
+  });
 
   @override
   State<SimplioApp> createState() => _SimplioAppState();

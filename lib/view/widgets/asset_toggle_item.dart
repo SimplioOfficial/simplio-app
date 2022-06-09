@@ -14,11 +14,11 @@ class AssetToggleItem extends StatefulWidget {
   final ValueOfAssetChanged onChange;
 
   const AssetToggleItem({
-    Key? key,
+    super.key,
     required this.assetEntry,
     required this.onChange,
     this.isEnabled = false,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _AssetToggleItem();

@@ -35,7 +35,7 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
   }
 
   Future<Account> save(Account account) async {
-    final _ = await box.put(account.id, _mapFrom(account));
+    await box.put(account.id, _mapFrom(account));
     return account;
   }
 

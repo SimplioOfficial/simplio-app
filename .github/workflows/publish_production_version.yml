@@ -9,7 +9,7 @@ on:
 
 jobs:
   run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-infrastructure
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@task/66-update_to_flutter3
     with:
       e2e: true
 
@@ -47,7 +47,7 @@ jobs:
 
   build-ios:
     needs: [set-version]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@feature/initial-infrastructure
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@task/66-update_to_flutter3
     with:
       environment: 'production'
       major: ${{ needs.set-version.outputs.major }}
@@ -67,7 +67,7 @@ jobs:
 
   build-android:
     needs: [set-version]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@feature/initial-infrastructure
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@task/66-update_to_flutter3
     secrets:
       ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
     with:

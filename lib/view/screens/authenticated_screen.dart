@@ -12,11 +12,11 @@ class AuthenticatedScreen extends StatefulWidget {
   final String initialRoute;
 
   const AuthenticatedScreen({
-    Key? key,
+    super.key,
     required this.navigatorKey,
     required this.initialRoute,
     required this.onGenerateRoute,
-  }) : super(key: key);
+  });
 
   @override
   State<AuthenticatedScreen> createState() => _AuthenticatedScreenState();
