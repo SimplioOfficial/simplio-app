@@ -12,26 +12,30 @@ class TextHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.end,
+    return Row(
       children: [
-        if (title.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 6.0),
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 24.0,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            if (title.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 6.0),
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 24.0,
+                  ),
+                ),
               ),
-            ),
-          ),
-        if (subtitle.isNotEmpty)
-          Text(
-            subtitle,
-            style: const TextStyle(color: Colors.black26),
-          ),
+            if (subtitle.isNotEmpty)
+              Text(
+                subtitle,
+                style: const TextStyle(color: Colors.black26),
+              ),
+          ],
+        ),
       ],
     );
   }

@@ -1,24 +1,60 @@
-import 'package:simplio_app/data/model/asset.dart';
+import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
-class Wallet {
-  late String _uuid;
-  final bool enabled;
-  final Asset asset;
+part 'wallet.g.dart';
 
-  String get uuid => _uuid;
-  static const uuidGen = Uuid();
+class Wallet extends Equatable {
+  final String uuid;
+  final int coinType;
+  final String? derivationPath;
+  final BigInt balance;
 
-  Wallet(this._uuid, this.asset, this.enabled);
+  const Wallet._({
+    required this.uuid,
+    required this.coinType,
+    required this.derivationPath,
+    required this.balance,
+  });
 
-  Wallet.generate({required Asset asset})
-      : this(uuidGen.v4(), asset, true);
+  Wallet.builder({
+    required int coinType,
+    String? derivationPath,
+    BigInt? balance,
+  }) : this._(
+          uuid: const Uuid().v4(),
+          coinType: coinType,
+          derivationPath: derivationPath,
+          balance: balance ?? BigInt.zero,
+        );
 
-  Wallet copyWith({ bool? enabled }) {
-    return Wallet(
-      uuid,
-      asset,
-      enabled ?? this.enabled,
-    );
-  }
+  @override
+  List<Object?> get props => [
+        uuid,
+        coinType,
+        derivationPath,
+        balance,
+      ];
+}
+
+@HiveType(typeId: 5)
+class WalletLocal extends HiveObject {
+  @HiveField(0)
+  final String uuid;
+
+  @HiveField(1)
+  final int coinType;
+
+  @HiveField(2)
+  final String? derivationPath;
+
+  @HiveField(3)
+  final BigInt balance;
+
+  WalletLocal({
+    required this.uuid,
+    required this.coinType,
+    required this.derivationPath,
+    required this.balance,
+  });
 }
