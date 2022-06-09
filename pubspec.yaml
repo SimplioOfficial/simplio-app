@@ -29,6 +29,8 @@ dependencies:
   sio_core: ^0.0.5
 
   uuid: ^3.0.6
+  flutter_gherkin: ^2.0.0
+  glob: ^2.0.2
 
 dev_dependencies:
   flutter_launcher_icons: "^0.9.2"
