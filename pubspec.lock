@@ -155,7 +155,7 @@ packages:
     source: sdk
     version: "0.0.0"
   gherkin:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: gherkin
       url: "https://pub.dartlang.org"
