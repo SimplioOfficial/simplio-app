@@ -4,4 +4,4 @@ Feature: Main Page
   Scenario: Generated seed visible on app main page
     Given I see 'Generated Seed' text
     When I tap the button that contains the text "Next"
-    Then I expect the text "Logout" to be present
+    Then I expect the text "Next" to be present
