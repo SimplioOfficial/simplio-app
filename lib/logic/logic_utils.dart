@@ -22,6 +22,21 @@ class LogicUtils {
                 isBackedUp: accountWallet.seed.isBackedUp),
             updatedAt: accountWallet.updatedAt);
 
+        var wallets = account.wallets
+            .map((w) => AccountWallet.builder(
+                  uuid: w.uuid,
+                  name: w.name,
+                  accountId: w.accountId,
+                  walletType: w.walletType,
+                  seed: LockableSeed.from(
+                    mnemonic: w.seed.mnemonic,
+                    isImported: w.seed.isImported,
+                    isBackedUp: w.seed.isBackedUp,
+                  ),
+                  updatedAt: w.updatedAt,
+                ))
+            .toList();
+
         account = Account.builder(
             id: account.id,
             secret: account.secret,
@@ -29,7 +44,7 @@ class LogicUtils {
             lastLogin: account.lastLogin,
             accessToken: account.accessToken,
             settings: account.settings,
-            wallets: [accountWallet]);
+            wallets: wallets);
 
         context.read<AccountCubit>().updateAccount(account);
       }
