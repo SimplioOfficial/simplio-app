@@ -111,9 +111,9 @@ class _SimplioAppState extends State<SimplioApp> {
                 child: MultiBlocListener(
                   listeners: [
                     AccountCubitListeners().updateWalletCoreAfterSeedImported,
-                    AccountCubitListeners().generateSeedAfterAccountCreated,
                     WalletCoreBlocListeners()
                         .updateAccountAfterWalletCoreUpdated,
+                    AccountCubitListeners().generateSeedAfterAccountCreated,
                   ],
                   child: Builder(
                     builder: (context) {

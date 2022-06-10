@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/repositories/wallet_core_repository.dart';
 import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
-import 'package:simplio_app/logic/logic_utils.dart';
 import 'package:simplio_app/logic/wallet_core_bloc/wallet_core_bloc.dart';
 
 class AccountCubitListeners {
@@ -11,7 +10,7 @@ class AccountCubitListeners {
     listener: (context, state) {
       var seed =
           RepositoryProvider.of<WalletCoreRepository>(context).generateSeed();
-      LogicUtils.updateAccountSeed(context, seed);
+      context.read<WalletCoreBloc>().add(WalletCoreSeedSet(seed: seed));
     },
   );
 
