@@ -91,7 +91,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.10"
+    version: "2.1.11"
   build_runner_core:
     dependency: transitive
     description:
@@ -161,7 +161,7 @@ packages:
       name: collection
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.15.0"
+    version: "1.16.0"
   convert:
     dependency: transitive
     description:
@@ -217,7 +217,7 @@ packages:
       name: fake_async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.0"
   ffi:
     dependency: transitive
     description:
@@ -257,7 +257,7 @@ packages:
       name: flutter_launcher_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.2"
+    version: "0.9.3"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -297,7 +297,7 @@ packages:
       name: hive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.1"
   hive_flutter:
     dependency: "direct main"
     description:
@@ -311,7 +311,14 @@ packages:
       name: hive_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.2"
+    version: "1.1.3"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.4"
   http_multi_server:
     dependency: transitive
     description:
@@ -381,7 +388,7 @@ packages:
       name: material_color_utilities
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.3"
+    version: "0.1.4"
   meta:
     dependency: transitive
     description:
@@ -430,7 +437,7 @@ packages:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   path_provider:
     dependency: transitive
     description:
@@ -515,6 +522,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  protobuf:
+    dependency: transitive
+    description:
+      name: protobuf
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   provider:
     dependency: transitive
     description:
@@ -564,6 +578,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  sio_core:
+    dependency: "direct main"
+    description:
+      name: sio_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.10"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -603,7 +624,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.1"
+    version: "1.8.2"
   stack_trace:
     dependency: transitive
     description:
@@ -645,21 +666,21 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.19.5"
+    version: "1.20.2"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.8"
+    version: "0.4.9"
   test_core:
     dependency: transitive
     description:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.9"
+    version: "0.4.11"
   timing:
     dependency: transitive
     description:
@@ -667,6 +688,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  trust_wallet_core_lib:
+    dependency: "direct main"
+    description:
+      name: trust_wallet_core_lib
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5+2.7.2"
   typed_data:
     dependency: transitive
     description:
@@ -687,7 +715,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.2"
   vm_service:
     dependency: transitive
     description:
@@ -745,5 +773,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.16.2 <3.0.0"
+  dart: ">=2.17.0-0 <3.0.0"
   flutter: ">=2.8.1"

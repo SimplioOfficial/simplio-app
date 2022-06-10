@@ -36,7 +36,7 @@ class AuthRepository {
       accountId: id,
       walletType: AccountWalletTypes.hdWallet,
       seed: LockableSeed.from(
-        mnemonic: 'not your keys not your coins',
+        mnemonic: '',
         isImported: false,
         isLocked: false,
         isBackedUp: false,

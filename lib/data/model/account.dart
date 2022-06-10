@@ -78,6 +78,8 @@ class Account extends Equatable {
     if (wallets.isNotEmpty) return wallets.first;
     return null;
   }
+
+  String? get accountSeed => accountWallet?.seed.mnemonic;
 }
 
 class LockableSecret with AesEncryption {

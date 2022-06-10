@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/view/screens/assets_screen.dart';
 import 'package:simplio_app/view/screens/dashboard_screen.dart';
+import 'package:simplio_app/view/screens/not_found_screen.dart';
+import 'package:simplio_app/view/screens/seed_backup_screen.dart';
+import 'package:simplio_app/view/screens/seed_import_screen.dart';
 import 'package:simplio_app/view/screens/wallet_screen.dart';
 
 class AuthenticatedRoute {
@@ -12,6 +15,8 @@ class AuthenticatedRoute {
   static const String home = '/';
   static const String assets = '/assets';
   static const String wallet = '/wallet';
+  static const String seedBackup = '/seed-backup';
+  static const String seedImport = '/seed-import';
 
   Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -28,9 +33,18 @@ class AuthenticatedRoute {
         return MaterialPageRoute(
           builder: (_) => const AssetsScreen(),
         );
-
+      case seedBackup:
+        return MaterialPageRoute(
+          builder: (_) => const SeedBackupScreen(),
+        );
+      case seedImport:
+        return MaterialPageRoute(
+          builder: (_) => const SeedImportScreen(),
+        );
       default:
-        throw const FormatException('Screen not found');
+        return MaterialPageRoute(
+          builder: (_) => NotFoundScreen(page: settings.name),
+        );
     }
   }
 }
