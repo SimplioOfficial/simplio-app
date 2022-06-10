@@ -126,8 +126,7 @@ packages:
   flutter_gherkin:
     dependency: "direct main"
     description:
-      name:
-
+      name: flutter_gherkin
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
