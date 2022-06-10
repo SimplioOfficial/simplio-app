@@ -14,6 +14,7 @@ class TrustWalletCoreProvider extends WalletCoreProviderInterface {
 
   @override
   void importSeed({required String seed}) {
+    print('TRUST WALLET INITIALIZED *******');
     _trustWallet = HDWallet.createWithMnemonic(seed);
   }
 
@@ -25,6 +26,7 @@ class TrustWalletCoreProvider extends WalletCoreProviderInterface {
 
   @override
   String? address(int coinType) {
+    print('28 GET ADDRESS!!!! $_trustWallet');
     return _trustWallet?.getAddressForCoin(coinType);
   }
 }

@@ -14,14 +14,14 @@ class WalletUtils {
   }) {
     print('15 getBalance ${network.name} ${network.coinType}');
     switch (network.coinType) {
-    // BTC
+      // BTC
       case TWCoinType.TWCoinTypeBitcoin:
         return GetBalance.utxoCoinBlockbook(
           apiEndpoint: network.url,
           address: address,
         );
 
-    // BNB Smart chain
+      // BNB Smart chain
       case TWCoinType.TWCoinTypeSmartChain:
       case TWCoinType.TWCoinTypeBinance:
         print('34 ${network.url} $contractAddress');
@@ -32,21 +32,20 @@ class WalletUtils {
           );
         }
 
-
         return GetBalance.ethereumERC20Scan(
           apiEndpoint: network.url,
           address: address,
           contractAddress: contractAddress,
         );
 
-    // BCH
+      // BCH
       case TWCoinType.TWCoinTypeBitcoinCash:
         return GetBalance.utxoCoinBlockbook(
           apiEndpoint: network.url,
           address: address,
         );
 
-    // COSMOS
+      // COSMOS
       case TWCoinType.TWCoinTypeCosmos:
         return GetBalance.cosmos(
           apiEndpoint: network.url,
@@ -62,7 +61,7 @@ class WalletUtils {
           address: address,
         );
 
-    // ETH
+      // ETH
       case TWCoinType.TWCoinTypeEthereum:
         if (contractAddress == null) {
           print(65);
@@ -79,28 +78,28 @@ class WalletUtils {
           contractAddress: contractAddress,
         );
 
-    // ETC
+      // ETC
       case TWCoinType.TWCoinTypeEthereumClassic:
         return GetBalance.ethereumBlockbook(
           apiEndpoint: network.url,
           address: address,
         );
 
-    // FLUX
+      // FLUX
       case TWCoinType.TWCoinTypeZelcash:
         return GetBalance.utxoCoinInsight(
           apiEndpoint: network.url,
           address: address,
         );
 
-    // LTC
+      // LTC
       case TWCoinType.TWCoinTypeLitecoin:
         return GetBalance.utxoCoinBlockbook(
           apiEndpoint: network.url,
           address: address,
         );
 
-    // OSMO
+      // OSMO
       case TWCoinType.TWCoinTypeOsmosis:
         return GetBalance.cosmos(
           apiEndpoint: network.url,
@@ -108,8 +107,9 @@ class WalletUtils {
           denomination: 'uosmo',
         );
 
-    // SOL
+      // SOL
       case TWCoinType.TWCoinTypeSolana:
+        print('113 $tokenMintAddress ${network.url}');
         if (tokenMintAddress == null) {
           return (GetBalance.solana(
             apiEndpoint: network.url,
@@ -123,7 +123,7 @@ class WalletUtils {
           tokenMintAddress: tokenMintAddress,
         );
 
-    // TERRA
+      // TERRA
       case TWCoinType.TWCoinTypeTerra:
         return GetBalance.cosmos(
           apiEndpoint: network.url,
@@ -131,7 +131,7 @@ class WalletUtils {
           denomination: 'uluna',
         );
 
-    // ZCASH
+      // ZCASH
       case TWCoinType.TWCoinTypeZcash:
         return GetBalance.utxoCoinBlockbook(
           apiEndpoint: network.url,
@@ -144,21 +144,24 @@ class WalletUtils {
     }
   }
 
-  static Future<BigInt> getAssetBalance({required AssetWallet assetWallet,
-    required String Function(int coinType) getAddress}) async {
+  static Future<BigInt> getAssetBalance(
+      {required AssetWallet assetWallet,
+      required String Function(int coinType) getAddress}) async {
     BigInt balance = BigInt.zero;
     assetWallet.asset.assetTypes
         .map((assetType) async {
-      return await WalletUtils.getBalance(
-        network: assetType.network,
-        address: getAddress(assetType.network.coinType),
-      );
-    })
+          print(
+              '153 ${assetType.network.name} ${getAddress(assetType.network.coinType)}');
+          return await WalletUtils.getBalance(
+            network: assetType.network,
+            address: getAddress(assetType.network.coinType),
+          );
+        })
         .toList()
         .forEach((element) async {
-      balance = (balance + (await element));
-      print('153 ${await element}');
-    });
+          balance = (balance + (await element));
+          print('153 ${await element}');
+        });
 
     print('158 $balance');
     return balance;
