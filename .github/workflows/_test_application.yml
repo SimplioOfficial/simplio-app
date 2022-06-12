@@ -84,7 +84,7 @@ jobs:
       - name: Confirm execution without install/build
         uses: deblockt/cucumber-report-annotations-action@v1.7
         with:
-          name: "Successful cucumber report direct from repository"
+          name: "Cucumber report direct from repository"
           access-token: ${{ secrets.GITHUB_TOKEN }}
           path: "**/cucumber-report.json" # This committed report should be a success
 
@@ -110,3 +110,9 @@ jobs:
           arch: x86_64
           profile: Nexus 6
           script: flutter driver --target=test_driver/app.dart
+      - name: Confirm execution without install/build
+        uses: deblockt/cucumber-report-annotations-action@v1.7
+        with:
+          name: "Cucumber report direct from repository"
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+          path: "**/cucumber-report.json" # This committed report should be a success
