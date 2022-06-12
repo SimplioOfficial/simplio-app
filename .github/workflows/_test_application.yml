@@ -82,7 +82,7 @@ jobs:
           path: recording.mp4
           retention-days : 3 # days for automatic deletion
       - name: Confirm execution without install/build
-        uses: ./
+        uses: deblockt/cucumber-report-annotations-action@v1.7
         with:
           name: "Successful cucumber report direct from repository"
           access-token: ${{ secrets.GITHUB_TOKEN }}
