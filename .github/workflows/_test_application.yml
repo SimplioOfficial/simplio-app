@@ -81,6 +81,12 @@ jobs:
           name: recorded_video_${{ matrix.device }}
           path: recording.mp4
           retention-days : 3 # days for automatic deletion
+      - name: Confirm execution without install/build
+        uses: ./
+        with:
+          name: "Successful cucumber report direct from repository"
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+          path: "**/cucumber-report.json" # This committed report should be a success
 
   drive_android:
     runs-on: macos-latest

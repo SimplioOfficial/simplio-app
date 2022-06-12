@@ -12,11 +12,15 @@ Future<void> main() {
   final config = FlutterTestConfiguration()
     ..features = [Glob(r"test_driver/features/**.feature")]
     ..reporters = [
+      StdoutReporter(MessageLevel.error),
       ProgressReporter(),
       TestRunSummaryReporter(),
       JsonReporter(path: './report.json')
     ] // you can include the "StdoutReporter()" without the message level parameter for verbose log information
-    ..stepDefinitions = [ClickPlus(), TapTheButtonWithText()]
+    ..stepDefinitions = [
+      ClickPlus(),
+      TapTheButtonWithText()
+    ]
     ..restartAppBetweenScenarios = true
     ..targetAppPath = "test_driver/app.dart"
     ..hooks = [AttachScreenshotOnFailedStepHook()]
