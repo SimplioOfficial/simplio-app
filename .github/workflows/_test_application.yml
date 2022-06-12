@@ -81,7 +81,7 @@ jobs:
           name: recorded_video_${{ matrix.device }}
           path: recording.mp4
           retention-days : 3 # days for automatic deletion
-      - name: Confirm execution without install/build
+      - name: Annotation of cucumber reports
         uses: deblockt/cucumber-report-annotations-action@v1.7
         with:
           name: "Cucumber report direct from repository"
@@ -110,7 +110,7 @@ jobs:
           arch: x86_64
           profile: Nexus 6
           script: flutter driver --target=test_driver/app.dart
-      - name: Confirm execution without install/build
+      - name: Annotation of cucumber reports
         uses: deblockt/cucumber-report-annotations-action@v1.7
         with:
           name: "Cucumber report direct from repository"
