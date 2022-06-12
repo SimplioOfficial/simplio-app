@@ -15,7 +15,7 @@ Future<void> main() {
       StdoutReporter(MessageLevel.error),
       ProgressReporter(),
       TestRunSummaryReporter(),
-      JsonReporter(path: './report.json')
+      JsonReporter(path: './cucumber-report.json')
     ] // you can include the "StdoutReporter()" without the message level parameter for verbose log information
     ..stepDefinitions = [
       ClickPlus(),
