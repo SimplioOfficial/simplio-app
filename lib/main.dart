@@ -14,8 +14,10 @@ import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/logic/wallet_core_bloc/wallet_core_bloc.dart';
 import 'package:simplio_app/logic/wallet_core_bloc/wallet_core_bloc_listeners.dart';
 import 'package:simplio_app/view/guards/auth_guard.dart';
+import 'package:simplio_app/view/guards/initialization_guard.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
 import 'package:simplio_app/view/routes/unauthenticated_route.dart';
+import 'package:simplio_app/view/widgets/loading.dart';
 import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
 
 Future<void> main() async {
@@ -120,10 +122,13 @@ class _SimplioAppState extends State<SimplioApp> {
                       // load logged account - call it here in order to initialize bloc listeners first
                       context.read<AccountCubit>().loadAccount(state.accountId);
 
-                      return Navigator(
-                        key: AuthenticatedRoute.key,
-                        initialRoute: AuthenticatedRoute.home,
-                        onGenerateRoute: _authenticatedRouter.generateRoute,
+                      return InitializationGuard(
+                        onInitialized: (BuildContext context) => Navigator(
+                          key: AuthenticatedRoute.key,
+                          initialRoute: AuthenticatedRoute.home,
+                          onGenerateRoute: _authenticatedRouter.generateRoute,
+                        ),
+                        onLoading: (BuildContext context) => const Loading(),
                       );
                     },
                   ),
