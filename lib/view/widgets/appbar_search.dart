@@ -18,40 +18,42 @@ class AppBarSearch<T> extends StatelessWidget {
       children: [
         Expanded(
           child: Material(
-            color: const Color.fromRGBO(241, 241, 241, 1.0),
             clipBehavior: Clip.hardEdge,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.elliptical(100.0, 100.0)),
+            shape: RoundedRectangleBorder(
+              borderRadius:
+                  const BorderRadius.all(Radius.elliptical(100.0, 100.0)),
               side: BorderSide(
-                  color: Color.fromRGBO(231, 231, 231, 1.0), width: 1),
+                width: 1,
+                color: Theme.of(context).hoverColor,
+              ),
             ),
             child: InkWell(
               onTap: () {
-                onTap!(context);
+                onTap?.call(context);
                 showSearch(
                   context: context,
                   delegate: delegate,
                 );
               },
-              splashColor: const Color.fromRGBO(0, 0, 0, 0.06),
-              highlightColor: const Color.fromRGBO(0, 0, 0, 0.04),
               child: Container(
                 alignment: Alignment.centerLeft,
-                height: 36.0,
+                height: 42.0,
                 child: Row(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Icon(
                         Icons.search,
-                        size: 16.0,
-                        color: Colors.black45,
+                        size: 18.0,
+                        color: Theme.of(context).unselectedWidgetColor,
                       ),
                     ),
                     Text(
                       label,
-                      style: const TextStyle(
-                          fontSize: 14.0, color: Colors.black45),
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Theme.of(context).unselectedWidgetColor,
+                      ),
                     ),
                   ],
                 ),
