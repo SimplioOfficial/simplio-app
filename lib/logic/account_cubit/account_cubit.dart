@@ -11,10 +11,8 @@ class AccountCubit extends Cubit<AccountState> {
   final AccountRepository _accountRepository;
   final AssetWalletRepository _assetWalletRepository;
 
-  AccountCubit._(
-    this._accountRepository,
-    this._assetWalletRepository,
-  ) : super(const AccountState.initial());
+  AccountCubit._(this._accountRepository,
+      this._assetWalletRepository,) : super(const AccountState.initial());
 
   AccountCubit.builder({
     required AccountRepository accountRepository,
@@ -65,5 +63,23 @@ class AccountCubit extends Cubit<AccountState> {
     final assetWallets = _assetWalletRepository.load(accountWallet.uuid);
 
     emit(state.copyWith(assetWallets: assetWallets));
+  }
+
+  Future<void> updateAssetWalletBalance(String assetId, int coinType,
+      BigInt balance) async {
+    var assetWallet =
+    state.assetWallets.firstWhere((element) => element.assetId == assetId);
+
+    var updatedAssetWallet = AssetWallet.builder(
+        accountWalletId: assetWallet.accountWalletId,
+        assetId: assetWallet.assetId,
+        wallets: assetWallet.wallets);
+
+
+    // assetWallet.wallets
+    //     .firstWhere((element) => element.coinType == coinType)
+    //     .balance = balance;
+
+    emit(state.copyWith(assetWallets: assetWallet));
   }
 }

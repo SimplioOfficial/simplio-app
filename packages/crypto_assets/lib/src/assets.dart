@@ -133,6 +133,11 @@ class Assets {
           network: networks.binance,
           decimal: 10,
         ),
+        // TokenAsset(
+        //   contractAddress: '0x4Fabb145d64652a948d72533023f6E7A623C7C53',
+        //   network: networks.ethereum,
+        //   decimal: 10,
+        // ),
       ],
     ),
     "chainlink": Asset(

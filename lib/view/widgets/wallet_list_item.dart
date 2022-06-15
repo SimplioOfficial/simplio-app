@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/data/repositories/wallet_core_repository.dart';
+import 'package:simplio_app/logic/wallet_core_bloc/wallet_core_bloc.dart';
 import 'package:simplio_app/logic/wallet_utils.dart';
 
 class WalletListItem extends StatefulWidget {
@@ -33,11 +34,6 @@ class _WalletListItem extends State<WalletListItem> {
 
   @override
   Widget build(BuildContext context) {
-    var walletCore = context.read<WalletCoreRepository>();
-    WalletUtils.getAssetBalance(
-            assetWallet: widget.assetWallet, getAddress: walletCore.getAddress)
-        .then((value) => () => totalBalance = value);
-
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
@@ -50,13 +46,13 @@ class _WalletListItem extends State<WalletListItem> {
             children: [
               CircleAvatar(
                 backgroundColor:
-                    widget.assetWallet.asset.detail.style.primaryColor,
+                widget.assetWallet.asset.detail.style.primaryColor,
                 foregroundColor:
-                    widget.assetWallet.asset.detail.style.foregroundColor,
+                widget.assetWallet.asset.detail.style.foregroundColor,
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -64,12 +60,27 @@ class _WalletListItem extends State<WalletListItem> {
                       widget.assetWallet.asset.detail.name,
                       textScaleFactor: 1.2,
                     ),
-                    Text(
-                      totalBalance.toString() +
-                          " " +
-                          widget.assetWallet.asset.detail.ticker,
-                      style: const TextStyle(color: Colors.black26),
-                    ),
+                    BlocBuilder<WalletCoreBloc, WalletCoreState>(
+                        buildWhen: (previous, current) {
+                          return previous != current;
+                        },
+                        builder: (context, state) {
+                          var walletCore = context.read<WalletCoreRepository>();
+                          WalletUtils.getAssetBalance(
+                              assetWallet: widget.assetWallet,
+                              getAddress: walletCore.getAddress)
+                              .then((value) {
+                            totalBalance = value;
+                            print('71, ${totalBalance}');
+                          });
+
+                          return Text(
+                            totalBalance.toString() +
+                                " " +
+                                widget.assetWallet.asset.detail.ticker,
+                            style: const TextStyle(color: Colors.black26),
+                          );
+                        }),
                     // Text(
                     //   widget.assetWallet.asset.detail.ticker.toUpperCase(),
                     //   style: const TextStyle(color: Colors.black26),

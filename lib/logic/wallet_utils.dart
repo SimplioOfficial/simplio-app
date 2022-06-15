@@ -1,8 +1,7 @@
+import 'package:crypto_assets/crypto_assets.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:sio_core/sio_core.dart';
 import 'package:trust_wallet_core_lib/trust_wallet_core_ffi.dart';
-import 'package:crypto_assets/src/model/network.dart';
-import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
 
 class WalletUtils {
   static Future<BigInt> getBalance({
@@ -26,13 +25,13 @@ class WalletUtils {
       case TWCoinType.TWCoinTypeBinance:
         print('34 ${network.url} $contractAddress');
         if (contractAddress == null) {
-          return GetBalance.ethereumRPC(
+          return GetBalance.ethereumBlockbook(
             apiEndpoint: network.url,
             address: address,
           );
         }
 
-        return GetBalance.ethereumERC20Scan(
+        return GetBalance.ethereumERC20Blockbook(
           apiEndpoint: network.url,
           address: address,
           contractAddress: contractAddress,
@@ -65,7 +64,7 @@ class WalletUtils {
       case TWCoinType.TWCoinTypeEthereum:
         if (contractAddress == null) {
           print(65);
-          return GetBalance.ethereumRPC(
+          return GetBalance.ethereumBlockbook(
             apiEndpoint: network.url,
             address: address,
           );
@@ -104,7 +103,7 @@ class WalletUtils {
         return GetBalance.cosmos(
           apiEndpoint: network.url,
           address: address,
-          denomination: 'uosmo',
+          denomination: cosmosDenomination(ticker: 'OSMO'),
         );
 
       // SOL
@@ -121,14 +120,6 @@ class WalletUtils {
           apiEndpoint: network.url,
           address: address,
           tokenMintAddress: tokenMintAddress,
-        );
-
-      // TERRA
-      case TWCoinType.TWCoinTypeTerra:
-        return GetBalance.cosmos(
-          apiEndpoint: network.url,
-          address: address,
-          denomination: 'uluna',
         );
 
       // ZCASH
@@ -148,22 +139,20 @@ class WalletUtils {
       {required AssetWallet assetWallet,
       required String Function(int coinType) getAddress}) async {
     BigInt balance = BigInt.zero;
-    assetWallet.asset.assetTypes
-        .map((assetType) async {
-          print(
-              '153 ${assetType.network.name} ${getAddress(assetType.network.coinType)}');
-          return await WalletUtils.getBalance(
-            network: assetType.network,
-            address: getAddress(assetType.network.coinType),
-          );
-        })
-        .toList()
-        .forEach((element) async {
-          balance = (balance + (await element));
-          print('153 ${await element}');
-        });
+    var list = assetWallet.asset.assetTypes.map((assetType) async {
+      return WalletUtils.getBalance(
+          network: assetType.network,
+          address: getAddress(assetType.network.coinType),
+          contractAddress:
+              (assetType is TokenAsset) ? assetType.contractAddress : null);
+    }).toList();
 
-    print('158 $balance');
-    return balance;
+    // list.forEach((element) async {
+    //   balance = (balance + (await element));
+    //   print('163 ${await element} $balance');
+    // });
+
+    return Future.wait(list)
+        .then((value) => value.reduce((value, element) => value += element));
   }
 }
