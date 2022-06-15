@@ -1,6 +1,6 @@
 name: Increase application version
 env:
-  FLUTTER_VERSION: '3.0.2'
+  FLUTTER_VERSION: '3.0.3'
 
 on:
   workflow_call:

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:simplio_app/data/model/account.dart';
 import 'package:simplio_app/data/model/account_settings.dart';
@@ -64,6 +65,7 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
       lastLogin: account.lastLogin,
       settings: AccountSettingsLocal(
         themeMode: account.settings.themeMode,
+        languageCode: account.settings.locale.languageCode,
       ),
       wallets: account.wallets
           .map((w) => AccountWalletLocal(
@@ -102,6 +104,7 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
           .toList(),
       settings: AccountSettings.builder(
         themeMode: accountLocal.settings.themeMode,
+        locale: Locale(accountLocal.settings.languageCode),
       ),
     );
   }

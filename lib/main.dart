@@ -8,10 +8,12 @@ import 'package:simplio_app/data/repositories/asset_wallet_repository.dart';
 import 'package:simplio_app/data/repositories/auth_repository.dart';
 import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
+import 'package:simplio_app/logic/auth_bloc/auth_bloc_listeners.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
 import 'package:simplio_app/view/routes/guards/auth_guard.dart';
 import 'package:simplio_app/view/routes/unauthenticated_route.dart';
 import 'package:simplio_app/view/screens/authenticated_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,51 +69,65 @@ class _SimplioAppState extends State<SimplioApp> {
               authRepository: RepositoryProvider.of<AuthRepository>(context),
             )..add(GotLastAuthenticated()),
           ),
-        ],
-        child: MaterialApp(
-          title: 'Simplio',
-          theme: ThemeData(
-            backgroundColor: Colors.white,
-            scaffoldBackgroundColor: Colors.white,
-            unselectedWidgetColor: Colors.black38,
-            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-              unselectedItemColor: Colors.black38,
-              selectedItemColor: Colors.blue,
-              selectedLabelStyle: TextStyle(
-                color: Colors.red,
-              ),
-              backgroundColor: Color.fromRGBO(255, 255, 255, 0.96),
-            ),
-            appBarTheme: const AppBarTheme(
-              foregroundColor: Colors.black,
-              backgroundColor: Colors.white,
-              elevation: 0.3,
+          BlocProvider(
+            create: (context) => AccountCubit.builder(
+              accountRepository:
+                  RepositoryProvider.of<AccountRepository>(context),
+              assetWalletRepository:
+                  RepositoryProvider.of<AssetWalletRepository>(context),
             ),
           ),
-          home: AuthGuard(
-            onAuthenticated: (context, state) {
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (context) => AccountCubit.builder(
-                      accountRepository:
-                          RepositoryProvider.of<AccountRepository>(context),
-                      assetWalletRepository:
-                          RepositoryProvider.of<AssetWalletRepository>(context),
-                    )..loadAccount(state.accountId),
+        ],
+        child: MultiBlocListener(
+          listeners: [AuthBlocListeners.clearAccountAfterLogout],
+          child: BlocBuilder<AccountCubit, AccountState>(
+            buildWhen: (previous, current) =>
+                previous.account?.settings.locale.languageCode !=
+                current.account?.settings.locale.languageCode,
+            builder: (context, state) => MaterialApp(
+              onGenerateTitle: (context) =>
+                  AppLocalizations.of(context)!.simplioTitle,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              locale: state.account?.settings.locale ?? const Locale('en'),
+              theme: ThemeData(
+                backgroundColor: Colors.white,
+                scaffoldBackgroundColor: Colors.white,
+                unselectedWidgetColor: Colors.black38,
+                bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+                  unselectedItemColor: Colors.black38,
+                  selectedItemColor: Colors.blue,
+                  selectedLabelStyle: TextStyle(
+                    color: Colors.red,
                   ),
-                ],
-                child: AuthenticatedScreen(
-                  navigatorKey: AuthenticatedRoute.key,
-                  initialRoute: AuthenticatedRoute.home,
-                  onGenerateRoute: _authenticatedRouter.generateRoute,
+                  backgroundColor: Color.fromRGBO(255, 255, 255, 0.96),
                 ),
-              );
-            },
-            onUnauthenticated: (context) => Navigator(
-              key: UnauthenticatedRoute.key,
-              initialRoute: UnauthenticatedRoute.home,
-              onGenerateRoute: _unauthenticatedRouter.generateRoute,
+                appBarTheme: const AppBarTheme(
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.white,
+                  elevation: 0.3,
+                ),
+              ),
+              home: AuthGuard(
+                onAuthenticated: (context, state) {
+                  return Builder(
+                    builder: (context) {
+                      context.read<AccountCubit>().loadAccount(state.accountId);
+
+                      return AuthenticatedScreen(
+                        navigatorKey: AuthenticatedRoute.key,
+                        initialRoute: AuthenticatedRoute.home,
+                        onGenerateRoute: _authenticatedRouter.generateRoute,
+                      );
+                    },
+                  );
+                },
+                onUnauthenticated: (context) => Navigator(
+                  key: UnauthenticatedRoute.key,
+                  initialRoute: UnauthenticatedRoute.home,
+                  onGenerateRoute: _unauthenticatedRouter.generateRoute,
+                ),
+              ),
             ),
           ),
         ),

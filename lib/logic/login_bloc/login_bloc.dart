@@ -17,10 +17,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginFormChanged>(_onLoginFormChanged);
   }
 
-  Future<void> _onLoginRequested(
-    LoginRequested event,
-    Emitter<LoginState> emit,
-  ) async {
+  Future<void> _onLoginRequested(LoginRequested event,
+      Emitter<LoginState> emit,) async {
     try {
       emit(state.copyWith(
         response: const LoginPending(),
@@ -53,10 +51,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Future<void> _onLoginFormChanged(
-    LoginFormChanged event,
-    Emitter<LoginState> emit,
-  ) async {
+  Future<void> _onLoginFormChanged(LoginFormChanged event,
+      Emitter<LoginState> emit,) async {
     emit(state.copyWith(
       username: event.username,
       password: event.password,

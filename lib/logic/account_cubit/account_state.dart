@@ -17,10 +17,7 @@ class AccountState extends Equatable {
   }) : this._(account: account, assetWallets: assetWallets);
 
   @override
-  List<Object?> get props => [
-        account,
-        assetWallets,
-      ];
+  List<Object?> get props => [account, assetWallets, account?.settings.locale];
 
   List<AssetWallet> get enabledAssetWallets =>
       assetWallets.where((element) => element.isEnabled).toList();

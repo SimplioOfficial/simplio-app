@@ -7,7 +7,7 @@ class InventoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text('Inventory screen'),
+        child: Text('Inventory screen placeholder'),
       ),
     );
   }

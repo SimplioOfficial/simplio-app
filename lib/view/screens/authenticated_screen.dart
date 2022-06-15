@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/logic/tap_bar_cubit/tap_bar_cubit.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
 import 'package:simplio_app/view/routes/observers/tap_bar_observer.dart';
+import 'package:simplio_app/view/utils/localizations.dart';
 import 'package:simplio_app/view/widgets/tap_bar.dart';
 import 'package:simplio_app/view/widgets/tap_bar_item.dart';
 
@@ -79,7 +80,7 @@ class _AuthenticatedScreenState extends State<AuthenticatedScreen>
                           tapBarItemType: TapTabItemType.button,
                           icon: Icons.home_outlined,
                           activeIcon: Icons.home,
-                          label: 'Home',
+                          label: AppLocalizations.of(context)!.homeTapBarLabel,
                           onTap: (context, key) {
                             AuthenticatedRoute.key.currentState
                                 ?.pushReplacementNamed(AuthenticatedRoute.home);
@@ -89,7 +90,8 @@ class _AuthenticatedScreenState extends State<AuthenticatedScreen>
                           tapBarItemType: TapTabItemType.button,
                           icon: Icons.pie_chart_outline,
                           activeIcon: Icons.pie_chart,
-                          label: 'Portfolio',
+                          label: AppLocalizations.of(context)!
+                              .portfolioTapBarLabel,
                           onTap: (context, key) {
                             AuthenticatedRoute.key.currentState
                                 ?.pushReplacementNamed(
@@ -101,7 +103,7 @@ class _AuthenticatedScreenState extends State<AuthenticatedScreen>
                           tapBarItemType: TapTabItemType.button,
                           icon: Icons.sports_esports_outlined,
                           activeIcon: Icons.sports_esports,
-                          label: 'Games',
+                          label: AppLocalizations.of(context)!.gamesTapBarLabel,
                           onTap: (context, key) {
                             AuthenticatedRoute.key.currentState
                                 ?.pushReplacementNamed(
@@ -112,7 +114,8 @@ class _AuthenticatedScreenState extends State<AuthenticatedScreen>
                           tapBarItemType: TapTabItemType.button,
                           icon: Icons.settings_outlined,
                           activeIcon: Icons.settings,
-                          label: 'Settings',
+                          label:
+                              AppLocalizations.of(context)!.settingsTapBarLabel,
                           onTap: (context, key) {
                             AuthenticatedRoute.key.currentState
                                 ?.pushReplacementNamed(

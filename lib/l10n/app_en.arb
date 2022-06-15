@@ -1,0 +1,27 @@
+{
+    "simplioTitle": "Simplio",
+    "@simplioTitle": {
+      "description": "Simplio name"
+    },
+    "noWalletsLabel": "You have no wallet",
+    "gamesLabel": "Games",
+    "welcomeLabel": "Welcome to Simplio",
+    "enterApplicationLabel": "I have an account",
+
+    "switchLanguage": "Switch language",
+    "logoutBtn": "Logout",
+    "loginBtn": "Login",
+
+    "homeTapBarLabel": "Home",
+    "portfolioTapBarLabel": "Portfolio",
+    "gamesTapBarLabel": "Games",
+    "settingsTapBarLabel": "Settings",
+
+    "loginScreenTitle": "Enter Simplio.",
+    "loginScreenSubTitle": "It's good to see you back.",
+    "usernameInputLabel":"Username",
+    "passwordInputLabel":"Password",
+
+    "searchAllAssetsInputLabel": "Search all assets",
+    "noWalletsLabel": "You have no wallet"
+}

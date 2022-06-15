@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simplio_app/view/routes/unauthenticated_route.dart';
+import 'package:simplio_app/view/utils/localizations.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -11,9 +12,9 @@ class WelcomeScreen extends StatelessWidget {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          const Expanded(
+          Expanded(
             child: Center(
-              child: Text('Welcome to Simplio'),
+              child: Text(AppLocalizations.of(context)!.welcomeLabel),
             ),
           ),
           Padding(
@@ -24,7 +25,8 @@ class WelcomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pushNamed(UnauthenticatedRoute.login);
                 },
-                child: const Text('I have an account'),
+                child:
+                    Text(AppLocalizations.of(context)!.enterApplicationLabel),
               ),
             ),
           ),

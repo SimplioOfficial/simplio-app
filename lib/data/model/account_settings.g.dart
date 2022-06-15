@@ -18,15 +18,18 @@ class AccountSettingsLocalAdapter extends TypeAdapter<AccountSettingsLocal> {
     };
     return AccountSettingsLocal(
       themeMode: fields[0] as ThemeModes,
+      languageCode: fields[1] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, AccountSettingsLocal obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.themeMode);
+      ..write(obj.themeMode)
+      ..writeByte(1)
+      ..write(obj.languageCode);
   }
 
   @override

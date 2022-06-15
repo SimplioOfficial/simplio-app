@@ -7,21 +7,21 @@ on:
 
 jobs:
   run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-wallet
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@master
     with:
       e2e: true
       unitTests: true
 
 #  increase-version:
 #    needs: [run-tests]
-#    uses: SimplioOfficial/simplio-app/.github/workflows/_increase_version.yml@feature/initial-wallet
+#    uses: SimplioOfficial/simplio-app/.github/workflows/_increase_version.yml@master
 #    secrets:
 #      GIT_TOKEN: '${{ secrets.GIT_TOKEN }}'
 
 
   build-ios:
     needs: [run-tests]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@feature/initial-wallet
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_ios.yml@master
     with:
       environment: 'dev'
     secrets:
@@ -38,7 +38,7 @@ jobs:
 
   build-android:
     needs: [run-tests]
-    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@feature/initial-wallet
+    uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@master
     secrets:
       ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
     with:

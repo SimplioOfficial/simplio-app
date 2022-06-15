@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/logic/login_bloc/login_bloc.dart';
+import 'package:simplio_app/view/utils/localizations.dart';
 import 'package:simplio_app/view/widgets/text_header.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -35,14 +36,16 @@ class LoginScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
-                  children: const [
+                  children: [
                     Padding(
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: TextHeader(
-                          title: "Enter Simplio.",
-                          subtitle: "It's good to see you back."),
+                        title: AppLocalizations.of(context)!.loginScreenTitle,
+                        subtitle:
+                            AppLocalizations.of(context)!.loginScreenSubTitle,
+                      ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 20.0,
                       ),
@@ -59,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       context.read<LoginBloc>().add(const LoginRequested());
                     },
-                    child: const Text('Login'),
+                    child: Text(AppLocalizations.of(context)!.loginBtn),
                   ),
                 ),
               ),
@@ -89,22 +92,20 @@ class _LoginForm extends State<LoginFormFields> {
           TextFormField(
             autofocus: true,
             validator: (email) => null,
-            decoration: const InputDecoration(
-              labelText: 'Username',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.usernameInputLabel,
             ),
-            onChanged: (String? email) =>
-                context
-                    .read<LoginBloc>()
-                    .add(LoginFormChanged(username: email)),
+            onChanged: (String? email) => context
+                .read<LoginBloc>()
+                .add(LoginFormChanged(username: email)),
           ),
           TextField(
             obscureText: _passwordDisplayed,
-            onChanged: (String? password) =>
-                context
-                    .read<LoginBloc>()
-                    .add(LoginFormChanged(password: password)),
+            onChanged: (String? password) => context
+                .read<LoginBloc>()
+                .add(LoginFormChanged(password: password)),
             decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: AppLocalizations.of(context)!.passwordInputLabel,
                 suffixIcon: IconButton(
                     icon: Icon(_passwordDisplayed
                         ? Icons.visibility

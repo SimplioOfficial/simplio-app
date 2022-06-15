@@ -43,7 +43,6 @@ class AuthRepository {
       ),
       updatedAt: DateTime.now(),
     );
-
     return _db.save(Account.builder(
       id: id,
       secret: LockableSecret.generate(),

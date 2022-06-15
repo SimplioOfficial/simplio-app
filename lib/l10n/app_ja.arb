@@ -1,0 +1,27 @@
+{
+    "simplioTitle": "シンプルさ",
+    "@simplioTitle": {
+      "description": "Simplio name"
+    },
+    "noWalletsLabel": "あなたは財布を持っていません",
+    "gamesLabel": "ゲーム",
+    "welcomeLabel": "アカウ へようこそ",
+    "enterApplicationLabel": "私はアカウントを持っています",
+
+    "switchLanguage": "言語を切り替える",
+    "logoutBtn": "ログアウト",
+    "loginBtn": "ログアウト",
+
+    "homeTapBarLabel": "車両あなた自身",
+    "portfolioTapBarLabel": "車両あなた自身",
+    "gamesTapBarLabel": "車両あなた自身",
+    "settingsTapBarLabel": "車両あなた自身",
+
+    "loginScreenTitle": "車両あなた自身 車両",
+    "loginScreenSubTitle": "あなたは財布を持っていません",
+    "usernameInputLabel":"財布を持っ",
+    "passwordInputLabel":"ていません",
+
+    "searchAllAssetsInputLabel": "カウントを持ってい",
+    "noWalletsLabel": "ゲー たは財"
+}
