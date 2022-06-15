@@ -29,53 +29,56 @@ class TapBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return SizedBox(
-      height: height + floatingActionButtonOffset,
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            height: height,
-            decoration: BoxDecoration(
-              color: theme.bottomNavigationBarTheme.backgroundColor,
-              border: Border(
-                top: BorderSide(
-                  width: 1,
-                  color: theme.hoverColor,
+    return SafeArea(
+      bottom: true,
+      child: SizedBox(
+        height: height + floatingActionButtonOffset,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              height: height,
+              decoration: BoxDecoration(
+                color: theme.bottomNavigationBarTheme.backgroundColor,
+                border: Border(
+                  top: BorderSide(
+                    width: 1,
+                    color: theme.hoverColor,
+                  ),
                 ),
               ),
-            ),
-            child: Builder(
-              builder: (context) {
-                return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: items.map((e) {
-                      if (e.tapBarItemType == TapTabItemType.spacer) {
-                        return Expanded(
-                          key: UniqueKey(),
-                          child: Container(),
-                          flex: 1,
-                        );
-                      }
+              child: Builder(
+                builder: (context) {
+                  return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: items.map((e) {
+                        if (e.tapBarItemType == TapTabItemType.spacer) {
+                          return Expanded(
+                            key: UniqueKey(),
+                            child: Container(),
+                            flex: 1,
+                          );
+                        }
 
-                      return Expanded(
-                          key: e.key,
-                          flex: spacerRatio,
-                          child: _TapBarItem(
-                            isActive: activeItem == e.key,
-                            tapBarItem: e,
-                          ));
-                    }).toList());
-              },
+                        return Expanded(
+                            key: e.key,
+                            flex: spacerRatio,
+                            child: _TapBarItem(
+                              isActive: activeItem == e.key,
+                              tapBarItem: e,
+                            ));
+                      }).toList());
+                },
+              ),
             ),
-          ),
-          if (floatingActionButton != null)
-            Positioned(
-              child: floatingActionButton!,
-              top: 0,
-            ),
-        ],
+            if (floatingActionButton != null)
+              Positioned(
+                child: floatingActionButton!,
+                top: 0,
+              ),
+          ],
+        ),
       ),
     );
   }
