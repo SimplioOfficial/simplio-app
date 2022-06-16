@@ -31,9 +31,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     GotUnauthenticated event,
     Emitter<AuthState> emit,
   ) {
-    final tempState = state;
-    if (tempState is Authenticated) {
-      _authRepository.logout(accountId: tempState.accountId);
+    final s = state;
+    if (s is Authenticated) {
+      _authRepository.logout(accountId: s.accountId);
     }
 
     emit(const Unauthenticated());
