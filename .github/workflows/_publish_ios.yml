@@ -1,6 +1,6 @@
 name: Publish iOS
 env:
-  FLUTTER_VERSION: '2.10.2'
+  FLUTTER_VERSION: '3.0.2'
 
 on:
   workflow_call:

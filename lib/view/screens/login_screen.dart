@@ -5,7 +5,7 @@ import 'package:simplio_app/logic/login_bloc/login_bloc.dart';
 import 'package:simplio_app/view/widgets/text_header.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
 }
 
 class LoginFormFields extends StatefulWidget {
-  const LoginFormFields({Key? key}) : super(key: key);
+  const LoginFormFields({super.key});
 
   @override
   State<StatefulWidget> createState() => _LoginForm();
@@ -92,15 +92,17 @@ class _LoginForm extends State<LoginFormFields> {
             decoration: const InputDecoration(
               labelText: 'Username',
             ),
-            onChanged: (String? email) => context
-                .read<LoginBloc>()
-                .add(LoginFormChanged(username: email)),
+            onChanged: (String? email) =>
+                context
+                    .read<LoginBloc>()
+                    .add(LoginFormChanged(username: email)),
           ),
           TextField(
             obscureText: _passwordDisplayed,
-            onChanged: (String? password) => context
-                .read<LoginBloc>()
-                .add(LoginFormChanged(password: password)),
+            onChanged: (String? password) =>
+                context
+                    .read<LoginBloc>()
+                    .add(LoginFormChanged(password: password)),
             decoration: InputDecoration(
                 labelText: 'Password',
                 suffixIcon: IconButton(

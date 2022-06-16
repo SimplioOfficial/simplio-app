@@ -1,6 +1,6 @@
 name: Run tests
 env:
-  FLUTTER_VERSION: '2.10.2'
+  FLUTTER_VERSION: '3.0.2'
 
 on:
   workflow_call:
@@ -17,10 +17,9 @@ on:
         type: boolean
 
 jobs:
-  tests:
-    if: ${{ inputs.unitTests }}
+  analyze-app:
     runs-on: ubuntu-latest
-    name: Unit tests
+    name: Analyze application
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
@@ -29,13 +28,25 @@ jobs:
       - run: flutter pub get
       - name: Analyze files
         run: flutter analyze .
+
+  tests:
+    if: ${{ inputs.unitTests }}
+    runs-on: ubuntu-latest
+    name: Unit tests
+    needs: analyze-app
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: $FLUTTER_VERSION
+      - run: flutter pub get
       - run: flutter test
 
   run-e2e-tests:
     if: ${{ inputs.e2e }}
     runs-on: macos-latest
     name: e2e tests
-    #sequence of tasks called
+    needs: analyze-app
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2

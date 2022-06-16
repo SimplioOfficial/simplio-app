@@ -12,7 +12,7 @@ class TapBar extends StatelessWidget {
   final Key activeItem;
 
   const TapBar({
-    Key? key,
+    super.key,
     required this.items,
     required this.activeItem,
     this.floatingActionButton,
@@ -22,8 +22,7 @@ class TapBar extends StatelessWidget {
     this.spacerRatio = 2,
     this.showLabel = true,
   })  : assert(items.length <= 5),
-        assert(floatingActionButtonOffset > 0),
-        super(key: key);
+        assert(floatingActionButtonOffset > 0);
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +55,8 @@ class TapBar extends StatelessWidget {
                         if (e.tapBarItemType == TapTabItemType.spacer) {
                           return Expanded(
                             key: UniqueKey(),
-                            child: Container(),
                             flex: 1,
+                            child: Container(),
                           );
                         }
 
@@ -74,8 +73,8 @@ class TapBar extends StatelessWidget {
             ),
             if (floatingActionButton != null)
               Positioned(
-                child: floatingActionButton!,
                 top: 0,
+                child: floatingActionButton!,
               ),
           ],
         ),
@@ -89,10 +88,9 @@ class _TapBarItem extends StatelessWidget {
   final TapBarItem tapBarItem;
 
   const _TapBarItem({
-    Key? key,
     required this.isActive,
     required this.tapBarItem,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

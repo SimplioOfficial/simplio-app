@@ -8,10 +8,10 @@ class AuthGuard extends StatelessWidget {
   final Widget Function(BuildContext context) onUnauthenticated;
 
   const AuthGuard({
-    Key? key,
+    super.key,
     required this.onAuthenticated,
     required this.onUnauthenticated,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

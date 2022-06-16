@@ -6,11 +6,11 @@ class AppBarSearch<T> extends StatelessWidget {
   final Function(BuildContext context)? onTap;
 
   const AppBarSearch({
-    Key? key,
+    super.key,
     required this.delegate,
     required this.label,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

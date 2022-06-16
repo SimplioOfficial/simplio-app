@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 
 class ConfigurationScreen extends StatelessWidget {
-  const ConfigurationScreen({Key? key}) : super(key: key);
+  const ConfigurationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

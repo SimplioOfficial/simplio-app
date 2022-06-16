@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

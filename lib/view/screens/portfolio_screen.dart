@@ -9,7 +9,7 @@ import 'package:simplio_app/view/widgets/asset_toggle_item.dart';
 import 'package:simplio_app/view/widgets/wallet_list_item.dart';
 
 class PortfolioScreen extends StatelessWidget {
-  const PortfolioScreen({Key? key}) : super(key: key);
+  const PortfolioScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
