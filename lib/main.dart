@@ -70,9 +70,6 @@ class _SimplioAppState extends State<SimplioApp> {
         ],
         child: MaterialApp(
           title: 'Simplio',
-          scrollBehavior: const ScrollBehavior(
-            androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
-          ),
           theme: ThemeData(
             backgroundColor: Colors.white,
             scaffoldBackgroundColor: Colors.white,
