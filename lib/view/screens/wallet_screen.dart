@@ -20,7 +20,6 @@ class _WalletScreen extends State<WalletScreen> {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      backgroundColor: Colors.white,
     );
   }
 }

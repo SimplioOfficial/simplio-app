@@ -8,9 +8,10 @@ import 'package:simplio_app/data/repositories/asset_wallet_repository.dart';
 import 'package:simplio_app/data/repositories/auth_repository.dart';
 import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
-import 'package:simplio_app/view/guards/auth_guard.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
+import 'package:simplio_app/view/routes/guards/auth_guard.dart';
 import 'package:simplio_app/view/routes/unauthenticated_route.dart';
+import 'package:simplio_app/view/screens/authenticated_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,6 +70,24 @@ class _SimplioAppState extends State<SimplioApp> {
         ],
         child: MaterialApp(
           title: 'Simplio',
+          theme: ThemeData(
+            backgroundColor: Colors.white,
+            scaffoldBackgroundColor: Colors.white,
+            unselectedWidgetColor: Colors.black38,
+            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+              unselectedItemColor: Colors.black38,
+              selectedItemColor: Colors.blue,
+              selectedLabelStyle: TextStyle(
+                color: Colors.red,
+              ),
+              backgroundColor: Color.fromRGBO(255, 255, 255, 0.96),
+            ),
+            appBarTheme: const AppBarTheme(
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.white,
+              elevation: 0.3,
+            ),
+          ),
           home: AuthGuard(
             onAuthenticated: (context, state) {
               return MultiBlocProvider(
@@ -82,8 +101,8 @@ class _SimplioAppState extends State<SimplioApp> {
                     )..loadAccount(state.accountId),
                   ),
                 ],
-                child: Navigator(
-                  key: AuthenticatedRoute.key,
+                child: AuthenticatedScreen(
+                  navigatorKey: AuthenticatedRoute.key,
                   initialRoute: AuthenticatedRoute.home,
                   onGenerateRoute: _authenticatedRouter.generateRoute,
                 ),

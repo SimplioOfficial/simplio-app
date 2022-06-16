@@ -1,21 +1,23 @@
+import 'dart:async';
+
 import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
 
-typedef AssetToggleAction = void Function({
-  required bool value,
-  required String assetId,
-});
+typedef ValueOfAssetChanged = FutureOr<void> Function(
+  bool value,
+  String assetId,
+);
 
 class AssetToggleItem extends StatefulWidget {
   final MapEntry<String, Asset> assetEntry;
-  final bool toggled;
-  final AssetToggleAction? onToggle;
+  final bool isEnabled;
+  final ValueOfAssetChanged onChange;
 
   const AssetToggleItem({
     Key? key,
     required this.assetEntry,
-    this.onToggle,
-    this.toggled = false,
+    required this.onChange,
+    this.isEnabled = false,
   }) : super(key: key);
 
   @override
@@ -24,7 +26,7 @@ class AssetToggleItem extends StatefulWidget {
 
 class _AssetToggleItem extends State<AssetToggleItem>
     with AutomaticKeepAliveClientMixin<AssetToggleItem> {
-  late bool _toggled = widget.toggled;
+  late bool _toggled = widget.isEnabled;
 
   @override
   bool get wantKeepAlive => true;
@@ -68,11 +70,8 @@ class _AssetToggleItem extends State<AssetToggleItem>
             ),
             Switch(
               value: _toggled,
-              onChanged: (val) {
-                widget.onToggle?.call(
-                  value: val,
-                  assetId: widget.assetEntry.key,
-                );
+              onChanged: (value) async {
+                await widget.onChange(value, widget.assetEntry.key);
                 setState(() {
                   _toggled = !_toggled;
                 });

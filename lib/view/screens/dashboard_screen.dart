@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplio_app/data/model/asset_wallet.dart';
-import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
-import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
-import 'package:simplio_app/view/widgets/wallet_list_item.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -12,63 +7,65 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(context.watch<AccountCubit>().state.account?.id ?? ''),
-        backgroundColor: Colors.white,
-        elevation: 0.4,
-        foregroundColor: Colors.black87,
-        automaticallyImplyLeading: false,
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            heroTag: 'a',
-            onPressed: () => Navigator.of(context).pushNamed(
-              AuthenticatedRoute.assets,
-            ),
-            child: const Icon(Icons.add),
-          ),
-          FloatingActionButton(
-            heroTag: 'b',
-            backgroundColor: Colors.black,
-            onPressed: () async {
-              context.read<AuthBloc>().add(const GotUnauthenticated());
-            },
-            child: const Icon(Icons.logout),
-          ),
-        ],
-      ),
-      body: BlocBuilder<AccountCubit, AccountState>(
-        buildWhen: (previous, current) => previous != current,
-        builder: (context, state) {
-          var enabledAssetWallets = state.enabledAssetWallets;
-
-          return Container(
-            child: enabledAssetWallets.isEmpty
-                ? const Center(
-                    child: Text(
-                      'You have no wallet',
-                      style: TextStyle(color: Colors.black26),
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: enabledAssetWallets.length,
-                    itemBuilder: (BuildContext ctx, int i) {
-                      final AssetWallet wallet = enabledAssetWallets[i];
-
-                      return WalletListItem(
-                        key: Key(wallet.assetId),
-                        assetWallet: wallet,
-                        onTap: () => Navigator.of(context).pushNamed(
-                            AuthenticatedRoute.wallet,
-                            arguments: wallet),
-                      );
-                    },
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+          childAspectRatio: 1.6,
+          children: [
+            Material(
+              clipBehavior: Clip.hardEdge,
+              shape: RoundedRectangleBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                side: BorderSide(
+                  width: 1,
+                  color: Theme.of(context).hoverColor,
+                ),
+              ),
+              child: InkWell(
+                onTap: () {
+                  AuthenticatedRoute.key.currentState
+                      ?.pushReplacementNamed(AuthenticatedRoute.inventory);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Games'),
+                      Container(
+                        alignment: Alignment.bottomRight,
+                        child: const Icon(
+                          Icons.sports_esports_outlined,
+                          size: 32.0,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ],
                   ),
-          );
-        },
+                ),
+              ),
+            ),
+            const Material(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+            ),
+            const Material(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+            ),
+            const Material(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
