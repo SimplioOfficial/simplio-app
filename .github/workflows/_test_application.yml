@@ -87,7 +87,7 @@ jobs:
           sleep 10
       # Upload Recordings As Artifact
       - name: upload recordedVideo
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@feature/initial-wallet
         with:
           name: recorded_video_${{ matrix.device }}
           path: recording.mp4

@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('AssetToggleCubit', () {
+    test('dummy test', () => expect(1, 1));
     // AssetToggleCubit assetToggleCubit = AssetToggleCubit();
     //
     // test('Initial state of CounterCubit', () {

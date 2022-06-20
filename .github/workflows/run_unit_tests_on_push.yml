@@ -7,7 +7,7 @@ on:
 
 jobs:
   run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@master
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-wallet
     with:
       e2e: false
       unitTests: true
