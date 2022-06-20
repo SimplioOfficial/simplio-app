@@ -9,7 +9,7 @@ import 'package:simplio_app/main.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  //TICKERs
+  //TICKERss
   const sioTicker = 'sio';
   const btcTicker = 'btc';
   const solTicker = 'sol';
