@@ -33,7 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) {
     final s = state;
     if (s is Authenticated) {
-      _authRepository.logout(accountId: s.accountId);
+      _authRepository.signOut(accountId: s.accountId);
     }
 
     emit(const Unauthenticated());
@@ -43,7 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     GotLastAuthenticated event,
     Emitter<AuthState> emit,
   ) {
-    final Account? account = _authRepository.lastLoggedIn();
+    final Account? account = _authRepository.lastSignedIn();
 
     emit(
       account != null

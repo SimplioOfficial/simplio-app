@@ -8,28 +8,54 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          const Expanded(
-            child: Center(
-              child: Text('Welcome to Simplio'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(UnauthenticatedRoute.login);
-                },
-                child: const Text('I have an account'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            const Expanded(
+              child: Center(
+                child: Text('Welcome to Simplio'),
               ),
             ),
-          ),
-        ],
-      )),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Go to app'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed(UnauthenticatedRoute.signIn);
+                      },
+                      child: const Text('Sign in'),
+                    ),
+                  ),
+                ],
+              ),
+            )
+            // Padding(
+            //   padding: const EdgeInsets.all(20.0),
+            //   child: SizedBox(
+            //     width: double.infinity,
+            //     child: ElevatedButton(
+            //       onPressed: () {
+            //         Navigator.of(context)
+            //             .pushNamed(UnauthenticatedRoute.signIn);
+            //       },
+            //       child: const Text('Sign in'),
+            //     ),
+            //   ),
+            // ),
+          ],
+        ),
+      ),
     );
   }
 }

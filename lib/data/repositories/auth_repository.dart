@@ -17,12 +17,15 @@ class AuthRepository {
     return this;
   }
 
-  Account? lastLoggedIn() {
+  Account? lastSignedIn() {
     return _db.last();
   }
 
-  // TODO: Login implementation is only temporary.
-  Future<Account> login(String id, String password) async {
+  // TODO: Sign In implementation is only temporary.
+  Future<Account> signIn(String id, String password) async {
+    // TODO: remove delay on final implementation.
+    await Future.delayed(const Duration(seconds: 3));
+
     final Account? account = _db.get(id);
 
     if (account != null) {
@@ -53,7 +56,7 @@ class AuthRepository {
     ));
   }
 
-  Future<void> logout({required String accountId}) async {
+  Future<void> signOut({required String accountId}) async {
     final Account? account = _db.get(accountId);
 
     if (account != null) {
