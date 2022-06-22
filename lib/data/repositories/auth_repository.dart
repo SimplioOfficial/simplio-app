@@ -30,7 +30,7 @@ class AuthRepository {
 
     if (account != null) {
       return _db.save(account.copyWith(
-        lastLogin: DateTime.now(),
+        signedIn: DateTime.now(),
       ));
     }
 
@@ -51,7 +51,7 @@ class AuthRepository {
       id: id,
       secret: LockableSecret.generate(),
       refreshToken: '',
-      lastLogin: DateTime.now(),
+      signedIn: DateTime.now(),
       wallets: <AccountWallet>[testWallet],
     ));
   }
@@ -61,7 +61,7 @@ class AuthRepository {
 
     if (account != null) {
       await _db.save(account.copyWith(
-        lastLogin: DateTime.fromMillisecondsSinceEpoch(0),
+        signedIn: DateTime.fromMillisecondsSinceEpoch(0),
       ));
     }
   }

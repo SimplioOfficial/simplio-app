@@ -111,25 +111,25 @@ class SignInForm extends Equatable {
 }
 
 class SignUpForm extends Equatable {
-  final ValidatedEmail email;
+  final ValidatedEmail login;
   final ValidatedPassword password;
 
   const SignUpForm._({
-    required this.email,
+    required this.login,
     required this.password,
   });
 
   const SignUpForm.init()
       : this._(
-          email: const ValidatedEmail(),
+          login: const ValidatedEmail(),
           password: const ValidatedPassword(),
         );
 
-  bool get isValid => email.isValid && password.isValid;
+  bool get isValid => login.isValid && password.isValid;
 
   @override
   List<Object?> get props => [
-        email,
+        login,
         password,
       ];
 
@@ -138,7 +138,7 @@ class SignUpForm extends Equatable {
     String? password,
   }) {
     return SignInForm._(
-      login: ValidatedEmail(value: login ?? this.email.toString()),
+      login: ValidatedEmail(value: login ?? this.login.toString()),
       password: ValidatedPassword(value: password ?? this.password.toString()),
     );
   }

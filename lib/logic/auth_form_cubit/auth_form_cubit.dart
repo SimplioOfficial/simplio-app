@@ -84,7 +84,7 @@ class AuthFormCubit extends Cubit<AuthFormState> {
 
   Future<void> requestSignUp() async {
     print("Requesting Sign up - "
-        "login: ${state.signUpForm.email}, "
+        "login: ${state.signUpForm.login}, "
         "password: ${state.signUpForm.password}");
   }
 
