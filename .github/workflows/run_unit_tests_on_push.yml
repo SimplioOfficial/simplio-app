@@ -9,5 +9,5 @@ jobs:
   run-tests:
     uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@feature/initial-wallet
     with:
-      e2e: true
+      e2e: false
       unitTests: true
