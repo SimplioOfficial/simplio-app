@@ -61,9 +61,9 @@ class AuthFormCubit extends Cubit<AuthFormState> {
   }
 
   Future<void> requestSignIn() async {
-    // print("Requesting Sign In - "
-    //     "login: ${state.signInForm.login}, "
-    //     "password: ${state.signInForm.password}");
+    print("Requesting Sign In - "
+        "login: ${state.signInForm.login}, "
+        "password: ${state.signInForm.password}");
 
     emit(state.copyWith(
       response: const SignInFormPending(),
@@ -85,18 +85,18 @@ class AuthFormCubit extends Cubit<AuthFormState> {
   }
 
   Future<void> requestSignUp() async {
-    // print("Requesting Sign up - "
-    //     "login: ${state.signUpForm.login}, "
-    //     "password: ${state.signUpForm.password}");
+    print("Requesting Sign up - "
+        "login: ${state.signUpForm.login}, "
+        "password: ${state.signUpForm.password}");
   }
 
   Future<void> requestPasswordReset() async {
-    // print("Requesting password reset");
+    print("Requesting password reset");
   }
 
   Future<void> requestPasswordChange() async {
-    // print("Requesting Password change - "
-    //     "old password: ${state.passwordChangeForm.oldPassword}, "
-    //     "new password: ${state.passwordChangeForm.newPassword}");
+    print("Requesting Password change - "
+        "old password: ${state.passwordChangeForm.oldPassword}, "
+        "new password: ${state.passwordChangeForm.newPassword}");
   }
 }
