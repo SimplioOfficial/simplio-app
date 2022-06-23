@@ -20,7 +20,7 @@ class AccountLocalAdapter extends TypeAdapter<AccountLocal> {
       id: fields[0] as String,
       secret: fields[1] as String,
       refreshToken: fields[2] as String,
-      lastLogin: fields[3] as DateTime,
+      signedIn: fields[3] as DateTime,
       settings: fields[4] as AccountSettingsLocal,
       wallets: (fields[5] as List).cast<AccountWalletLocal>(),
     );
@@ -37,7 +37,7 @@ class AccountLocalAdapter extends TypeAdapter<AccountLocal> {
       ..writeByte(2)
       ..write(obj.refreshToken)
       ..writeByte(3)
-      ..write(obj.lastLogin)
+      ..write(obj.signedIn)
       ..writeByte(4)
       ..write(obj.settings)
       ..writeByte(5)
