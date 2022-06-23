@@ -43,10 +43,10 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
   Account? last() {
     try {
       final localAccount = box.values.reduce(
-        (acc, curr) => acc.lastLogin.isAfter(curr.lastLogin) ? acc : curr,
+        (acc, curr) => acc.signedIn.isAfter(curr.signedIn) ? acc : curr,
       );
 
-      final isZero = localAccount.lastLogin.isAtSameMomentAs(
+      final isZero = localAccount.signedIn.isAtSameMomentAs(
         DateTime.fromMillisecondsSinceEpoch(0),
       );
       if (isZero) return null;
@@ -84,7 +84,7 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
       id: account.id,
       secret: account.secret.toString(),
       refreshToken: account.refreshToken,
-      lastLogin: account.lastLogin,
+      signedIn: account.signedIn,
       settings: AccountSettingsLocal(
         themeMode: _mapToTheme(account.settings.themeMode),
         languageCode: account.settings.locale.languageCode,
@@ -109,7 +109,7 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
       id: accountLocal.id,
       secret: LockableSecret.from(secret: accountLocal.secret),
       refreshToken: accountLocal.refreshToken,
-      lastLogin: accountLocal.lastLogin,
+      signedIn: accountLocal.signedIn,
       wallets: accountLocal.wallets
           .map((w) => AccountWallet.builder(
                 uuid: w.uuid,

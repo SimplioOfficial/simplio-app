@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/l10n/localized_build_context_extension.dart';
 import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
+import 'package:simplio_app/view/routes/authenticated_route.dart';
 
 class ConfigurationScreen extends StatelessWidget {
   const ConfigurationScreen({super.key});
@@ -11,15 +12,9 @@ class ConfigurationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(const GotUnauthenticated());
-              },
-              child: Text(context.locale.logoutBtn),
-            ),
             ElevatedButton(
               onPressed: () {
                 var currentLanguage = context.locale.localeName;
@@ -44,6 +39,19 @@ class ConfigurationScreen extends StatelessWidget {
                 });
               },
               child: Text(context.locale.switchLanguage),
+            ),
+            ElevatedButton(
+              child: const Text('Change password'),
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(AuthenticatedRoute.passwordChange);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Sign out'),
+              onPressed: () {
+                context.read<AuthBloc>().add(const GotUnauthenticated());
+              },
             ),
           ],
         ),

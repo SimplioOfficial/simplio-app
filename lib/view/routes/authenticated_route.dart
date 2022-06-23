@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
+import 'package:simplio_app/data/repositories/auth_repository.dart';
+import 'package:simplio_app/logic/auth_form_cubit/auth_form_cubit.dart';
 import 'package:simplio_app/view/routes/settings/authenticated_settings.dart';
 import 'package:simplio_app/view/screens/configuration_screen.dart';
 import 'package:simplio_app/view/screens/dashboard_screen.dart';
 import 'package:simplio_app/view/screens/inventory_screen.dart';
+import 'package:simplio_app/view/screens/password_change_screen.dart';
 import 'package:simplio_app/view/screens/portfolio_screen.dart';
 import 'package:simplio_app/view/screens/wallet_screen.dart';
 
@@ -17,6 +21,7 @@ class AuthenticatedRoute {
   static const String inventory = '/inventory';
   static const String configuration = '/configuration';
   static const String wallet = '/wallet';
+  static const String passwordChange = '/configuration/passwordChange';
 
   Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -60,6 +65,16 @@ class AuthenticatedRoute {
         return MaterialPageRoute(
           builder: (_) => WalletScreen(
             assetWallet: settings.arguments! as AssetWallet,
+          ),
+        );
+
+      case passwordChange:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => AuthFormCubit.builder(
+              authRepository: RepositoryProvider.of<AuthRepository>(context),
+            ),
+            child: const PasswordChangeScreen(),
           ),
         );
 
