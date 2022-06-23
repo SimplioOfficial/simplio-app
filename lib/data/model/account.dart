@@ -11,7 +11,7 @@ class Account extends Equatable {
   final LockableSecret secret;
   final String? accessToken;
   final String refreshToken;
-  final DateTime lastLogin;
+  final DateTime signedIn;
   final AccountSettings settings;
   final List<AccountWallet> wallets;
 
@@ -20,7 +20,7 @@ class Account extends Equatable {
     this.secret,
     this.accessToken,
     this.refreshToken,
-    this.lastLogin,
+    this.signedIn,
     this.settings,
     this.wallets,
   ) : assert(id.length > 0);
@@ -37,7 +37,7 @@ class Account extends Equatable {
     /// `refreshToken` is a long-live token provided by Auth0. It is used
     /// only when authentication fails with `401` status.
     required String refreshToken,
-    required DateTime lastLogin,
+    required DateTime signedIn,
     AccountSettings settings = const AccountSettings.preset(),
     List<AccountWallet> wallets = const <AccountWallet>[],
   }) : this._(
@@ -45,7 +45,7 @@ class Account extends Equatable {
           secret,
           accessToken,
           refreshToken,
-          lastLogin,
+          signedIn,
           settings,
           wallets,
         );
@@ -53,7 +53,7 @@ class Account extends Equatable {
   Account copyWith({
     String? accessToken,
     String? refreshToken,
-    DateTime? lastLogin,
+    DateTime? signedIn,
     AccountSettings? settings,
     List<AccountWallet>? wallets,
   }) {
@@ -62,7 +62,7 @@ class Account extends Equatable {
       secret,
       accessToken ?? this.accessToken,
       refreshToken ?? this.refreshToken,
-      lastLogin ?? this.lastLogin,
+      signedIn ?? this.signedIn,
       settings ?? this.settings,
       wallets ?? this.wallets,
     );
@@ -128,7 +128,7 @@ class AccountLocal extends HiveObject {
   final String refreshToken;
 
   @HiveField(3)
-  final DateTime lastLogin;
+  final DateTime signedIn;
 
   @HiveField(4)
   final AccountSettingsLocal settings;
@@ -140,7 +140,7 @@ class AccountLocal extends HiveObject {
     required this.id,
     required this.secret,
     required this.refreshToken,
-    required this.lastLogin,
+    required this.signedIn,
     required this.settings,
     required this.wallets,
   });
