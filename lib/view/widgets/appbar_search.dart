@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simplio_app/view/themes/common_theme.dart';
 
 class AppBarSearch<T> extends StatelessWidget {
   final SearchDelegate<T> delegate;
@@ -18,13 +19,13 @@ class AppBarSearch<T> extends StatelessWidget {
       children: [
         Expanded(
           child: Material(
+            color: Theme.of(context).colorScheme.primary,
             clipBehavior: Clip.hardEdge,
             shape: RoundedRectangleBorder(
-              borderRadius:
-                  const BorderRadius.all(Radius.elliptical(100.0, 100.0)),
+              borderRadius: CommonTheme.borderRadius,
               side: BorderSide(
                 width: 1,
-                color: Theme.of(context).hoverColor,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
             child: InkWell(
@@ -45,16 +46,10 @@ class AppBarSearch<T> extends StatelessWidget {
                       child: Icon(
                         Icons.search,
                         size: 18.0,
-                        color: Theme.of(context).unselectedWidgetColor,
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
-                    Text(
-                      label,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Theme.of(context).unselectedWidgetColor,
-                      ),
-                    ),
+                    Text(label),
                   ],
                 ),
               ),

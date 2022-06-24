@@ -48,6 +48,7 @@
 		B6200FD298E859C0628C47EB /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		B6F1226B16B92A5A3BC8DA69 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6CB496C10A040A8B6170CB9 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
+		DC133787D196F450FECFFD59 /* Pods-Runner.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-dev.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +122,7 @@
 				C6CB496C10A040A8B6170CB9 /* Pods-Runner.debug.xcconfig */,
 				B6200FD298E859C0628C47EB /* Pods-Runner.release.xcconfig */,
 				46512FBBD0B5F67C734D44A7 /* Pods-Runner.profile.xcconfig */,
-				13D625A147D3F0362813D60B /* Pods-Runner.release-dev.xcconfig */,
+				DC133787D196F450FECFFD59 /* Pods-Runner.release-dev.xcconfig */,
 			);
 			name = Pods;
 			path = Pods;
@@ -442,6 +443,7 @@
 		};
 		97C147031CF9000F007C117D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 46512FBBD0B5F67C734D44A7 /* Pods-Runner.profile.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

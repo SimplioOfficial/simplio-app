@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/l10n/localized_build_context_extension.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/logic/login_bloc/login_bloc.dart';
+import 'package:simplio_app/view/themes/common_theme.dart';
 import 'package:simplio_app/view/widgets/text_header.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -25,11 +26,7 @@ class LoginScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          foregroundColor: Colors.black87,
-        ),
+        appBar: AppBar(elevation: 0.0),
         body: SafeArea(
           top: true,
           child: Column(
@@ -38,23 +35,21 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: CommonTheme.paddingAll,
                       child: TextHeader(
                         title: context.locale.loginScreenTitle,
                         subtitle: context.locale.loginScreenSubTitle,
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20.0,
-                      ),
-                      child: LoginFormFields(),
+                    Padding(
+                      padding: CommonTheme.horizontalPadding,
+                      child: const LoginFormFields(),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: CommonTheme.paddingAll,
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -89,7 +84,7 @@ class _LoginForm extends State<LoginFormFields> {
       child: Column(
         children: [
           TextFormField(
-            autofocus: true,
+            style: TextStyle(color: Theme.of(context).colorScheme.primary),
             validator: (email) => null,
             decoration: InputDecoration(
               labelText: context.locale.usernameInputLabel,
@@ -98,12 +93,15 @@ class _LoginForm extends State<LoginFormFields> {
                 .read<LoginBloc>()
                 .add(LoginFormChanged(username: email)),
           ),
-          TextField(
-            obscureText: _passwordDisplayed,
-            onChanged: (String? password) => context
-                .read<LoginBloc>()
-                .add(LoginFormChanged(password: password)),
-            decoration: InputDecoration(
+          Container(
+            margin: const EdgeInsets.only(top: 18),
+            child: TextField(
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              obscureText: _passwordDisplayed,
+              onChanged: (String? password) => context
+                  .read<LoginBloc>()
+                  .add(LoginFormChanged(password: password)),
+              decoration: InputDecoration(
                 labelText: context.locale.passwordInputLabel,
                 suffixIcon: IconButton(
                     icon: Icon(_passwordDisplayed
@@ -113,7 +111,9 @@ class _LoginForm extends State<LoginFormFields> {
                       setState(() {
                         _passwordDisplayed = !_passwordDisplayed;
                       });
-                    })),
+                    }),
+              ),
+            ),
           ),
         ],
       ),

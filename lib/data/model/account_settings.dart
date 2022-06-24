@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 part 'account_settings.g.dart';
 
 class AccountSettings {
-  final ThemeModes themeMode;
+  final ThemeMode themeMode;
   final Locale locale;
 
   const AccountSettings._({
@@ -13,15 +13,15 @@ class AccountSettings {
   });
 
   const AccountSettings.preset()
-      : this._(themeMode: ThemeModes.dark, locale: const Locale('en'));
+      : this._(themeMode: ThemeMode.dark, locale: const Locale('en'));
 
   const AccountSettings.builder({
-    required ThemeModes themeMode,
+    required ThemeMode themeMode,
     required Locale locale,
   }) : this._(themeMode: themeMode, locale: locale);
 
   AccountSettings copyFrom({
-    ThemeModes? themeMode,
+    ThemeMode? themeMode,
     Locale? locale,
   }) {
     return AccountSettings._(
@@ -30,9 +30,9 @@ class AccountSettings {
 }
 
 @HiveType(typeId: 22)
-enum ThemeModes {
+enum ThemeModeLocal {
   @HiveField(0)
-  auto,
+  system,
   @HiveField(1)
   light,
   @HiveField(2)
@@ -42,7 +42,7 @@ enum ThemeModes {
 @HiveType(typeId: 2)
 class AccountSettingsLocal {
   @HiveField(0)
-  final ThemeModes themeMode;
+  final ThemeModeLocal themeMode;
   @HiveField(1)
   final String languageCode;
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
+import 'package:simplio_app/view/themes/common_theme.dart';
 
 typedef ValueOfAssetChanged = FutureOr<void> Function(
   bool value,
@@ -38,10 +39,7 @@ class _AssetToggleItem extends State<AssetToggleItem>
     final Asset asset = widget.assetEntry.value;
 
     return Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20.0,
-          vertical: 16.0,
-        ),
+        padding: CommonTheme.padding,
         child: Row(
           children: [
             CircleAvatar(
@@ -50,18 +48,14 @@ class _AssetToggleItem extends State<AssetToggleItem>
                 child: const Center()),
             Expanded(
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                padding: CommonTheme.horizontalPadding,
                 child: Row(
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(asset.detail.name, textScaleFactor: 1.2),
-                        Text(
-                          asset.detail.ticker.toUpperCase(),
-                          style: const TextStyle(color: Colors.black26),
-                        ),
+                        Text(asset.detail.ticker.toUpperCase()),
                       ],
                     ),
                   ],

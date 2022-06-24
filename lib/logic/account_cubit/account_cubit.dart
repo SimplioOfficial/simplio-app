@@ -69,6 +69,14 @@ class AccountCubit extends Cubit<AccountState> {
     if (account != null) return updateAccount(account);
   }
 
+  Future<void> setTheme(ThemeMode theme) async {
+    var account = state.account?.copyWith(
+        settings:
+        state.account?.settings.copyFrom(themeMode: theme));
+
+    if (account != null) return updateAccount(account);
+  }
+
   Future<void> enableAssetWallet(String assetId) async {
     final accountWallet = state.account?.accountWallet;
     if (accountWallet == null) return;

@@ -26,7 +26,22 @@ class ConfigurationScreen extends StatelessWidget {
                 var newLanguage = context.supportedLanguageCodes
                     .firstWhere((element) => element != currentLanguage);
 
-                context.read<AccountCubit>().setLanguage(newLanguage);
+                context
+                    .read<AccountCubit>()
+                    .setLanguage(newLanguage)
+                    .then((value) {
+                  var newTheme = context
+                      .read<AccountCubit>()
+                      .state
+                      .account
+                      ?.settings
+                      .themeMode;
+
+                  context.read<AccountCubit>().setTheme(
+                      newTheme == ThemeMode.dark
+                          ? ThemeMode.light
+                          : ThemeMode.dark);
+                });
               },
               child: Text(context.locale.switchLanguage),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simplio_app/l10n/localized_build_context_extension.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
+import 'package:simplio_app/view/themes/common_theme.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -9,7 +10,7 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: CommonTheme.paddingAll,
         child: GridView.count(
           crossAxisCount: 2,
           crossAxisSpacing: 20,
@@ -18,11 +19,12 @@ class DashboardScreen extends StatelessWidget {
           children: [
             Material(
               clipBehavior: Clip.hardEdge,
+              color: Theme.of(context).colorScheme.secondary,
               shape: RoundedRectangleBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                borderRadius: CommonTheme.borderRadius,
                 side: BorderSide(
                   width: 1,
-                  color: Theme.of(context).hoverColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
               child: InkWell(
@@ -31,7 +33,7 @@ class DashboardScreen extends StatelessWidget {
                       ?.pushReplacementNamed(AuthenticatedRoute.inventory);
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: CommonTheme.paddingAll,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,10 +41,10 @@ class DashboardScreen extends StatelessWidget {
                       Text(context.locale.gamesLabel),
                       Container(
                         alignment: Alignment.bottomRight,
-                        child: const Icon(
+                        child: Icon(
                           Icons.sports_esports_outlined,
                           size: 32.0,
-                          color: Colors.blue,
+                          color: Theme.of(context).textTheme.titleMedium?.color,
                         ),
                       ),
                     ],
@@ -50,19 +52,22 @@ class DashboardScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const Material(
+            Material(
+              color: Theme.of(context).colorScheme.error,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
+                borderRadius: CommonTheme.borderRadius,
               ),
             ),
-            const Material(
+            Material(
+              color: Theme.of(context).colorScheme.error,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
+                borderRadius: CommonTheme.borderRadius,
               ),
             ),
-            const Material(
+            Material(
+              color: Theme.of(context).colorScheme.error,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
+                borderRadius: CommonTheme.borderRadius,
               ),
             ),
           ],

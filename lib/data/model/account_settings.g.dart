@@ -17,7 +17,7 @@ class AccountSettingsLocalAdapter extends TypeAdapter<AccountSettingsLocal> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AccountSettingsLocal(
-      themeMode: fields[0] as ThemeModes,
+      themeMode: fields[0] as ThemeModeLocal,
       languageCode: fields[1] as String,
     );
   }
@@ -43,34 +43,34 @@ class AccountSettingsLocalAdapter extends TypeAdapter<AccountSettingsLocal> {
           typeId == other.typeId;
 }
 
-class ThemeModesAdapter extends TypeAdapter<ThemeModes> {
+class ThemeModeLocalAdapter extends TypeAdapter<ThemeModeLocal> {
   @override
   final int typeId = 22;
 
   @override
-  ThemeModes read(BinaryReader reader) {
+  ThemeModeLocal read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return ThemeModes.auto;
+        return ThemeModeLocal.system;
       case 1:
-        return ThemeModes.light;
+        return ThemeModeLocal.light;
       case 2:
-        return ThemeModes.dark;
+        return ThemeModeLocal.dark;
       default:
-        return ThemeModes.auto;
+        return ThemeModeLocal.system;
     }
   }
 
   @override
-  void write(BinaryWriter writer, ThemeModes obj) {
+  void write(BinaryWriter writer, ThemeModeLocal obj) {
     switch (obj) {
-      case ThemeModes.auto:
+      case ThemeModeLocal.system:
         writer.writeByte(0);
         break;
-      case ThemeModes.light:
+      case ThemeModeLocal.light:
         writer.writeByte(1);
         break;
-      case ThemeModes.dark:
+      case ThemeModeLocal.dark:
         writer.writeByte(2);
         break;
     }
@@ -82,7 +82,7 @@ class ThemeModesAdapter extends TypeAdapter<ThemeModes> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ThemeModesAdapter &&
+      other is ThemeModeLocalAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

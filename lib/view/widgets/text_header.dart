@@ -29,11 +29,7 @@ class TextHeader extends StatelessWidget {
                   ),
                 ),
               ),
-            if (subtitle.isNotEmpty)
-              Text(
-                subtitle,
-                style: const TextStyle(color: Colors.black26),
-              ),
+            if (subtitle.isNotEmpty) Text(subtitle),
           ],
         ),
       ],

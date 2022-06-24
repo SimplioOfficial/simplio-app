@@ -23,7 +23,7 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
     Hive.registerAdapter(AccountWalletLocalAdapter());
     Hive.registerAdapter(AccountWalletTypesAdapter());
     Hive.registerAdapter(AccountSettingsLocalAdapter());
-    Hive.registerAdapter(ThemeModesAdapter());
+    Hive.registerAdapter(ThemeModeLocalAdapter());
   }
 
   Account? get(String id) {
@@ -57,6 +57,28 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
     }
   }
 
+  ThemeMode _mapFromTheme(ThemeModeLocal themeLocal) {
+    switch (themeLocal) {
+      case ThemeModeLocal.dark:
+        return ThemeMode.dark;
+      case ThemeModeLocal.light:
+        return ThemeMode.light;
+      case ThemeModeLocal.system:
+        return ThemeMode.system;
+    }
+  }
+
+  ThemeModeLocal _mapToTheme(ThemeMode theme) {
+    switch (theme) {
+      case ThemeMode.dark:
+        return ThemeModeLocal.dark;
+      case ThemeMode.light:
+        return ThemeModeLocal.light;
+      case ThemeMode.system:
+        return ThemeModeLocal.system;
+    }
+  }
+
   AccountLocal _mapFrom(Account account) {
     return AccountLocal(
       id: account.id,
@@ -64,7 +86,7 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
       refreshToken: account.refreshToken,
       lastLogin: account.lastLogin,
       settings: AccountSettingsLocal(
-        themeMode: account.settings.themeMode,
+        themeMode: _mapToTheme(account.settings.themeMode),
         languageCode: account.settings.locale.languageCode,
       ),
       wallets: account.wallets
@@ -103,7 +125,7 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
               ))
           .toList(),
       settings: AccountSettings.builder(
-        themeMode: accountLocal.settings.themeMode,
+        themeMode: _mapFromTheme(accountLocal.settings.themeMode),
         locale: Locale(accountLocal.settings.languageCode),
       ),
     );
