@@ -2,7 +2,7 @@
 
 Mobile application written in Flutter.
 
-## Generating coe
+## Generating code
 
 ```bash
 flutter packages pub run build_runner build
