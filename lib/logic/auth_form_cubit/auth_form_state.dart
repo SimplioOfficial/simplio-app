@@ -31,6 +31,7 @@ class AuthFormState extends Equatable {
         signUpForm,
         passwordResetForm,
         passwordChangeForm,
+        signUpForm.password.missingValue
       ];
 
   AuthFormState copyWith({
@@ -50,30 +51,80 @@ class AuthFormState extends Equatable {
   }
 }
 
-// TODO: Implement `email` validation here
 class ValidatedEmail {
   final String value;
 
   const ValidatedEmail({this.value = ''});
 
-  bool get isValid => true;
+  bool get isValid => _emailValidator(value);
 
   @override
   String toString() => value;
+
+  String? emailValidator(String? email, BuildContext context) {
+    if (_emailValidator(email)) return null;
+
+    return context.loc?.emailValidationError;
+  }
+
+  bool _emailValidator(String? value) {
+    return value!.contains(RegExp(
+        r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$'));
+  }
 }
 
-// TODO: Implement `password` validation here. Return missing rules in a Map;
 class ValidatedPassword {
   final String value;
 
   const ValidatedPassword({this.value = ''});
 
-  bool get isValid => true;
+  bool get isValid => _validatePassword(value);
 
-  Map<String, bool> get missingValue => {};
+  String? passwordValidator(String? password, BuildContext context) {
+    if (_validatePassword(password)) return null;
+
+    return context.loc?.passwordValidationError;
+  }
+
+  bool _validatePassword(String? password) {
+    return _hasSpecialCharacters(password) &&
+        _hasUpperCharacters(password) &&
+        _hasNumbers(password) &&
+        _isLongEnough(password);
+  }
+
+  Map<String, bool> get missingValue => {
+        'specialChar': _hasSpecialCharacters(value),
+        'upperChar': _hasUpperCharacters(value),
+        'numberChar': _hasNumbers(value),
+        'length': _isLongEnough(value),
+      };
 
   @override
   String toString() => value;
+
+  bool _hasSpecialCharacters(String? value) {
+    Pattern specialCharRegexp =
+        RegExp(r'''^(?=.*[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~])''');
+
+    return value!.contains(specialCharRegexp);
+  }
+
+  bool _hasUpperCharacters(String? value) {
+    Pattern upperCharRegexp = RegExp(r'''^(?=.*[A-Z])''');
+
+    return value!.contains(upperCharRegexp);
+  }
+
+  bool _hasNumbers(String? value) {
+    Pattern numbersRegexp = RegExp(r'''^(?=.*[0-9])''');
+
+    return value!.contains(numbersRegexp);
+  }
+
+  bool _isLongEnough(String? value) {
+    return value!.length >= 8;
+  }
 }
 
 class SignInForm extends Equatable {
@@ -133,11 +184,11 @@ class SignUpForm extends Equatable {
         password,
       ];
 
-  SignInForm copyWith({
+  SignUpForm copyWith({
     String? login,
     String? password,
   }) {
-    return SignInForm._(
+    return SignUpForm._(
       login: ValidatedEmail(value: login ?? this.login.toString()),
       password: ValidatedPassword(value: password ?? this.password.toString()),
     );
@@ -145,8 +196,8 @@ class SignUpForm extends Equatable {
 }
 
 class PasswordChangeForm extends Equatable {
-  final String oldPassword;
-  final String newPassword;
+  final ValidatedPassword oldPassword;
+  final ValidatedPassword newPassword;
 
   const PasswordChangeForm._({
     required this.oldPassword,
@@ -155,8 +206,8 @@ class PasswordChangeForm extends Equatable {
 
   const PasswordChangeForm.init()
       : this._(
-          oldPassword: '',
-          newPassword: '',
+          oldPassword: const ValidatedPassword(),
+          newPassword: const ValidatedPassword(),
         );
 
   @override
@@ -170,18 +221,20 @@ class PasswordChangeForm extends Equatable {
     String? newPassword,
   }) {
     return PasswordChangeForm._(
-      oldPassword: oldPassword ?? this.oldPassword,
-      newPassword: newPassword ?? this.newPassword,
+      oldPassword:
+          ValidatedPassword(value: oldPassword ?? this.oldPassword.toString()),
+      newPassword:
+          ValidatedPassword(value: newPassword ?? this.newPassword.toString()),
     );
   }
 }
 
 class PasswordResetForm extends Equatable {
-  final String email;
+  final ValidatedEmail email;
 
   const PasswordResetForm._({required this.email});
 
-  const PasswordResetForm.init() : this._(email: '');
+  const PasswordResetForm.init() : this._(email: const ValidatedEmail());
 
   @override
   List<Object?> get props => [email];
@@ -190,7 +243,7 @@ class PasswordResetForm extends Equatable {
     String? email,
   }) {
     return PasswordResetForm._(
-      email: email ?? this.email,
+      email: ValidatedEmail(value: email ?? this.email.toString()),
     );
   }
 }

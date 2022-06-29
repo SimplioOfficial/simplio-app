@@ -19,42 +19,35 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: CommonTheme.paddingAll,
               child: Column(
                 children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Go to app'),
+                  Padding(
+                    padding: CommonTheme.verticalPadding,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Text('Go to app'),
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed(UnauthenticatedRoute.signIn);
-                      },
-                      child: const Text('Sign in'),
+                  Padding(
+                    padding: CommonTheme.bottomPadding,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(UnauthenticatedRoute.signIn);
+                        },
+                        child: const Text('Sign in'),
+                      ),
                     ),
                   ),
                 ],
               ),
             )
-            // Padding(
-            //   padding: const EdgeInsets.all(20.0),
-            //   child: SizedBox(
-            //     width: double.infinity,
-            //     child: ElevatedButton(
-            //       onPressed: () {
-            //         Navigator.of(context)
-            //             .pushNamed(UnauthenticatedRoute.signIn);
-            //       },
-            //       child: const Text('Sign in'),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

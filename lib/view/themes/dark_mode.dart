@@ -17,8 +17,9 @@ class DarkMode {
       onPrimary: fontColor,
       secondary: const Color.fromRGBO(95, 151, 246, 1),
       onSecondary: fontColor,
-      error: Colors.red,
+      error: const Color.fromRGBO(232, 71, 61, 1),
       onError: Colors.redAccent,
+      tertiary: const Color.fromRGBO(20, 193, 89, 1),
       background: Colors.orangeAccent,
       onBackground: Colors.orange,
       surface: Colors.brown,
@@ -64,6 +65,10 @@ class DarkMode {
       iconColor: colorScheme.primary,
       hintStyle: TextStyle(fontSize: 16.0, color: colorScheme.onPrimary),
       border: InputBorder.none,
+      errorStyle: TextStyle(
+        color: colorScheme.error,
+        fontSize: 14,
+      ),
     ),
     scaffoldBackgroundColor: backgroundColor,
     elevatedButtonTheme: ElevatedButtonThemeData(

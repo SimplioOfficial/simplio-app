@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simplio_app/l10n/localized_build_context_extension.dart';
 import 'package:simplio_app/logic/auth_form_cubit/auth_form_cubit.dart';
 import 'package:simplio_app/view/widgets/text_header.dart';
+import 'package:simplio_app/view/widgets/themed_text_form_field.dart';
 
 class PasswordResetScreen extends StatelessWidget {
   const PasswordResetScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -24,11 +28,18 @@ class PasswordResetScreen extends StatelessWidget {
                       title: 'Forgot password',
                     ),
                     Form(
-                      child: TextFormField(
+                      key: formKey,
+                      child: ThemedTextFormFiled(
                         autofocus: true,
-                        validator: (email) => null,
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
+                        validator: (email) => context
+                            .read<AuthFormCubit>()
+                            .state
+                            .passwordResetForm
+                            .email
+                            .emailValidator(email, context),
+                        decoration: InputDecoration(
+                          labelText: context.loc!.email,
+                          hintText: context.loc!.email,
                         ),
                         onChanged: (String? email) {
                           context
@@ -47,9 +58,11 @@ class PasswordResetScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<AuthFormCubit>().requestPasswordReset();
+                    if (formKey.currentState!.validate()) {
+                      context.read<AuthFormCubit>().requestPasswordReset();
+                    }
                   },
-                  child: const Text('Send'),
+                  child: Text(context.loc!.submitBtnLabel),
                 ),
               ),
             )

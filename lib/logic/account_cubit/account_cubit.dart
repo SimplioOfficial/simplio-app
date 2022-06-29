@@ -49,7 +49,7 @@ class AccountCubit extends Cubit<AccountState> {
           id: '0',
           secret: LockableSecret.from(secret: ''),
           refreshToken: '',
-          lastLogin: DateTime(0),
+          signedIn: DateTime(0),
           settings: state.account?.settings ?? const AccountSettings.preset()),
       assetWallets: const [],
     ));
@@ -71,8 +71,7 @@ class AccountCubit extends Cubit<AccountState> {
 
   Future<void> setTheme(ThemeMode theme) async {
     var account = state.account?.copyWith(
-        settings:
-        state.account?.settings.copyFrom(themeMode: theme));
+        settings: state.account?.settings.copyFrom(themeMode: theme));
 
     if (account != null) return updateAccount(account);
   }

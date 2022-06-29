@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simplio_app/l10n/localized_build_context_extension.dart';
 import 'package:simplio_app/logic/auth_form_cubit/auth_form_cubit.dart';
+import 'package:simplio_app/view/themes/common_theme.dart';
+import 'package:simplio_app/view/widgets/password_rules_row.dart';
 import 'package:simplio_app/view/widgets/password_text_field.dart';
 
 class PasswordChangeScreen extends StatelessWidget {
@@ -8,13 +11,15 @@ class PasswordChangeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+
     return BlocListener<AuthFormCubit, AuthFormState>(
       listener: (context, state) {
         // TODO: handle responses
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Change password'),
+          title: Text(context.loc!.changePasswordPageTitle),
           elevation: 0,
         ),
         body: SafeArea(
@@ -26,15 +31,26 @@ class PasswordChangeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0,
-                      ),
+                      padding: CommonTheme.horizontalPadding,
                       child: Form(
+                        key: formKey,
                         child: Column(
                           children: [
                             PasswordTextField(
                               key: UniqueKey(),
-                              labelText: 'Old password',
+                              labelText: context.loc!.oldPasswordInputLabel,
+                              validator: (pass) => context
+                                  .read<AuthFormCubit>()
+                                  .state
+                                  .passwordChangeForm
+                                  .newPassword
+                                  .passwordValidator(pass, context),
+                              passwordComplexityCondition: (pass) => context
+                                  .read<AuthFormCubit>()
+                                  .state
+                                  .passwordChangeForm
+                                  .oldPassword
+                                  .isValid,
                               onChanged: (password) {
                                 context
                                     .read<AuthFormCubit>()
@@ -43,17 +59,56 @@ class PasswordChangeScreen extends StatelessWidget {
                                     );
                               },
                             ),
-                            PasswordTextField(
-                              key: UniqueKey(),
-                              labelText: 'New password',
-                              onChanged: (password) {
-                                context
+                            Padding(
+                              padding: CommonTheme.verticalPadding,
+                              child: PasswordTextField(
+                                key: UniqueKey(),
+                                labelText: context.loc!.newPasswordInputLabel,
+                                passwordComplexityCondition: (pass) => context
                                     .read<AuthFormCubit>()
-                                    .changePasswordChangeForm(
-                                      newPassword: password,
-                                    );
-                              },
+                                    .state
+                                    .passwordChangeForm
+                                    .newPassword
+                                    .isValid,
+                                onChanged: (password) {
+                                  context
+                                      .read<AuthFormCubit>()
+                                      .changePasswordChangeForm(
+                                        newPassword: password,
+                                      );
+                                },
+                              ),
                             ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: CommonTheme.horizontalPadding,
+                      child: BlocBuilder<AuthFormCubit, AuthFormState>(
+                        buildWhen: (previous, current) => previous != current,
+                        builder: (context, state) => Column(
+                          children: [
+                            PasswordRulesRow(
+                                text: context.loc!.passwordRuleAtLeast8Chars,
+                                passed: state.passwordChangeForm.newPassword
+                                        .missingValue['length'] ??
+                                    false),
+                            PasswordRulesRow(
+                                text: context.loc!.passwordRuleNumChar,
+                                passed: state.passwordChangeForm.newPassword
+                                        .missingValue['numberChar'] ??
+                                    false),
+                            PasswordRulesRow(
+                                text: context.loc!.passwordRuleSpecialChar,
+                                passed: state.passwordChangeForm.newPassword
+                                        .missingValue['specialChar'] ??
+                                    false),
+                            PasswordRulesRow(
+                                text: context.loc!.passwordRuleUpperChar,
+                                passed: state.passwordChangeForm.newPassword
+                                        .missingValue['upperChar'] ??
+                                    false),
                           ],
                         ),
                       ),
@@ -67,11 +122,13 @@ class PasswordChangeScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
-                      await context
-                          .read<AuthFormCubit>()
-                          .requestPasswordChange();
+                      if (formKey.currentState!.validate()) {
+                        await context
+                            .read<AuthFormCubit>()
+                            .requestPasswordChange();
+                      }
                     },
-                    child: const Text('Submit'),
+                    child: Text(context.loc!.submitBtnLabel),
                   ),
                 ),
               ),

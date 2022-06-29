@@ -1,7 +1,9 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/account.dart';
 import 'package:simplio_app/data/repositories/auth_repository.dart';
+import 'package:simplio_app/l10n/localized_build_context_extension.dart';
 
 part 'auth_form_state.dart';
 
@@ -33,7 +35,7 @@ class AuthFormCubit extends Cubit<AuthFormState> {
     String? password,
   }) {
     emit(state.copyWith(
-      signInForm: state.signUpForm.copyWith(
+      signUpForm: state.signUpForm.copyWith(
         login: login,
         password: password,
       ),
