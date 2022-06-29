@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:simplio_app/data/model/account_settings.dart';
 import 'package:simplio_app/data/providers/account_db_provider.dart';
 import 'package:simplio_app/data/providers/asset_wallet_db_provider.dart';
 import 'package:simplio_app/data/repositories/account_repository.dart';
 import 'package:simplio_app/data/repositories/asset_wallet_repository.dart';
 import 'package:simplio_app/data/repositories/auth_repository.dart';
 import 'package:simplio_app/l10n/localized_build_context_extension.dart';
+import 'package:simplio_app/data/services/auth_service.dart';
 import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
@@ -18,22 +17,40 @@ import 'package:simplio_app/view/screens/authenticated_screen.dart';
 import 'package:simplio_app/view/themes/dark_mode.dart';
 import 'package:simplio_app/view/themes/light_mode.dart';
 
+import 'data/http_clients/public_http_client.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
 
-  final accountRepository =
-      await AccountRepository.builder(db: AccountDbProvider()).init();
-  final assetWalletRepository =
-      await AssetWalletRepository.builder(db: AssetWalletDbProvider()).init();
-  final authRepository =
-      await AuthRepository.builder(db: AccountDbProvider()).init();
+  /// Initialize all top-level Hive Db Providers
+  final accountDbProvider = AccountDbProvider();
+  final assetWalletDbProvider = AssetWalletDbProvider();
+
+  await accountDbProvider.init();
+  await assetWalletDbProvider.init();
+
+  /// Init http client
+  // TODO - apiURL should be read from environment variable.
+  const apiUrl = 'GET_URL_FROM_ENV';
+  final publicApi = PublicHttpClient.builder(apiUrl);
+  // final securedApi = SecuredHttpClient.builder(
+  //   apiUrl,
+  //   storage: accountDbProvider,
+  // );
 
   runApp(SimplioApp(
-    accountRepository: accountRepository,
-    assetWalletRepository: assetWalletRepository,
-    authRepository: authRepository,
+    accountRepository: AccountRepository.builder(
+      db: accountDbProvider,
+    ),
+    assetWalletRepository: AssetWalletRepository.builder(
+      db: assetWalletDbProvider,
+    ),
+    authRepository: AuthRepository.builder(
+      db: accountDbProvider,
+      authService: publicApi.service<AuthService>(),
+    ),
   ));
 }
 
