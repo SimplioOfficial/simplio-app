@@ -26,16 +26,7 @@ class AccountCubit extends Cubit<AccountState> {
   Account? loadAccount(String accountId) {
     final Account? account = _accountRepository.get(accountId);
 
-    if (state.account?.id == accountId) return state.account;
-
-    if (account == null) {
-      // // clear account state after logout
-      emit(const AccountState.value(
-        account: null,
-        assetWallets: [],
-      ));
-      return null;
-    }
+    if (account == null) return null;
 
     final accountWallet = account.accountWallet;
     List<AssetWallet> assetWallets = const [];
@@ -52,6 +43,18 @@ class AccountCubit extends Cubit<AccountState> {
     return account;
   }
 
+  void clearAccount() {
+    emit(AccountState.value(
+      account: Account.builder(
+          id: '0',
+          secret: LockableSecret.from(secret: ''),
+          refreshToken: '',
+          lastLogin: DateTime(0),
+          settings: state.account?.settings ?? const AccountSettings.preset()),
+      assetWallets: const [],
+    ));
+  }
+
   Future<void> updateAccount(Account account) async {
     final savedAccount = await _accountRepository.save(account);
 
@@ -59,14 +62,11 @@ class AccountCubit extends Cubit<AccountState> {
   }
 
   Future<void> setLanguage(String languageCode) async {
-    var accountSettings = AccountSettings.builder(
-      themeMode: state.account?.settings.themeMode ??
-          const AccountSettings.preset().themeMode,
-      locale: Locale(languageCode),
-    );
-    var account = state.account?.copyWith(settings: accountSettings);
+    var account = state.account?.copyWith(
+        settings:
+            state.account?.settings.copyFrom(locale: Locale(languageCode)));
 
-    return updateAccount(account!);
+    if (account != null) return updateAccount(account);
   }
 
   Future<void> enableAssetWallet(String assetId) async {
