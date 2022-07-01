@@ -45,7 +45,6 @@ class DarkMode {
   static ThemeData theme = CommonTheme.theme.copyWith(
     colorScheme: colorScheme,
     textTheme: textTheme,
-
     appBarTheme: AppBarTheme(
       iconTheme: IconThemeData(color: colorScheme.onPrimary),
       backgroundColor: colorScheme.primary,
@@ -54,21 +53,17 @@ class DarkMode {
         color: colorScheme.onPrimary,
       ),
     ),
-
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: buttonColor,
       unselectedItemColor: fontColor,
       selectedItemColor: fontColor,
     ),
-
     inputDecorationTheme: CommonTheme.theme.inputDecorationTheme.copyWith(
       fillColor: colorScheme.onPrimary,
       labelStyle: TextStyle(color: colorScheme.primary),
       iconColor: colorScheme.primary,
     ),
-
     scaffoldBackgroundColor: backgroundColor,
-
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: CommonTheme.theme.elevatedButtonTheme.style?.merge(ButtonStyle(
         backgroundColor: MaterialStateColor.resolveWith((states) =>
@@ -77,24 +72,5 @@ class DarkMode {
                 : buttonColor),
       )),
     ),
-
-    // floatingActionButtonTheme:
-    // FloatingActionButtonThemeData(backgroundColor: actionButtonColor),
-
-    // backgroundColor: Colors.red,
-    // unselectedWidgetColor: Colors.black38,
-    // bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    //   unselectedItemColor: Colors.black38,
-    //   selectedItemColor: Colors.blue,
-    //   selectedLabelStyle: TextStyle(
-    //     color: Colors.red,
-    //   ),
-    //   backgroundColor: Color.fromRGBO(255, 255, 255, 0.96),
-    // ),
-    // appBarTheme: const AppBarTheme(
-    //   foregroundColor: Colors.black,
-    //   backgroundColor: Colors.white,
-    //   elevation: 0.3,
-    // ),
   );
 }
