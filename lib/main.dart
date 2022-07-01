@@ -104,7 +104,8 @@ class _SimplioAppState extends State<SimplioApp> {
               supportedLocales: AppLocalizations.supportedLocales,
               locale: state.account?.settings.locale ??
                   const AccountSettings.preset().locale,
-              themeMode: state.account?.settings.themeMode ?? ThemeMode.dark,
+              themeMode: state.account?.settings.themeMode ??
+                  const AccountSettings.preset().themeMode,
               theme: LightMode.theme,
               darkTheme: DarkMode.theme,
               home: AuthGuard(
