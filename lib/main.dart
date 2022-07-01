@@ -84,9 +84,8 @@ class _SimplioAppState extends State<SimplioApp> {
         ],
         child: BlocBuilder<AccountCubit, AccountState>(
           buildWhen: (previous, current) =>
-              previous.account?.settings.locale.languageCode != null &&
-              previous.account?.settings.locale.languageCode !=
-                  current.account?.settings.locale.languageCode,
+              _languageChangeCondition(previous, current) ||
+              _themeChangeCondition(previous, current),
           builder: (context, state) {
             // set default system bar color
             if (state.account?.settings.themeMode == null) {
@@ -137,5 +136,17 @@ class _SimplioAppState extends State<SimplioApp> {
         ),
       ),
     );
+  }
+
+  bool _languageChangeCondition(AccountState previous, AccountState current) {
+    return previous.account?.settings.locale.languageCode != null &&
+        previous.account?.settings.locale.languageCode !=
+            current.account?.settings.locale.languageCode;
+  }
+
+  bool _themeChangeCondition(AccountState previous, AccountState current) {
+    return previous.account?.settings.themeMode != null &&
+        previous.account?.settings.themeMode !=
+            current.account?.settings.themeMode;
   }
 }
