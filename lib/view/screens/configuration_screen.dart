@@ -18,17 +18,17 @@ class ConfigurationScreen extends StatelessWidget {
               onPressed: () {
                 context.read<AuthBloc>().add(const GotUnauthenticated());
               },
-              child: Text(context.loc!.logoutBtn),
+              child: Text(context.loc.logoutBtn),
             ),
             ElevatedButton(
               onPressed: () {
-                var currentLanguage = context.loc?.localeName;
+                var currentLanguage = context.loc.localeName;
                 var newLanguage = context.supportedLanguageCodes
                     .firstWhere((element) => element != currentLanguage);
 
                 context.read<AccountCubit>().setLanguage(newLanguage);
               },
-              child: Text(context.loc!.switchLanguage),
+              child: Text(context.loc.switchLanguage),
             ),
           ],
         ),

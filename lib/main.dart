@@ -22,11 +22,11 @@ Future<void> main() async {
   await Hive.initFlutter();
 
   final accountRepository =
-      await AccountRepository.builder(db: AccountDbProvider()).init();
+  await AccountRepository.builder(db: AccountDbProvider()).init();
   final assetWalletRepository =
-      await AssetWalletRepository.builder(db: AssetWalletDbProvider()).init();
+  await AssetWalletRepository.builder(db: AssetWalletDbProvider()).init();
   final authRepository =
-      await AuthRepository.builder(db: AccountDbProvider()).init();
+  await AuthRepository.builder(db: AccountDbProvider()).init();
 
   runApp(SimplioApp(
     accountRepository: accountRepository,
@@ -66,73 +66,78 @@ class _SimplioAppState extends State<SimplioApp> {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => AuthBloc.builder(
+            create: (context) =>
+            AuthBloc.builder(
               authRepository: RepositoryProvider.of<AuthRepository>(context),
-            )..add(GotLastAuthenticated()),
+            )
+              ..add(GotLastAuthenticated()),
           ),
           BlocProvider(
-            create: (context) => AccountCubit.builder(
-              accountRepository:
+            create: (context) =>
+                AccountCubit.builder(
+                  accountRepository:
                   RepositoryProvider.of<AccountRepository>(context),
-              assetWalletRepository:
+                  assetWalletRepository:
                   RepositoryProvider.of<AssetWalletRepository>(context),
-            ),
+                ),
           ),
         ],
         child: BlocBuilder<AccountCubit, AccountState>(
           buildWhen: (previous, current) =>
-              previous.account?.settings.locale.languageCode != null &&
+          previous.account?.settings.locale.languageCode != null &&
               previous.account?.settings.locale.languageCode !=
                   current.account?.settings.locale.languageCode,
-          builder: (context, state) => MaterialApp(
-            onGenerateTitle: (context) => context.loc!.simplioTitle,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            locale: state.account?.settings.locale ??
-                const AccountSettings.preset().locale,
-            theme: ThemeData(
-              backgroundColor: Colors.white,
-              scaffoldBackgroundColor: Colors.white,
-              unselectedWidgetColor: Colors.black38,
-              bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-                unselectedItemColor: Colors.black38,
-                selectedItemColor: Colors.blue,
-                selectedLabelStyle: TextStyle(
-                  color: Colors.red,
+          builder: (context, state) =>
+              MaterialApp(
+                onGenerateTitle: (context) => context.loc.simplioTitle,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                locale: state.account?.settings.locale ??
+                    const AccountSettings.preset().locale,
+                theme: ThemeData(
+                  backgroundColor: Colors.white,
+                  scaffoldBackgroundColor: Colors.white,
+                  unselectedWidgetColor: Colors.black38,
+                  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+                    unselectedItemColor: Colors.black38,
+                    selectedItemColor: Colors.blue,
+                    selectedLabelStyle: TextStyle(
+                      color: Colors.red,
+                    ),
+                    backgroundColor: Color.fromRGBO(255, 255, 255, 0.96),
+                  ),
+                  appBarTheme: const AppBarTheme(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white,
+                    elevation: 0.3,
+                  ),
                 ),
-                backgroundColor: Color.fromRGBO(255, 255, 255, 0.96),
-              ),
-              appBarTheme: const AppBarTheme(
-                foregroundColor: Colors.black,
-                backgroundColor: Colors.white,
-                elevation: 0.3,
-              ),
-            ),
-            home: AuthGuard(
-              onAuthenticated: (context, state) {
-                return Builder(
-                  builder: (context) {
-                    context.read<AccountCubit>().loadAccount(state.accountId);
+                home: AuthGuard(
+                  onAuthenticated: (context, state) {
+                    return Builder(
+                      builder: (context) {
+                        context.read<AccountCubit>().loadAccount(
+                            state.accountId);
 
-                    return AuthenticatedScreen(
-                      navigatorKey: AuthenticatedRoute.key,
-                      initialRoute: AuthenticatedRoute.home,
-                      onGenerateRoute: _authenticatedRouter.generateRoute,
+                        return AuthenticatedScreen(
+                          navigatorKey: AuthenticatedRoute.key,
+                          initialRoute: AuthenticatedRoute.home,
+                          onGenerateRoute: _authenticatedRouter.generateRoute,
+                        );
+                      },
                     );
                   },
-                );
-              },
-              onUnauthenticated: (context) {
-                context.read<AccountCubit>().clearAccount();
+                  onUnauthenticated: (context) {
+                    context.read<AccountCubit>().clearAccount();
 
-                return Navigator(
-                  key: UnauthenticatedRoute.key,
-                  initialRoute: UnauthenticatedRoute.home,
-                  onGenerateRoute: _unauthenticatedRouter.generateRoute,
-                );
-              },
-            ),
-          ),
+                    return Navigator(
+                      key: UnauthenticatedRoute.key,
+                      initialRoute: UnauthenticatedRoute.home,
+                      onGenerateRoute: _unauthenticatedRouter.generateRoute,
+                    );
+                  },
+                ),
+              ),
         ),
       ),
     );

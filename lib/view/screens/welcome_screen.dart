@@ -10,27 +10,28 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Expanded(
-            child: Center(
-              child: Text(context.loc!.welcomeLabel),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(UnauthenticatedRoute.login);
-                },
-                child: Text(context.loc!.enterApplicationLabel),
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Center(
+                  child: Text(context.loc.welcomeLabel),
+                ),
               ),
-            ),
-          ),
-        ],
-      )),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                          UnauthenticatedRoute.login);
+                    },
+                    child: Text(context.loc.enterApplicationLabel),
+                  ),
+                ),
+              ),
+            ],
+          )),
     );
   }
 }

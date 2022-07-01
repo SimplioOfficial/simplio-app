@@ -22,7 +22,7 @@ class PortfolioScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         title: AppBarSearch<String>(
           delegate: _AssetSearchDelegate.of(context),
-          label: context.loc!.searchAllAssetsInputLabel,
+          label: context.loc.searchAllAssetsInputLabel,
         ),
       ),
       body: BlocBuilder<AccountCubit, AccountState>(
@@ -33,29 +33,29 @@ class PortfolioScreen extends StatelessWidget {
           return Container(
             child: enabledAssetWallets.isEmpty
                 ? Center(
-                    child: Text(
-                      context.loc!.noWalletsLabel,
-                      style: const TextStyle(color: Colors.black26),
-                    ),
-                  )
+              child: Text(
+                context.loc.noWalletsLabel,
+                style: const TextStyle(color: Colors.black26),
+              ),
+            )
                 : ListView.builder(
-                    restorationId: UniqueKey().toString(),
-                    padding: const EdgeInsets.only(bottom: 100.0),
-                    itemCount: enabledAssetWallets.length,
-                    itemBuilder: (BuildContext ctx, int i) {
-                      final AssetWallet wallet = enabledAssetWallets[i];
+              restorationId: UniqueKey().toString(),
+              padding: const EdgeInsets.only(bottom: 100.0),
+              itemCount: enabledAssetWallets.length,
+              itemBuilder: (BuildContext ctx, int i) {
+                final AssetWallet wallet = enabledAssetWallets[i];
 
-                      return WalletListItem(
-                        key: Key(wallet.assetId),
-                        assetWallet: wallet,
-                        onTap: () =>
-                            AuthenticatedRoute.key.currentState?.pushNamed(
-                          AuthenticatedRoute.wallet,
-                          arguments: wallet,
-                        ),
-                      );
-                    },
-                  ),
+                return WalletListItem(
+                  key: Key(wallet.assetId),
+                  assetWallet: wallet,
+                  onTap: () =>
+                      AuthenticatedRoute.key.currentState?.pushNamed(
+                        AuthenticatedRoute.wallet,
+                        arguments: wallet,
+                      ),
+                );
+              },
+            ),
           );
         },
       ),
@@ -69,10 +69,11 @@ class _AssetSearchDelegate extends SearchDelegate<String> {
   _AssetSearchDelegate.of(this.context) : super();
 
   @override
-  String? get searchFieldLabel => context.loc!.searchAllAssetsInputLabel;
+  String? get searchFieldLabel => context.loc.searchAllAssetsInputLabel;
 
   @override
-  ThemeData appBarTheme(_) => Theme.of(context).copyWith(
+  ThemeData appBarTheme(_) =>
+      Theme.of(context).copyWith(
         inputDecorationTheme: const InputDecorationTheme(
           border: InputBorder.none,
           hintStyle: TextStyle(
@@ -108,20 +109,22 @@ class _AssetSearchDelegate extends SearchDelegate<String> {
 
     final filtered = Assets.enabled.entries
         .where((t) =>
-            t.value.detail.name.toLowerCase().contains(query.toLowerCase()) ||
-            t.value.detail.ticker.toLowerCase().contains(query.toLowerCase()))
+    t.value.detail.name.toLowerCase().contains(query.toLowerCase()) ||
+        t.value.detail.ticker.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
     return ListView.builder(
       itemCount: filtered.length,
-      itemBuilder: (_, i) => AssetToggleItem(
-        key: UniqueKey(),
-        assetEntry: filtered[i],
-        isEnabled: enabled.contains(filtered[i].key),
-        onChange: (value, assetId) => value
-            ? context.read<AccountCubit>().enableAssetWallet(assetId)
-            : context.read<AccountCubit>().disableAssetWallet(assetId),
-      ),
+      itemBuilder: (_, i) =>
+          AssetToggleItem(
+            key: UniqueKey(),
+            assetEntry: filtered[i],
+            isEnabled: enabled.contains(filtered[i].key),
+            onChange: (value, assetId) =>
+            value
+                ? context.read<AccountCubit>().enableAssetWallet(assetId)
+                : context.read<AccountCubit>().disableAssetWallet(assetId),
+          ),
     );
   }
 }
