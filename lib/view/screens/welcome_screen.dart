@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:simplio_app/l10n/localized_build_context_extension.dart';
 import 'package:simplio_app/view/routes/unauthenticated_route.dart';
-import 'package:simplio_app/view/utils/localizations.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -14,7 +14,7 @@ class WelcomeScreen extends StatelessWidget {
         children: [
           Expanded(
             child: Center(
-              child: Text(AppLocalizations.of(context)!.welcomeLabel),
+              child: Text(context.loc!.welcomeLabel),
             ),
           ),
           Padding(
@@ -25,8 +25,7 @@ class WelcomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pushNamed(UnauthenticatedRoute.login);
                 },
-                child:
-                    Text(AppLocalizations.of(context)!.enterApplicationLabel),
+                child: Text(context.loc!.enterApplicationLabel),
               ),
             ),
           ),

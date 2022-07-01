@@ -7,6 +7,7 @@ import 'package:simplio_app/data/providers/asset_wallet_db_provider.dart';
 import 'package:simplio_app/data/repositories/account_repository.dart';
 import 'package:simplio_app/data/repositories/asset_wallet_repository.dart';
 import 'package:simplio_app/data/repositories/auth_repository.dart';
+import 'package:simplio_app/l10n/localized_build_context_extension.dart';
 import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
@@ -84,8 +85,7 @@ class _SimplioAppState extends State<SimplioApp> {
               previous.account?.settings.locale.languageCode !=
                   current.account?.settings.locale.languageCode,
           builder: (context, state) => MaterialApp(
-            onGenerateTitle: (context) =>
-                AppLocalizations.of(context)!.simplioTitle,
+            onGenerateTitle: (context) => context.loc!.simplioTitle,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: state.account?.settings.locale ??

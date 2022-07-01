@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simplio_app/l10n/localized_build_context_extension.dart';
 import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
-import 'package:simplio_app/view/utils/localizations.dart';
 
 class ConfigurationScreen extends StatelessWidget {
   const ConfigurationScreen({super.key});
@@ -18,17 +18,17 @@ class ConfigurationScreen extends StatelessWidget {
               onPressed: () {
                 context.read<AuthBloc>().add(const GotUnauthenticated());
               },
-              child: Text(AppLocalizations.of(context)!.logoutBtn),
+              child: Text(context.loc!.logoutBtn),
             ),
             ElevatedButton(
               onPressed: () {
-                var currentLanguage = AppLocalizations.of(context)!.localeName;
-                var newLanguage = AppLocalizations.supportedLanguageCodes
+                var currentLanguage = context.loc?.localeName;
+                var newLanguage = context.supportedLanguageCodes
                     .firstWhere((element) => element != currentLanguage);
 
                 context.read<AccountCubit>().setLanguage(newLanguage);
               },
-              child: Text(AppLocalizations.of(context)!.switchLanguage),
+              child: Text(context.loc!.switchLanguage),
             ),
           ],
         ),

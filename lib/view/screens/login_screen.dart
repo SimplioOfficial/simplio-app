@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simplio_app/l10n/localized_build_context_extension.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/logic/login_bloc/login_bloc.dart';
-import 'package:simplio_app/view/utils/localizations.dart';
 import 'package:simplio_app/view/widgets/text_header.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -40,9 +40,8 @@ class LoginScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: TextHeader(
-                        title: AppLocalizations.of(context)!.loginScreenTitle,
-                        subtitle:
-                            AppLocalizations.of(context)!.loginScreenSubTitle,
+                        title: context.loc!.loginScreenTitle,
+                        subtitle: context.loc!.loginScreenSubTitle,
                       ),
                     ),
                     const Padding(
@@ -62,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       context.read<LoginBloc>().add(const LoginRequested());
                     },
-                    child: Text(AppLocalizations.of(context)!.loginBtn),
+                    child: Text(context.loc!.loginBtn),
                   ),
                 ),
               ),
@@ -93,7 +92,7 @@ class _LoginForm extends State<LoginFormFields> {
             autofocus: true,
             validator: (email) => null,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.usernameInputLabel,
+              labelText: context.loc!.usernameInputLabel,
             ),
             onChanged: (String? email) => context
                 .read<LoginBloc>()
@@ -105,7 +104,7 @@ class _LoginForm extends State<LoginFormFields> {
                 .read<LoginBloc>()
                 .add(LoginFormChanged(password: password)),
             decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.passwordInputLabel,
+                labelText: context.loc!.passwordInputLabel,
                 suffixIcon: IconButton(
                     icon: Icon(_passwordDisplayed
                         ? Icons.visibility

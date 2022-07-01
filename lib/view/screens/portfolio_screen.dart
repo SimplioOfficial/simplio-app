@@ -2,9 +2,9 @@ import 'package:crypto_assets/crypto_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
+import 'package:simplio_app/l10n/localized_build_context_extension.dart';
 import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
-import 'package:simplio_app/view/utils/localizations.dart';
 import 'package:simplio_app/view/widgets/appbar_search.dart';
 import 'package:simplio_app/view/widgets/asset_toggle_item.dart';
 import 'package:simplio_app/view/widgets/wallet_list_item.dart';
@@ -22,7 +22,7 @@ class PortfolioScreen extends StatelessWidget {
         foregroundColor: Colors.black,
         title: AppBarSearch<String>(
           delegate: _AssetSearchDelegate.of(context),
-          label: AppLocalizations.of(context)!.searchAllAssetsInputLabel,
+          label: context.loc!.searchAllAssetsInputLabel,
         ),
       ),
       body: BlocBuilder<AccountCubit, AccountState>(
@@ -34,7 +34,7 @@ class PortfolioScreen extends StatelessWidget {
             child: enabledAssetWallets.isEmpty
                 ? Center(
                     child: Text(
-                      AppLocalizations.of(context)!.noWalletsLabel,
+                      context.loc!.noWalletsLabel,
                       style: const TextStyle(color: Colors.black26),
                     ),
                   )
@@ -69,8 +69,7 @@ class _AssetSearchDelegate extends SearchDelegate<String> {
   _AssetSearchDelegate.of(this.context) : super();
 
   @override
-  String? get searchFieldLabel =>
-      AppLocalizations.of(context)!.searchAllAssetsInputLabel;
+  String? get searchFieldLabel => context.loc!.searchAllAssetsInputLabel;
 
   @override
   ThemeData appBarTheme(_) => Theme.of(context).copyWith(
