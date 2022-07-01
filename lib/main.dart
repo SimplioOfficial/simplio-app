@@ -15,7 +15,6 @@ import 'package:simplio_app/view/routes/authenticated_route.dart';
 import 'package:simplio_app/view/routes/guards/auth_guard.dart';
 import 'package:simplio_app/view/routes/unauthenticated_route.dart';
 import 'package:simplio_app/view/screens/authenticated_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:simplio_app/view/themes/dark_mode.dart';
 import 'package:simplio_app/view/themes/light_mode.dart';
 
@@ -98,10 +97,9 @@ class _SimplioAppState extends State<SimplioApp> {
             }
 
             return MaterialApp(
-              onGenerateTitle: (context) =>
-              context.locale.simplioTitle,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
+              onGenerateTitle: (context) => context.locale.simplioTitle,
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
               locale: state.account?.settings.locale ??
                   const AccountSettings.preset().locale,
               themeMode: state.account?.settings.themeMode ??
