@@ -1,9 +1,9 @@
 name: Run api tests
 
 on:
-  push
+  workflow_dispatch:
   
 jobs:
   run-tests:
-    uses: SimplioOfficial/simplio-app/.github/workflows/_api_tests.yml@infrastructure/API_tests_Mario
+    uses: SimplioOfficial/simplio-app/.github/workflows/_api_tests.yml@master
 
