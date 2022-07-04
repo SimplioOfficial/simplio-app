@@ -54,8 +54,8 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       // obscuringCharacter: '﹡',
       // obscuringCharacter: '⁕',
       decoration: InputDecoration(
-        labelText: widget.labelText ?? context.loc!.passwordInputLabel,
-        hintText: widget.labelText ?? context.loc!.passwordInputLabel,
+        labelText: widget.labelText ?? context.locale.passwordInputLabel,
+        hintText: widget.labelText ?? context.locale.passwordInputLabel,
         suffixIcon: IconButton(
             icon: Icon(_isDisplayed ? widget.displayedIcon : widget.icon),
             onPressed: () {

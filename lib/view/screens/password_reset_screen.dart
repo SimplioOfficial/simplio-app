@@ -31,15 +31,16 @@ class PasswordResetScreen extends StatelessWidget {
                       key: formKey,
                       child: ThemedTextFormFiled(
                         autofocus: true,
-                        validator: (email) => context
-                            .read<AuthFormCubit>()
-                            .state
-                            .passwordResetForm
-                            .email
-                            .emailValidator(email, context),
+                        validator: (email) =>
+                            context
+                                .read<AuthFormCubit>()
+                                .state
+                                .passwordResetForm
+                                .email
+                                .emailValidator(email, context),
                         decoration: InputDecoration(
-                          labelText: context.loc!.email,
-                          hintText: context.loc!.email,
+                          labelText: context.locale.email,
+                          hintText: context.locale.email,
                         ),
                         onChanged: (String? email) {
                           context
@@ -62,7 +63,7 @@ class PasswordResetScreen extends StatelessWidget {
                       context.read<AuthFormCubit>().requestPasswordReset();
                     }
                   },
-                  child: Text(context.loc!.submitBtnLabel),
+                  child: Text(context.locale.submitBtnLabel),
                 ),
               ),
             )

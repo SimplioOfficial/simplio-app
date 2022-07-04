@@ -43,8 +43,8 @@ class SignInScreen extends StatelessWidget {
                   Padding(
                     padding: CommonTheme.horizontalPadding,
                     child: TextHeader(
-                      title: context.loc!.loginScreenTitle,
-                      subtitle: context.loc!.loginScreenSubTitle,
+                      title: context.locale.loginScreenTitle,
+                      subtitle: context.locale.loginScreenSubTitle,
                     ),
                   ),
                   Padding(
@@ -65,8 +65,8 @@ class SignInScreen extends StatelessWidget {
                                   .login
                                   .emailValidator(email, context),
                               decoration: InputDecoration(
-                                labelText: context.loc!.email,
-                                hintText: context.loc!.email,
+                                labelText: context.locale.email,
+                                hintText: context.locale.email,
                               ),
                               onChanged: (String? email) {
                                 context
@@ -114,7 +114,7 @@ class SignInScreen extends StatelessWidget {
                         }
                       },
                       child: Text(
-                        context.loc!.forgotPasswordButtonLabel,
+                        context.locale.forgotPasswordButtonLabel,
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary),
                       ),
@@ -149,7 +149,7 @@ class SignInScreen extends StatelessWidget {
                                         Padding(
                                           padding: CommonTheme.paddingAll,
                                           child: Text(
-                                            context.loc!.signingInLabel,
+                                            context.locale.signingInLabel,
                                           ),
                                         )
                                       ],
@@ -165,7 +165,7 @@ class SignInScreen extends StatelessWidget {
                                         .requestSignIn();
                                   }
                                 },
-                                child: Text(context.loc!.signInButtonLabel),
+                                child: Text(context.locale.signInButtonLabel),
                               );
                             },
                           ),
@@ -174,7 +174,7 @@ class SignInScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(10.0),
                           child: GestureDetector(
                             child: Text(
-                              context.loc!.orCreateAccountButtonLabel,
+                              context.locale.orCreateAccountButtonLabel,
                               style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.secondary),

@@ -64,7 +64,7 @@ class ValidatedEmail {
   String? emailValidator(String? email, BuildContext context) {
     if (_emailValidator(email)) return null;
 
-    return context.loc?.emailValidationError;
+    return context.locale.emailValidationError;
   }
 
   bool _emailValidator(String? value) {
@@ -83,7 +83,7 @@ class ValidatedPassword {
   String? passwordValidator(String? password, BuildContext context) {
     if (_validatePassword(password)) return null;
 
-    return context.loc?.passwordValidationError;
+    return context.locale.passwordValidationError;
   }
 
   bool _validatePassword(String? password) {
