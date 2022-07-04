@@ -28,6 +28,8 @@ jobs:
       - run: flutter pub get
       - name: Analyze files
         run: flutter analyze .
+      - name: Verify formatting
+        run: flutter format --output=none --set-exit-if-changed .
 
   tests:
     if: ${{ inputs.unitTests }}
