@@ -69,18 +69,6 @@ class _AssetSearchDelegate extends SearchDelegate<String> {
   String? get searchFieldLabel => context.locale.searchAllAssetsInputLabel;
 
   @override
-  ThemeData appBarTheme(_) => Theme.of(context).copyWith(
-        appBarTheme: Theme.of(context).appBarTheme,
-        textTheme: Theme.of(context).textTheme,
-        inputDecorationTheme: Theme.of(context).inputDecorationTheme.copyWith(
-              border: InputBorder.none,
-              hintStyle: const TextStyle(
-                fontSize: 16.0,
-              ),
-            ),
-      );
-
-  @override
   List<Widget>? buildActions(_) => [];
 
   @override

@@ -62,6 +62,8 @@ class DarkMode {
       fillColor: colorScheme.onPrimary,
       labelStyle: TextStyle(color: colorScheme.primary),
       iconColor: colorScheme.primary,
+      hintStyle: TextStyle(fontSize: 16.0, color: colorScheme.onPrimary),
+      border: InputBorder.none,
     ),
     scaffoldBackgroundColor: backgroundColor,
     elevatedButtonTheme: ElevatedButtonThemeData(
