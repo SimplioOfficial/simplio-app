@@ -39,15 +39,13 @@ class PasswordChangeScreen extends StatelessWidget {
                             PasswordTextField(
                               key: UniqueKey(),
                               labelText: context.locale.oldPasswordInputLabel,
-                              validator: (pass) =>
-                                  context
-                                      .read<AuthFormCubit>()
-                                      .state
-                                      .passwordChangeForm
-                                      .newPassword
-                                      .passwordValidator(pass, context),
-                              passwordComplexityCondition: (pass) =>
-                              context
+                              validator: (pass) => context
+                                  .read<AuthFormCubit>()
+                                  .state
+                                  .passwordChangeForm
+                                  .newPassword
+                                  .passwordValidator(pass, context),
+                              passwordComplexityCondition: (pass) => context
                                   .read<AuthFormCubit>()
                                   .state
                                   .passwordChangeForm
@@ -57,18 +55,16 @@ class PasswordChangeScreen extends StatelessWidget {
                                 context
                                     .read<AuthFormCubit>()
                                     .changePasswordChangeForm(
-                                  oldPassword: password,
-                                );
+                                      oldPassword: password,
+                                    );
                               },
                             ),
                             Padding(
                               padding: CommonTheme.verticalPadding,
                               child: PasswordTextField(
                                 key: UniqueKey(),
-                                labelText:
-                                context.locale.newPasswordInputLabel,
-                                passwordComplexityCondition: (pass) =>
-                                context
+                                labelText: context.locale.newPasswordInputLabel,
+                                passwordComplexityCondition: (pass) => context
                                     .read<AuthFormCubit>()
                                     .state
                                     .passwordChangeForm
@@ -78,8 +74,8 @@ class PasswordChangeScreen extends StatelessWidget {
                                   context
                                       .read<AuthFormCubit>()
                                       .changePasswordChangeForm(
-                                    newPassword: password,
-                                  );
+                                        newPassword: password,
+                                      );
                                 },
                               ),
                             ),
@@ -91,33 +87,30 @@ class PasswordChangeScreen extends StatelessWidget {
                       padding: CommonTheme.horizontalPadding,
                       child: BlocBuilder<AuthFormCubit, AuthFormState>(
                         buildWhen: (previous, current) => previous != current,
-                        builder: (context, state) =>
-                            Column(
-                              children: [
-                                PasswordRulesRow(
-                                    text: context.locale
-                                        .passwordRuleAtLeast8Chars,
-                                    passed: state.passwordChangeForm.newPassword
+                        builder: (context, state) => Column(
+                          children: [
+                            PasswordRulesRow(
+                                text: context.locale.passwordRuleAtLeast8Chars,
+                                passed: state.passwordChangeForm.newPassword
                                         .missingValue['length'] ??
-                                        false),
-                                PasswordRulesRow(
-                                    text: context.locale.passwordRuleNumChar,
-                                    passed: state.passwordChangeForm.newPassword
+                                    false),
+                            PasswordRulesRow(
+                                text: context.locale.passwordRuleNumChar,
+                                passed: state.passwordChangeForm.newPassword
                                         .missingValue['numberChar'] ??
-                                        false),
-                                PasswordRulesRow(
-                                    text: context.locale
-                                        .passwordRuleSpecialChar,
-                                    passed: state.passwordChangeForm.newPassword
+                                    false),
+                            PasswordRulesRow(
+                                text: context.locale.passwordRuleSpecialChar,
+                                passed: state.passwordChangeForm.newPassword
                                         .missingValue['specialChar'] ??
-                                        false),
-                                PasswordRulesRow(
-                                    text: context.locale.passwordRuleUpperChar,
-                                    passed: state.passwordChangeForm.newPassword
+                                    false),
+                            PasswordRulesRow(
+                                text: context.locale.passwordRuleUpperChar,
+                                passed: state.passwordChangeForm.newPassword
                                         .missingValue['upperChar'] ??
-                                        false),
-                              ],
-                            ),
+                                    false),
+                          ],
+                        ),
                       ),
                     ),
                   ],

@@ -54,13 +54,12 @@ class SignUpScreen extends StatelessWidget {
                             padding: CommonTheme.verticalPadding,
                             child: ThemedTextFormFiled(
                               autofocus: true,
-                              validator: (email) =>
-                                  context
-                                      .read<AuthFormCubit>()
-                                      .state
-                                      .signUpForm
-                                      .login
-                                      .emailValidator(email, context),
+                              validator: (email) => context
+                                  .read<AuthFormCubit>()
+                                  .state
+                                  .signUpForm
+                                  .login
+                                  .emailValidator(email, context),
                               decoration: InputDecoration(
                                 labelText: context.locale.email,
                                 hintText: context.locale.email,
@@ -70,15 +69,13 @@ class SignUpScreen extends StatelessWidget {
                                     .read<AuthFormCubit>()
                                     .changeSignUpForm(login: email);
                               },
-                              onFocusChange: (focused) =>
-                              focused
+                              onFocusChange: (focused) => focused
                                   ? null
                                   : formKey.currentState?.validate(),
                             ),
                           ),
                           PasswordTextField(
-                            passwordComplexityCondition: (pass) =>
-                            context
+                            passwordComplexityCondition: (pass) => context
                                 .read<AuthFormCubit>()
                                 .state
                                 .signUpForm
@@ -98,32 +95,30 @@ class SignUpScreen extends StatelessWidget {
                     padding: CommonTheme.paddingAll,
                     child: BlocBuilder<AuthFormCubit, AuthFormState>(
                       buildWhen: (previous, current) => previous != current,
-                      builder: (context, state) =>
-                          Column(
-                            children: [
-                              PasswordRulesRow(
-                                  text: context.locale
-                                      .passwordRuleAtLeast8Chars,
-                                  passed: state.signUpForm.password
+                      builder: (context, state) => Column(
+                        children: [
+                          PasswordRulesRow(
+                              text: context.locale.passwordRuleAtLeast8Chars,
+                              passed: state.signUpForm.password
                                       .missingValue['length'] ??
-                                      false),
-                              PasswordRulesRow(
-                                  text: context.locale.passwordRuleNumChar,
-                                  passed: state.signUpForm.password
+                                  false),
+                          PasswordRulesRow(
+                              text: context.locale.passwordRuleNumChar,
+                              passed: state.signUpForm.password
                                       .missingValue['numberChar'] ??
-                                      false),
-                              PasswordRulesRow(
-                                  text: context.locale.passwordRuleSpecialChar,
-                                  passed: state.signUpForm.password
+                                  false),
+                          PasswordRulesRow(
+                              text: context.locale.passwordRuleSpecialChar,
+                              passed: state.signUpForm.password
                                       .missingValue['specialChar'] ??
-                                      false),
-                              PasswordRulesRow(
-                                  text: context.locale.passwordRuleUpperChar,
-                                  passed: state.signUpForm.password
+                                  false),
+                          PasswordRulesRow(
+                              text: context.locale.passwordRuleUpperChar,
+                              passed: state.signUpForm.password
                                       .missingValue['upperChar'] ??
-                                      false),
-                            ],
-                          ),
+                                  false),
+                        ],
+                      ),
                     ),
                   ),
                   Padding(
