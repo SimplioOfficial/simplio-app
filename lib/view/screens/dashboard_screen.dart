@@ -22,9 +22,7 @@ class DashboardScreen extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
                 side: BorderSide(
                   width: 1,
-                  color: Theme
-                      .of(context)
-                      .hoverColor,
+                  color: Theme.of(context).hoverColor,
                 ),
               ),
               child: InkWell(
@@ -38,7 +36,7 @@ class DashboardScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(context.loc.gamesLabel),
+                      Text(context.locale.gamesLabel),
                       Container(
                         alignment: Alignment.bottomRight,
                         child: const Icon(

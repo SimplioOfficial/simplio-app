@@ -40,8 +40,8 @@ class LoginScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: TextHeader(
-                        title: context.loc.loginScreenTitle,
-                        subtitle: context.loc.loginScreenSubTitle,
+                        title: context.locale.loginScreenTitle,
+                        subtitle: context.locale.loginScreenSubTitle,
                       ),
                     ),
                     const Padding(
@@ -61,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       context.read<LoginBloc>().add(const LoginRequested());
                     },
-                    child: Text(context.loc.loginBtn),
+                    child: Text(context.locale.loginBtn),
                   ),
                 ),
               ),
@@ -92,21 +92,19 @@ class _LoginForm extends State<LoginFormFields> {
             autofocus: true,
             validator: (email) => null,
             decoration: InputDecoration(
-              labelText: context.loc.usernameInputLabel,
+              labelText: context.locale.usernameInputLabel,
             ),
-            onChanged: (String? email) =>
-                context
-                    .read<LoginBloc>()
-                    .add(LoginFormChanged(username: email)),
+            onChanged: (String? email) => context
+                .read<LoginBloc>()
+                .add(LoginFormChanged(username: email)),
           ),
           TextField(
             obscureText: _passwordDisplayed,
-            onChanged: (String? password) =>
-                context
-                    .read<LoginBloc>()
-                    .add(LoginFormChanged(password: password)),
+            onChanged: (String? password) => context
+                .read<LoginBloc>()
+                .add(LoginFormChanged(password: password)),
             decoration: InputDecoration(
-                labelText: context.loc.passwordInputLabel,
+                labelText: context.locale.passwordInputLabel,
                 suffixIcon: IconButton(
                     icon: Icon(_passwordDisplayed
                         ? Icons.visibility

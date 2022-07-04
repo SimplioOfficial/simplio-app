@@ -59,7 +59,7 @@ class _AuthenticatedScreenState extends State<AuthenticatedScreen>
             ),
             BlocConsumer<TapBarCubit, TapBarState>(
               listenWhen: (previous, current) =>
-              previous.isDisplayed != current.isDisplayed,
+                  previous.isDisplayed != current.isDisplayed,
               listener: (context, state) {
                 if (state.isDisplayed) {
                   _controller.animateBack(0);
@@ -68,7 +68,7 @@ class _AuthenticatedScreenState extends State<AuthenticatedScreen>
                 }
               },
               buildWhen: (previous, current) =>
-              previous.selectedItem != current.selectedItem,
+                  previous.selectedItem != current.selectedItem,
               builder: (context, state) {
                 return SlideTransition(
                   position: _offsetAnimation,
@@ -80,7 +80,7 @@ class _AuthenticatedScreenState extends State<AuthenticatedScreen>
                           tapBarItemType: TapTabItemType.button,
                           icon: Icons.home_outlined,
                           activeIcon: Icons.home,
-                          label: context.loc.homeTapBarLabel,
+                          label: context.locale.homeTapBarLabel,
                           onTap: (context, key) {
                             AuthenticatedRoute.key.currentState
                                 ?.pushReplacementNamed(AuthenticatedRoute.home);
@@ -90,11 +90,11 @@ class _AuthenticatedScreenState extends State<AuthenticatedScreen>
                           tapBarItemType: TapTabItemType.button,
                           icon: Icons.pie_chart_outline,
                           activeIcon: Icons.pie_chart,
-                          label: context.loc.portfolioTapBarLabel,
+                          label: context.locale.portfolioTapBarLabel,
                           onTap: (context, key) {
                             AuthenticatedRoute.key.currentState
                                 ?.pushReplacementNamed(
-                                AuthenticatedRoute.portfolio);
+                                    AuthenticatedRoute.portfolio);
                           }),
                       TapBarItem(tapBarItemType: TapTabItemType.spacer),
                       TapBarItem(
@@ -102,22 +102,22 @@ class _AuthenticatedScreenState extends State<AuthenticatedScreen>
                           tapBarItemType: TapTabItemType.button,
                           icon: Icons.sports_esports_outlined,
                           activeIcon: Icons.sports_esports,
-                          label: context.loc.gamesTapBarLabel,
+                          label: context.locale.gamesTapBarLabel,
                           onTap: (context, key) {
                             AuthenticatedRoute.key.currentState
                                 ?.pushReplacementNamed(
-                                AuthenticatedRoute.inventory);
+                                    AuthenticatedRoute.inventory);
                           }),
                       TapBarItem(
                           key: TabBarItemKeys.configuration,
                           tapBarItemType: TapTabItemType.button,
                           icon: Icons.settings_outlined,
                           activeIcon: Icons.settings,
-                          label: context.loc.settingsTapBarLabel,
+                          label: context.locale.settingsTapBarLabel,
                           onTap: (context, key) {
                             AuthenticatedRoute.key.currentState
                                 ?.pushReplacementNamed(
-                                AuthenticatedRoute.configuration);
+                                    AuthenticatedRoute.configuration);
                           }),
                     ],
                     height: 70.0,
