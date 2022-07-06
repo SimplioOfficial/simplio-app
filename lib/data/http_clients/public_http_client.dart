@@ -4,18 +4,6 @@ import 'package:simplio_app/data/interceptors/api_key_interceptor.dart';
 import 'package:simplio_app/data/http_clients/json_serializable_convertor.dart';
 import 'package:simplio_app/data/services/auth_service.dart';
 
-final Iterable _interceptors = [
-  ApiKeyInterceptor(),
-];
-
-final FactoryConvertMap _converters = {
-  ...AuthService.converter(),
-};
-
-final Iterable<ChopperService> _services = [
-  AuthService.create(),
-];
-
 class PublicHttpClient extends HttpClient {
   @override
   final ChopperClient client;
@@ -24,12 +12,16 @@ class PublicHttpClient extends HttpClient {
 
   PublicHttpClient.builder(
     String url,
-  ) : this._(
-          ChopperClient(
-            baseUrl: url,
-            converter: JsonSerializableConverter(_converters),
-            interceptors: _interceptors,
-            services: _services,
-          ),
-        );
+  ) : this._(ChopperClient(
+          baseUrl: url,
+          converter: JsonSerializableConverter({
+            ...AuthService.converter(),
+          }),
+          interceptors: [
+            ApiKeyInterceptor(),
+          ],
+          services: [
+            AuthService.create(),
+          ],
+        ));
 }
