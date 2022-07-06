@@ -1,6 +1,6 @@
 name: Run tests
 env:
-  FLUTTER_VERSION: '3.0.3'
+  FLUTTER_VERSION: '3.0.4'
 
 on:
   workflow_call:

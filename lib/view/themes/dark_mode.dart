@@ -11,21 +11,25 @@ class DarkMode {
 
   static Color get fontColor => Colors.white;
 
-  static ColorScheme get colorScheme => ColorScheme(
-      brightness: Brightness.dark,
-      primary: backgroundColor,
-      onPrimary: fontColor,
-      secondary: const Color.fromRGBO(95, 151, 246, 1),
-      onSecondary: fontColor,
-      error: const Color.fromRGBO(232, 71, 61, 1),
-      onError: Colors.redAccent,
-      tertiary: const Color.fromRGBO(20, 193, 89, 1),
-      background: Colors.orangeAccent,
-      onBackground: Colors.orange,
-      surface: Colors.brown,
-      onSurface: Colors.blueAccent);
+  static ColorScheme get colorScheme =>
+      ColorScheme(
+        brightness: Brightness.dark,
+        primary: backgroundColor,
+        onPrimary: fontColor,
+        secondary: const Color.fromRGBO(95, 151, 246, 1),
+        onSecondary: fontColor,
+        error: const Color.fromRGBO(232, 71, 61, 1),
+        onError: Colors.redAccent,
+        tertiary: const Color.fromRGBO(20, 193, 89, 1),
+        background: Colors.orangeAccent,
+        onBackground: Colors.orange,
+        surface: Colors.brown,
+        onSurface: Colors.blueAccent,
 
-  static TextTheme get textTheme => TextTheme(
+      );
+
+  static TextTheme get textTheme =>
+      TextTheme(
         displayLarge: TextStyle(color: colorScheme.onPrimary),
         displayMedium: TextStyle(color: colorScheme.onPrimary),
         displaySmall: TextStyle(color: colorScheme.onPrimary),
@@ -45,6 +49,7 @@ class DarkMode {
 
   static ThemeData theme = CommonTheme.theme.copyWith(
     colorScheme: colorScheme,
+    highlightColor: buttonColor,
     textTheme: textTheme,
     appBarTheme: AppBarTheme(
       iconTheme: IconThemeData(color: colorScheme.onPrimary),
@@ -74,9 +79,9 @@ class DarkMode {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: CommonTheme.theme.elevatedButtonTheme.style?.merge(ButtonStyle(
         backgroundColor: MaterialStateColor.resolveWith((states) =>
-            states.isNotEmpty && states.first == MaterialState.pressed
-                ? colorScheme.secondary
-                : buttonColor),
+        states.isNotEmpty && states.first == MaterialState.pressed
+            ? colorScheme.secondary
+            : buttonColor),
       )),
     ),
   );

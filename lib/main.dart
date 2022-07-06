@@ -15,6 +15,7 @@ import 'package:simplio_app/view/routes/authenticated_route.dart';
 import 'package:simplio_app/view/routes/guards/auth_guard.dart';
 import 'package:simplio_app/view/routes/unauthenticated_route.dart';
 import 'package:simplio_app/view/screens/authenticated_screen.dart';
+import 'package:simplio_app/view/screens/splash_screen.dart';
 import 'package:simplio_app/view/themes/dark_mode.dart';
 import 'package:simplio_app/view/themes/light_mode.dart';
 
@@ -106,29 +107,12 @@ class _SimplioAppState extends State<SimplioApp> {
                   const AccountSettings.preset().themeMode,
               theme: LightMode.theme,
               darkTheme: DarkMode.theme,
-              home: AuthGuard(
-                onAuthenticated: (context, state) {
-                  return Builder(
-                    builder: (context) {
-                      context.read<AccountCubit>().loadAccount(state.accountId);
-
-                      return AuthenticatedScreen(
-                        navigatorKey: AuthenticatedRoute.key,
-                        initialRoute: AuthenticatedRoute.home,
-                        onGenerateRoute: _authenticatedRouter.generateRoute,
-                      );
-                    },
-                  );
-                },
-                onUnauthenticated: (context) {
-                  context.read<AccountCubit>().clearAccount();
-
-                  return Navigator(
-                    key: UnauthenticatedRoute.key,
-                    initialRoute: UnauthenticatedRoute.home,
-                    onGenerateRoute: _unauthenticatedRouter.generateRoute,
-                  );
-                },
+              home: SplashScreen(
+                // prepared for some future data loading or similar stuff
+                loadingFunction: () => Future.delayed(
+                  const Duration(milliseconds: 1500),
+                  () => _routeGuard(),
+                ),
               ),
             );
           },
@@ -147,5 +131,32 @@ class _SimplioAppState extends State<SimplioApp> {
     return previous.account?.settings.themeMode != null &&
         previous.account?.settings.themeMode !=
             current.account?.settings.themeMode;
+  }
+
+  Widget _routeGuard() {
+    return AuthGuard(
+      onAuthenticated: (context, state) {
+        return Builder(
+          builder: (context) {
+            context.read<AccountCubit>().loadAccount(state.accountId);
+
+            return AuthenticatedScreen(
+              navigatorKey: AuthenticatedRoute.key,
+              initialRoute: AuthenticatedRoute.home,
+              onGenerateRoute: _authenticatedRouter.generateRoute,
+            );
+          },
+        );
+      },
+      onUnauthenticated: (context) {
+        context.read<AccountCubit>().clearAccount();
+
+        return Navigator(
+          key: UnauthenticatedRoute.key,
+          initialRoute: UnauthenticatedRoute.home,
+          onGenerateRoute: _unauthenticatedRouter.generateRoute,
+        );
+      },
+    );
   }
 }
