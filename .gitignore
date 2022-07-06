@@ -47,3 +47,8 @@ app.*.map.json
 
 # used in gitlab workflows
 version.yml
+
+## generated files
+#
+#*.g.dart
+#*.chopper.dart
