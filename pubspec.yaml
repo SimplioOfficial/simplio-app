@@ -36,6 +36,9 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
+  flutter_gherkin: ^2.0.0
+  glob: ^2.0.2
+  gherkin: ^2.0.8
   bloc_test: ^9.0.3
   flutter_launcher_icons: ^0.9.3
   hive_generator: ^1.1.3
