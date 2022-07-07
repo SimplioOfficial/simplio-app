@@ -11,8 +11,7 @@ class DarkMode {
 
   static Color get fontColor => Colors.white;
 
-  static ColorScheme get colorScheme =>
-      ColorScheme(
+  static ColorScheme get colorScheme => ColorScheme(
         brightness: Brightness.dark,
         primary: backgroundColor,
         onPrimary: fontColor,
@@ -25,11 +24,9 @@ class DarkMode {
         onBackground: Colors.orange,
         surface: Colors.brown,
         onSurface: Colors.blueAccent,
-
       );
 
-  static TextTheme get textTheme =>
-      TextTheme(
+  static TextTheme get textTheme => TextTheme(
         displayLarge: TextStyle(color: colorScheme.onPrimary),
         displayMedium: TextStyle(color: colorScheme.onPrimary),
         displaySmall: TextStyle(color: colorScheme.onPrimary),
@@ -79,9 +76,9 @@ class DarkMode {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: CommonTheme.theme.elevatedButtonTheme.style?.merge(ButtonStyle(
         backgroundColor: MaterialStateColor.resolveWith((states) =>
-        states.isNotEmpty && states.first == MaterialState.pressed
-            ? colorScheme.secondary
-            : buttonColor),
+            states.isNotEmpty && states.first == MaterialState.pressed
+                ? colorScheme.secondary
+                : buttonColor),
       )),
     ),
   );
