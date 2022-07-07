@@ -11,6 +11,7 @@
     "switchLanguage": "Switch language",
     "logoutBtn": "Logout",
     "loginBtn": "Login",
+    "goToAppBtn":"Go to app",
 
     "homeTapBarLabel": "Home",
     "portfolioTapBarLabel": "Portfolio",

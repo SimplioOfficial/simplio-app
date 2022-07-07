@@ -25,11 +25,12 @@ dependencies:
   intl: ^0.17.0
   flutter_bloc: ^8.0.1
   equatable: ^2.0.3
-  hive: ^2.2.2
+  hive: ^2.2.3
   hive_flutter: ^1.1.0
   uuid: ^3.0.6
   crypto_assets:
     path: packages/crypto_assets
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

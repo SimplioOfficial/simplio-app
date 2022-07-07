@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simplio_app/data/repositories/auth_repository.dart';
 import 'package:simplio_app/logic/auth_form_cubit/auth_form_cubit.dart';
+import 'package:simplio_app/view/screens/onboarding_screen.dart';
 import 'package:simplio_app/view/screens/sign_in_screen.dart';
 import 'package:simplio_app/view/screens/password_reset_screen.dart';
 import 'package:simplio_app/view/screens/sign_up_screen.dart';
@@ -20,9 +22,18 @@ class UnauthenticatedRoute {
   Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case home:
-        return MaterialPageRoute(
-          builder: (context) => const WelcomeScreen(),
-        );
+        return MaterialPageRoute(builder: (context) {
+          return FutureBuilder<bool>(
+              future: _getPreferences(),
+              builder: (context, snapshot) {
+                bool seen = snapshot.data ?? false;
+                if (seen) {
+                  return const WelcomeScreen();
+                } else {
+                  return const OnboardingScreen();
+                }
+              });
+        });
       case signIn:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
@@ -54,5 +65,10 @@ class UnauthenticatedRoute {
       default:
         throw const FormatException('Screen not found');
     }
+  }
+
+  Future<bool> _getPreferences() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return (preferences.getBool('onboardingScreenDisplayed') ?? false);
   }
 }
