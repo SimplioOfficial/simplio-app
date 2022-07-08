@@ -26,8 +26,8 @@ class UnauthenticatedRoute {
           return FutureBuilder<bool>(
               future: _getPreferences(),
               builder: (context, snapshot) {
-                bool seen = snapshot.data ?? false;
-                if (seen) {
+                bool onboardingScreenDisplayed = snapshot.data ?? false;
+                if (onboardingScreenDisplayed) {
                   return const WelcomeScreen();
                 } else {
                   return const OnboardingScreen();
