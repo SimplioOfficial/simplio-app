@@ -1,23 +1,44 @@
+import 'package:simplio_app/data/http_clients/secured_http_client.dart';
 import 'package:simplio_app/data/mixins/jwt_mixin.dart';
 import 'package:simplio_app/data/model/account.dart';
+import 'package:simplio_app/data/model/auth_token.dart';
 import 'package:simplio_app/data/providers/account_db_provider.dart';
-import 'package:simplio_app/data/services/auth_service.dart';
+import 'package:simplio_app/data/services/password_reset_service.dart';
+import 'package:simplio_app/data/services/sign_in_service.dart';
+import 'package:simplio_app/data/services/password_change_service.dart';
+import 'package:simplio_app/data/services/sign_up_service.dart';
 
 class AuthRepository with JwtMixin {
   final AccountDbProvider _db;
-  final AuthService _apiService;
+  final AuthTokenStorage _authTokenStorage;
+  final SignInService _signInService;
+  final SignUpService _signUpService;
+  final PasswordChangeService _passwordChangeService;
+  final PasswordResetService _passwordResetService;
 
   const AuthRepository._(
     this._db,
-    this._apiService,
+    this._authTokenStorage,
+    this._signInService,
+    this._signUpService,
+    this._passwordChangeService,
+    this._passwordResetService,
   );
 
   const AuthRepository.builder({
     required AccountDbProvider db,
-    required AuthService authService,
+    required AuthTokenStorage authTokenStorage,
+    required SignInService signInService,
+    required SignUpService signUpService,
+    required PasswordChangeService passwordChangeService,
+    required PasswordResetService passwordResetService,
   }) : this._(
           db,
-          authService,
+          authTokenStorage,
+          signInService,
+          signUpService,
+          passwordChangeService,
+          passwordResetService,
         );
 
   Future<AuthRepository> init() async {
@@ -30,11 +51,22 @@ class AuthRepository with JwtMixin {
     return _db.last();
   }
 
-  // TODO: Sign In implementation is only temporary.
+  Future<void> signUp(String email, String password) async {
+    final response = await _signUpService.signUp(SignUpBody(
+      email: email,
+      password: password,
+    ));
+
+    if (response.isSuccessful) {
+      return;
+    }
+
+    throw Exception("Sign up has failed");
+  }
+
   Future<Account> signIn(String login, String password) async {
-    // TODO: remove delay on final implementation.
     try {
-      final response = await _apiService
+      final response = await _signInService
           .signIn(SignInBody(email: login, password: password));
 
       final body = response.body;
@@ -47,68 +79,37 @@ class AuthRepository with JwtMixin {
           throw Exception("Provided IdToken has missing 'name' field.");
         }
 
+        // Storing Refresh and Access Tokens
+        await _authTokenStorage.save(AuthToken(
+          refreshToken: body.refreshToken,
+          tokenType: body.tokenType,
+          accessToken: body.accessToken,
+        ));
+
         final userId = decodedIdToken['name'];
         final acc = _db.get(userId);
+
         if (acc != null) {
-          final updatedAccount = acc.copyWith(
-            accessToken: body.accessToken,
-            refreshToken: body.refreshToken,
-          );
-
-          await _db.save(updatedAccount);
-
-          return updatedAccount;
+          return await _db.save(acc.copyWith(
+            signedIn: DateTime.now(),
+          ));
         }
 
-        final newAccount = Account.builder(
+        return await _db.save(Account.builder(
           id: userId,
           secret: LockableSecret.generate(),
           refreshToken: body.refreshToken,
           signedIn: DateTime.now(),
-        );
-
-        await _db.save(newAccount);
-
-        return newAccount;
+        ));
       }
 
+      // TODO: make custom errors to be catch later
       throw Exception(response.error);
     } catch (e) {
       print("There was an error.");
       print(e.toString());
       throw Exception("Sign in has failed");
     }
-
-    // await Future.delayed(const Duration(seconds: 3));
-    //
-    // final Account? account = _db.get(login);
-    //
-    // if (account != null) {
-    //   return _db.save(account.copyWith(
-    //     signedIn: DateTime.now(),
-    //   ));
-    // }
-    //
-    // final AccountWallet testWallet = AccountWallet.builder(
-    //   name: 'Generated wallet',
-    //   accountId: login,
-    //   walletType: AccountWalletTypes.hdWallet,
-    //   seed: LockableSeed.from(
-    //     mnemonic: 'not your keys not your coins',
-    //     isImported: false,
-    //     isLocked: false,
-    //     isBackedUp: false,
-    //   ),
-    //   updatedAt: DateTime.now(),
-    // );
-    //
-    // return _db.save(Account.builder(
-    //   id: login,
-    //   secret: LockableSecret.generate(),
-    //   refreshToken: '',
-    //   signedIn: DateTime.now(),
-    //   wallets: <AccountWallet>[testWallet],
-    // ));
   }
 
   Future<void> signOut({required String accountId}) async {
@@ -119,5 +120,32 @@ class AuthRepository with JwtMixin {
         signedIn: DateTime.fromMillisecondsSinceEpoch(0),
       ));
     }
+  }
+
+  Future<void> changePassword(String oldPassword, String newPassword) async {
+    final response =
+        await _passwordChangeService.changePassword(PasswordChangeBody(
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    ));
+
+    if (response.isSuccessful) {
+      print("Password has been changed from $oldPassword to $newPassword");
+      return;
+    }
+
+    throw Exception("Changing a password has failed");
+  }
+
+  Future<void> resetPassword(String email) async {
+    final response = await _passwordResetService.resetPassword(
+      PasswordResetBody(email: email),
+    );
+
+    if (response.isSuccessful) {
+      return;
+    }
+
+    throw Exception("Resetting a password has failed");
   }
 }

@@ -2,7 +2,10 @@ import 'package:chopper/chopper.dart';
 import 'package:simplio_app/data/http_clients/http_client.dart';
 import 'package:simplio_app/data/interceptors/api_key_interceptor.dart';
 import 'package:simplio_app/data/http_clients/json_serializable_convertor.dart';
-import 'package:simplio_app/data/services/auth_service.dart';
+import 'package:simplio_app/data/services/password_reset_service.dart';
+import 'package:simplio_app/data/services/sign_in_service.dart';
+import 'package:simplio_app/data/services/sign_up_service.dart';
+import 'package:simplio_app/data/services/refresh_token_service.dart';
 
 class PublicHttpClient extends HttpClient {
   @override
@@ -15,13 +18,19 @@ class PublicHttpClient extends HttpClient {
   ) : this._(ChopperClient(
           baseUrl: url,
           converter: JsonSerializableConverter({
-            ...AuthService.converter(),
+            ...SignInService.converter(),
+            ...SignUpService.converter(),
+            ...RefreshTokenService.converter(),
+            ...PasswordResetService.converter(),
           }),
           interceptors: [
             ApiKeyInterceptor(),
           ],
           services: [
-            AuthService.create(),
+            SignInService.create(),
+            SignUpService.create(),
+            RefreshTokenService.create(),
+            PasswordResetService.create(),
           ],
         ));
 }

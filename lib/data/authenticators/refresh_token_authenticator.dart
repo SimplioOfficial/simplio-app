@@ -1,16 +1,18 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:chopper/chopper.dart';
+import 'package:simplio_app/data/http_clients/secured_http_client.dart';
 import 'package:simplio_app/data/model/account.dart';
-import 'package:simplio_app/data/providers/account_db_provider.dart';
-// import 'package:http/http.dart' as http;
+import 'package:simplio_app/data/model/auth_token.dart';
+import 'package:simplio_app/data/services/refresh_token_service.dart';
 
 class RefreshTokenAuthenticator extends Authenticator {
-  final String baseUrl;
-  final AccountDbProvider storage;
+  final AuthTokenStorage authTokenStorage;
+  final RefreshTokenService refreshTokenService;
 
-  RefreshTokenAuthenticator(
-    this.baseUrl, {
-    required this.storage,
+  RefreshTokenAuthenticator({
+    required this.authTokenStorage,
+    required this.refreshTokenService,
   });
 
   @override
@@ -20,35 +22,53 @@ class RefreshTokenAuthenticator extends Authenticator {
     Request? originalRequest,
   ]) async {
     try {
-      print("Hi from the Authenticator");
-      return request;
+      if (response.statusCode == HttpStatus.unauthorized) {
+        final refreshToken = _loadRefreshToken();
+        final authToken = await _refreshToken(refreshToken);
+
+        return request.copyWith(headers: {
+          ...request.headers,
+          "Authorization": "${authToken.tokenType} ${authToken.accessToken}",
+        });
+      }
+
+      return null;
     } catch (e) {
       print("Hi from the Authenticator catch with $e");
       return null;
     }
   }
 
-  // TODO - make a http request with timeout for refreshing token.
-  // Future<void> _refreshToken() async {
-  //   try {
-  //     final url = Uri.http(baseUrl, '/users/token/refresh');
-  //     http.post(url, body: {});
-  //   } catch (e) {
-  //     throw Exception();
-  //   }
-  // }
+  Future<AuthToken> _refreshToken(String refreshToken) async {
+    try {
+      final response = await refreshTokenService.refreshToken(
+        RefreshTokenBody(refreshToken: refreshToken),
+      );
 
-  String loadRefreshToken() {
-    final acc = storage.last();
-    if (acc == null) {
-      throw Exception("");
+      final body = response.body;
+
+      if (response.isSuccessful && body != null) {
+        final authToken = AuthToken(
+          refreshToken: body.refreshToken,
+          accessToken: body.accessToken,
+          tokenType: body.tokenType,
+        );
+
+        await authTokenStorage.save(authToken);
+
+        return authToken;
+      }
+
+      throw Exception("Refreshing token has failed");
+    } catch (e) {
+      throw Exception();
     }
-
-    return acc.refreshToken;
   }
 
-  void storeRefreshToken(Account acc, String token) {
-    final updated = acc.copyWith(refreshToken: token);
-    storage.save(updated);
+  String _loadRefreshToken() {
+    final token = authTokenStorage.get();
+    print("Loading Auth tokens $token");
+    return token.refreshToken;
   }
+
 }

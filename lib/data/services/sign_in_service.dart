@@ -2,25 +2,19 @@ import 'package:chopper/chopper.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:simplio_app/data/http_clients/json_serializable_convertor.dart';
 
-part 'auth_service.chopper.dart';
-part 'auth_service.g.dart';
+part 'sign_in_service.chopper.dart';
+part 'sign_in_service.g.dart';
 
-@ChopperApi(baseUrl: '/users')
-abstract class AuthService extends ChopperService {
-  static AuthService create() => _$AuthService();
+@ChopperApi(baseUrl: '/users/token')
+abstract class SignInService extends ChopperService {
+  static SignInService create() => _$SignInService();
   static FactoryConvertMap converter() => {
         SignInResponse: SignInResponse.fromJson,
-        SignUpResponse: SignUpResponse.fromJson,
       };
 
-  @Post(path: '/token/issue')
+  @Post(path: '/issue')
   Future<Response<SignInResponse>> signIn(
     @Body() SignInBody body,
-  );
-
-  @Post(path: '/account')
-  Future<Response<SignUpResponse>> signUp(
-    @Body() SignUpBody body,
   );
 }
 
@@ -60,34 +54,4 @@ class SignInResponse {
       _$SignInResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignInResponseToJson(this);
-}
-
-@JsonSerializable()
-class SignUpBody {
-  final String email;
-  final String password;
-
-  const SignUpBody({
-    required this.email,
-    required this.password,
-  });
-
-  factory SignUpBody.fromJson(Map<String, dynamic> json) =>
-      _$SignUpBodyFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SignUpBodyToJson(this);
-}
-
-@JsonSerializable()
-class SignUpResponse {
-  final String userId;
-
-  const SignUpResponse({
-    required this.userId,
-  });
-
-  factory SignUpResponse.fromJson(Map<String, dynamic> json) =>
-      _$SignUpResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SignUpResponseToJson(this);
 }

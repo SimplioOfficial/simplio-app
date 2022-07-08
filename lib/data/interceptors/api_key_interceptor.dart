@@ -9,7 +9,7 @@ class ApiKeyInterceptor extends RequestInterceptor {
   FutureOr<Request> onRequest(Request request) {
     return request.copyWith(
       parameters: <String, String>{
-        "code": "UVPT9GLZKRooypGpg4lHzf6GffCP9TuTXUkrl0weRn4YAzFuuxmjsA==",
+        "code": const String.fromEnvironment('API_KEY'),
       },
     );
   }
