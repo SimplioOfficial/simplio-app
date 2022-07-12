@@ -16,7 +16,6 @@ class PasswordChangeScreen extends StatelessWidget {
     return BlocListener<AuthFormCubit, AuthFormState>(
       listener: (context, state) {
         // TODO: handle responses
-
       },
       child: Scaffold(
         appBar: AppBar(
