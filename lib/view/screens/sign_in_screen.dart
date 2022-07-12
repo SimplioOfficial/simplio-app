@@ -32,7 +32,10 @@ class SignInScreen extends StatelessWidget {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(elevation: 0.0),
+        appBar: AppBar(
+          key: const Key('sign-in-screen-app-bar-button'),
+          elevation: 0.0,
+        ),
         body: SafeArea(
           top: true,
           child: Column(
@@ -56,8 +59,8 @@ class SignInScreen extends StatelessWidget {
                           Padding(
                             padding: CommonTheme.verticalPadding,
                             child: ThemedTextFormFiled(
+                              key: const Key('sign-in-screen-email-text-field'),
                               keyboardType: TextInputType.emailAddress,
-                              // autofocus: true,
                               validator: (email) => context
                                   .read<AuthFormCubit>()
                                   .state
@@ -79,6 +82,8 @@ class SignInScreen extends StatelessWidget {
                             ),
                           ),
                           PasswordTextField(
+                            key:
+                                const Key('sign-in-screen-password-text-field'),
                             validator: (pass) => context
                                 .read<AuthFormCubit>()
                                 .state
@@ -114,6 +119,7 @@ class SignInScreen extends StatelessWidget {
                         }
                       },
                       child: Text(
+                        key: const Key('sign-in-screen-reset-password-button'),
                         context.locale.forgotPasswordButtonLabel,
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary),
@@ -132,6 +138,8 @@ class SignInScreen extends StatelessWidget {
                                 final res = state.response;
                                 if (res is SignInFormPending) {
                                   return OutlinedButton(
+                                    key: const Key(
+                                        'sign-in-screen-progress-indicator'),
                                     onPressed: () {},
                                     child: Row(
                                       crossAxisAlignment:
@@ -158,6 +166,7 @@ class SignInScreen extends StatelessWidget {
                                 }
                               }
                               return ElevatedButton(
+                                key: const Key('sign-in-screen-sign-in-button'),
                                 onPressed: () async {
                                   if (formKey.currentState!.validate()) {
                                     await context
@@ -174,6 +183,8 @@ class SignInScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(10.0),
                           child: GestureDetector(
                             child: Text(
+                              key: const Key(
+                                  'sign-in-screen-create-account-button'),
                               context.locale.orCreateAccountButtonLabel,
                               style: TextStyle(
                                   color:

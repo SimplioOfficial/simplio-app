@@ -31,7 +31,10 @@ class SignUpScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(elevation: 0.0),
+        appBar: AppBar(
+          key: const Key('sign-up-screen-app-bar-button'),
+          elevation: 0.0,
+        ),
         body: SafeArea(
           top: true,
           child: Column(
@@ -53,6 +56,7 @@ class SignUpScreen extends StatelessWidget {
                           Padding(
                             padding: CommonTheme.verticalPadding,
                             child: ThemedTextFormFiled(
+                              key: const Key('sign-up-screen-email-text-field'),
                               autofocus: true,
                               validator: (email) => context
                                   .read<AuthFormCubit>()
@@ -75,6 +79,8 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ),
                           PasswordTextField(
+                            key:
+                                const Key('sign-up-screen-password-text-field'),
                             passwordComplexityCondition: (pass) => context
                                 .read<AuthFormCubit>()
                                 .state
@@ -98,21 +104,29 @@ class SignUpScreen extends StatelessWidget {
                       builder: (context, state) => Column(
                         children: [
                           PasswordRulesRow(
+                              key: const Key(
+                                  'sign-up-screen-length-password-rule'),
                               text: context.locale.passwordRuleAtLeast8Chars,
                               passed: state.signUpForm.password
                                       .missingValue['length'] ??
                                   false),
                           PasswordRulesRow(
+                              key: const Key(
+                                  'sign-up-screen-number-password-rule'),
                               text: context.locale.passwordRuleNumChar,
                               passed: state.signUpForm.password
                                       .missingValue['numberChar'] ??
                                   false),
                           PasswordRulesRow(
+                              key: const Key(
+                                  'sign-up-screen-special-char-password-rule'),
                               text: context.locale.passwordRuleSpecialChar,
                               passed: state.signUpForm.password
                                       .missingValue['specialChar'] ??
                                   false),
                           PasswordRulesRow(
+                              key: const Key(
+                                  'sign-up-screen-upper-char-password-rule'),
                               text: context.locale.passwordRuleUpperChar,
                               passed: state.signUpForm.password
                                       .missingValue['upperChar'] ??
@@ -128,6 +142,7 @@ class SignUpScreen extends StatelessWidget {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
+                            key: const Key('sign-up-screen-sign-in-button'),
                             onPressed: () async {
                               if (context
                                   .read<AuthFormCubit>()
