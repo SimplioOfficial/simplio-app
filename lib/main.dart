@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:simplio_app/data/http_clients/secured_http_client.dart';
 import 'package:simplio_app/data/model/account_settings.dart';
 import 'package:simplio_app/data/providers/account_db_provider.dart';
 import 'package:simplio_app/data/providers/asset_wallet_db_provider.dart';
+import 'package:simplio_app/data/providers/auth_token_db_provider.dart';
 import 'package:simplio_app/data/repositories/account_repository.dart';
 import 'package:simplio_app/data/repositories/asset_wallet_repository.dart';
 import 'package:simplio_app/data/repositories/auth_repository.dart';
+import 'package:simplio_app/data/services/password_change_service.dart';
+import 'package:simplio_app/data/services/password_reset_service.dart';
+import 'package:simplio_app/data/services/refresh_token_service.dart';
+import 'package:simplio_app/data/services/sign_in_service.dart';
 import 'package:simplio_app/l10n/localized_build_context_extension.dart';
+import 'package:simplio_app/data/services/sign_up_service.dart';
 import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
@@ -18,22 +25,46 @@ import 'package:simplio_app/view/screens/authenticated_screen.dart';
 import 'package:simplio_app/view/themes/dark_mode.dart';
 import 'package:simplio_app/view/themes/light_mode.dart';
 
+import 'data/http_clients/public_http_client.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
 
-  final accountRepository =
-      await AccountRepository.builder(db: AccountDbProvider()).init();
-  final assetWalletRepository =
-      await AssetWalletRepository.builder(db: AssetWalletDbProvider()).init();
-  final authRepository =
-      await AuthRepository.builder(db: AccountDbProvider()).init();
+  /// Initialize all top-level Hive Db Providers
+  final accountDbProvider = AccountDbProvider();
+  final assetWalletDbProvider = AssetWalletDbProvider();
+  final authTokenDbProvider = AuthTokenDbProvider();
+
+  await accountDbProvider.init();
+  await assetWalletDbProvider.init();
+  await authTokenDbProvider.init();
+
+  /// Init http client
+  const apiUrl = String.fromEnvironment('API_URL');
+  final publicApi = PublicHttpClient.builder(apiUrl);
+  final securedApi = SecuredHttpClient.builder(
+    apiUrl,
+    authTokenStorage: authTokenDbProvider,
+    refreshTokenService: publicApi.service<RefreshTokenService>(),
+  );
 
   runApp(SimplioApp(
-    accountRepository: accountRepository,
-    assetWalletRepository: assetWalletRepository,
-    authRepository: authRepository,
+    accountRepository: AccountRepository.builder(
+      db: accountDbProvider,
+    ),
+    assetWalletRepository: AssetWalletRepository.builder(
+      db: assetWalletDbProvider,
+    ),
+    authRepository: AuthRepository.builder(
+      db: accountDbProvider,
+      authTokenStorage: authTokenDbProvider,
+      signInService: publicApi.service<SignInService>(),
+      signUpService: publicApi.service<SignUpService>(),
+      passwordChangeService: securedApi.service<PasswordChangeService>(),
+      passwordResetService: publicApi.service<PasswordResetService>(),
+    ),
   ));
 }
 
