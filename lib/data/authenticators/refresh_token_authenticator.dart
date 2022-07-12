@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:chopper/chopper.dart';
 import 'package:simplio_app/data/http_clients/secured_http_client.dart';
-import 'package:simplio_app/data/model/account.dart';
 import 'package:simplio_app/data/model/auth_token.dart';
 import 'package:simplio_app/data/services/refresh_token_service.dart';
 
@@ -34,7 +33,6 @@ class RefreshTokenAuthenticator extends Authenticator {
 
       return null;
     } catch (e) {
-      print("Hi from the Authenticator catch with $e");
       return null;
     }
   }
@@ -67,8 +65,6 @@ class RefreshTokenAuthenticator extends Authenticator {
 
   String _loadRefreshToken() {
     final token = authTokenStorage.get();
-    print("Loading Auth tokens $token");
     return token.refreshToken;
   }
-
 }
