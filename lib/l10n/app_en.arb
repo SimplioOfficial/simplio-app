@@ -43,5 +43,10 @@
 
     "searchAllAssetsInputLabel": "Search all assets",
     "noWalletsLabel": "You have no wallet",
-    "forgotPasswordLabel": "Forgot password"
+    "forgotPasswordLabel": "Forgot password",
+
+    "accountCreationBeforePinSetup":"Done! \n One last thing to do",
+    "setPinLabel":"Set your security code to keep your account secure",
+    "accountCreatedLabel":"Hurray! \n Your account have been created",
+    "accountCreatedDescriptionLabel":"Before you start, we suggest you\n verify your account due to the use\n of all functionalities and full\n security of your Simplio app."
 }

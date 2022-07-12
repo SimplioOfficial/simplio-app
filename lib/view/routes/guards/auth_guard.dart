@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simplio_app/data/repositories/auth_repository.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
+import 'package:simplio_app/logic/auth_form_cubit/auth_form_cubit.dart';
 
 class AuthGuard extends StatelessWidget {
   final Widget Function(BuildContext context, Authenticated state)
@@ -19,7 +21,12 @@ class AuthGuard extends StatelessWidget {
       buildWhen: (previous, current) => previous != current,
       builder: (context, state) => state is Authenticated
           ? onAuthenticated(context, state)
-          : onUnauthenticated(context),
+          : BlocProvider(
+              create: (context) => AuthFormCubit.builder(
+                authRepository: RepositoryProvider.of<AuthRepository>(context),
+              ),
+              child: onUnauthenticated(context),
+            ),
     );
   }
 }

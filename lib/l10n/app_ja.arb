@@ -43,5 +43,10 @@
 
     "searchAllAssetsInputLabel": "カウントを持ってい",
     "noWalletsLabel": "ゲー たは財",
-    "forgotPasswordLabel": "て替えて あなて"
+    "forgotPasswordLabel": "て替えて あなて",
+
+    "accountCreationBeforePinSetup":"はい! \n は財布を持っ",
+    "setPinLabel":"あな 両ああな 両あ",
+    "accountCreatedLabel":"いません ませ",
+    "accountCreatedDescriptionLabel":"たは財布を持っ\nたは\nたは財布\nたは財布を持ったは財布を持っ"
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/l10n/localized_build_context_extension.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/logic/auth_form_cubit/auth_form_cubit.dart';
+import 'package:simplio_app/view/routes/unauthenticated_route.dart';
 import 'package:simplio_app/view/themes/common_theme.dart';
 import 'package:simplio_app/view/widgets/password_rules_row.dart';
 import 'package:simplio_app/view/widgets/password_text_field.dart';
@@ -149,9 +150,8 @@ class SignUpScreen extends StatelessWidget {
                                   .state
                                   .signUpForm
                                   .isValid) {
-                                await context
-                                    .read<AuthFormCubit>()
-                                    .requestSignUp();
+                                Navigator.of(context).pushReplacementNamed(
+                                    UnauthenticatedRoute.setupPin);
                               } else {
                                 formKey.currentState!.validate();
                               }

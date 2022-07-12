@@ -22,6 +22,7 @@ import 'package:simplio_app/view/routes/authenticated_route.dart';
 import 'package:simplio_app/view/routes/guards/auth_guard.dart';
 import 'package:simplio_app/view/routes/unauthenticated_route.dart';
 import 'package:simplio_app/view/screens/authenticated_screen.dart';
+import 'package:simplio_app/view/screens/pin_setup_screen.dart';
 import 'package:simplio_app/view/screens/splash_screen.dart';
 import 'package:simplio_app/view/themes/dark_mode.dart';
 import 'package:simplio_app/view/themes/light_mode.dart';

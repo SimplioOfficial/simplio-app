@@ -15,8 +15,8 @@ class DarkMode {
         brightness: Brightness.dark,
         primary: backgroundColor,
         onPrimary: fontColor,
-        secondary: const Color.fromRGBO(95, 151, 246, 1),
-        onSecondary: fontColor,
+        secondary: const Color.fromRGBO(25, 220, 160, 1),
+        onSecondary: backgroundColor,
         error: const Color.fromRGBO(232, 71, 61, 1),
         onError: Colors.redAccent,
         tertiary: const Color.fromRGBO(20, 193, 89, 1),
@@ -30,7 +30,10 @@ class DarkMode {
         displayLarge: TextStyle(color: colorScheme.onPrimary),
         displayMedium: TextStyle(color: colorScheme.onPrimary),
         displaySmall: TextStyle(color: colorScheme.onPrimary),
-        headlineLarge: TextStyle(color: colorScheme.onPrimary),
+        headlineLarge: TextStyle(
+            color: colorScheme.onPrimary,
+            fontWeight: FontWeight.w600,
+            fontSize: 32),
         headlineMedium: TextStyle(color: colorScheme.onPrimary),
         headlineSmall: TextStyle(color: colorScheme.onPrimary),
         bodyLarge: TextStyle(color: colorScheme.onPrimary),
@@ -83,7 +86,6 @@ class DarkMode {
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: CommonTheme.buttonBorderRadius,
-              // side: BorderSide(color: Colors.white),
             ),
           ),
         ),

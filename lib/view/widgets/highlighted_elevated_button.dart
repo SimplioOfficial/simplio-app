@@ -13,7 +13,7 @@ class HighlightedElevatedButton extends StatelessWidget {
           backgroundColor: MaterialStateColor.resolveWith((states) =>
               states.isNotEmpty && states.first == MaterialState.pressed
                   ? Theme.of(context).colorScheme.secondary
-                  : Theme.of(context).colorScheme.onSurface),
+                  : Theme.of(context).colorScheme.secondary),
         ),
         onPressed: onPressed,
         child: child);

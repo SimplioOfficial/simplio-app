@@ -61,6 +61,29 @@ class AccountCubit extends Cubit<AccountState> {
     emit(state.copyWith(account: savedAccount));
   }
 
+  Future<void> updatePin({required List<int> pin, List<int>? oldPin}) async {
+    if (state.account != null) {
+      LockableSecret secret;
+      if (state.account!.secret.isLocked && oldPin != null) {
+        var unlockedSecret = state.account!.secret.unlock(oldPin.join());
+        secret = LockableSecret.from(secret: unlockedSecret).lock(pin.join());
+      } else {
+        secret = state.account!.secret.lock(pin.join());
+      }
+
+      var account = Account.builder(
+          id: state.account!.id,
+          secret: secret,
+          accessToken: state.account!.accessToken,
+          refreshToken: state.account!.refreshToken,
+          signedIn: state.account!.signedIn,
+          settings: state.account!.settings,
+          wallets: state.account!.wallets);
+
+      return updateAccount(account);
+    }
+  }
+
   Future<void> setLanguage(String languageCode) async {
     var account = state.account?.copyWith(
         settings:
