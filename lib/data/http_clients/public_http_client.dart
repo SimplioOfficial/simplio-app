@@ -7,6 +7,8 @@ import 'package:simplio_app/data/services/sign_in_service.dart';
 import 'package:simplio_app/data/services/sign_up_service.dart';
 import 'package:simplio_app/data/services/refresh_token_service.dart';
 
+/// Public Http Client provides with http endpoints which can be called
+/// and do not need Authorization with Bearer token.
 class PublicHttpClient extends HttpClient {
   @override
   final ChopperClient client;

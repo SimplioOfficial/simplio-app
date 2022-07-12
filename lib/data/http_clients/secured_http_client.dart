@@ -8,6 +8,10 @@ import 'package:simplio_app/data/model/auth_token.dart';
 import 'package:simplio_app/data/services/password_change_service.dart';
 import 'package:simplio_app/data/services/refresh_token_service.dart';
 
+/// Secured Http Client provides with rest endpoints which need
+/// Authorization with Bearer + JWT token. Token is refreshed
+/// in Authenticator that handles storage and service that
+/// calls defined endpoint for refreshing access token.
 class SecuredHttpClient extends HttpClient {
   @override
   final ChopperClient client;
@@ -39,6 +43,7 @@ class SecuredHttpClient extends HttpClient {
         );
 }
 
+/// Common interface for Storing Authentication Tokens
 abstract class AuthTokenStorage {
   Future<void> save(AuthToken authToken);
   AuthToken get();

@@ -3,6 +3,11 @@ import 'package:chopper/chopper.dart';
 typedef JsonFactory<T> = T Function(Map<String, dynamic> json);
 typedef FactoryConvertMap = Map<Type, JsonFactory>;
 
+/// ### Json Serialization Conversion
+/// Convertor is used for Chopper Http Clients and implements their capability
+/// to turn request body and responses to a json and back.
+/// They call a factory constructor that handles and map json string
+/// and returns defined object.
 class JsonSerializableConverter extends JsonConverter {
   final FactoryConvertMap factories;
 
