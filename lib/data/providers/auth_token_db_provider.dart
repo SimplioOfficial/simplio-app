@@ -25,7 +25,6 @@ class AuthTokenDbProvider extends BoxProvider<AuthToken>
 
   @override
   AuthToken get() {
-
     final cached = _cache.read();
     if (cached != null) {
       return cached;
@@ -40,26 +39,16 @@ class AuthTokenDbProvider extends BoxProvider<AuthToken>
 
   @override
   Future<void> save(AuthToken authToken) async {
-
     await box.clear();
     box.add(authToken);
 
     _cache.cache(authToken);
   }
-
-  // AuthTokenLocal _mapFrom(AuthToken authToken) {
-  //   return AuthTokenLocal(authToken.refreshToken);
-  // }
-  //
-  // AuthToken _mapTo(AuthTokenLocal authTokenLocal) {
-  //   return AuthToken(refreshToken: authTokenLocal.refreshToken);
-  // }
 }
 
 class _AuthTokenCache {
   AuthToken? _authToken;
   _AuthTokenCache();
-
 
   AuthToken cache(AuthToken authToken) {
     _authToken = authToken;
@@ -73,5 +62,4 @@ class _AuthTokenCache {
   void clear() {
     _authToken = null;
   }
-
 }

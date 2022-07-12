@@ -79,7 +79,6 @@ class AuthRepository with JwtMixin {
           throw Exception("Provided IdToken has missing 'name' field.");
         }
 
-        // Storing Refresh and Access Tokens
         await _authTokenStorage.save(AuthToken(
           refreshToken: body.refreshToken,
           tokenType: body.tokenType,
@@ -103,11 +102,9 @@ class AuthRepository with JwtMixin {
         ));
       }
 
-      // TODO: make custom errors to be catch later
+      // TODO: Provide with a custom error
       throw Exception(response.error);
     } catch (e) {
-      print("There was an error.");
-      print(e.toString());
       throw Exception("Sign in has failed");
     }
   }
@@ -129,10 +126,7 @@ class AuthRepository with JwtMixin {
       newPassword: newPassword,
     ));
 
-    if (response.isSuccessful) {
-      print("Password has been changed from $oldPassword to $newPassword");
-      return;
-    }
+    if (response.isSuccessful) return;
 
     throw Exception("Changing a password has failed");
   }
@@ -142,9 +136,7 @@ class AuthRepository with JwtMixin {
       PasswordResetBody(email: email),
     );
 
-    if (response.isSuccessful) {
-      return;
-    }
+    if (response.isSuccessful) return;
 
     throw Exception("Resetting a password has failed");
   }

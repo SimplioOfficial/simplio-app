@@ -52,3 +52,9 @@ version.yml
 #
 #*.g.dart
 #*.chopper.dart
+
+# http client files
+http_testing
+
+# IDE config files
+.vscode

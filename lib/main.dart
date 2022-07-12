@@ -42,7 +42,6 @@ Future<void> main() async {
   await authTokenDbProvider.init();
 
   /// Init http client
-  // TODO - apiURL should be read from environment variable.
   const apiUrl = String.fromEnvironment('API_URL');
   final publicApi = PublicHttpClient.builder(apiUrl);
   final securedApi = SecuredHttpClient.builder(

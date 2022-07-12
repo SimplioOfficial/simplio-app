@@ -42,8 +42,6 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
 
   Account? last() {
     try {
-      print("${box.values.map((e) => e.id + ' - ' + e.signedIn.toString())}");
-
       final localAccount = box.values.reduce(
         (acc, curr) => acc.signedIn.isAfter(curr.signedIn) ? acc : curr,
       );
