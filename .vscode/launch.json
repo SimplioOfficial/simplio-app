@@ -1,0 +1,54 @@
+{
+    // Use o IntelliSense para saber mais sobre os atributos possíveis.
+    // Focalizar para exibir as descrições dos atributos existentes.
+    // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "test",
+            "request": "launch",
+            "type": "dart",
+            "program": "test/",
+            "args": [
+                "--coverage",
+            ]
+        },
+        {
+            "name": "simplio-app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "simplio-app (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "simplio-app (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "crypto_assets",
+            "cwd": "packages\\crypto_assets",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "crypto_assets (profile mode)",
+            "cwd": "packages\\crypto_assets",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "crypto_assets (release mode)",
+            "cwd": "packages\\crypto_assets",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
