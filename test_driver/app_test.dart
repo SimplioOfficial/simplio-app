@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
 import 'package:glob/glob.dart';
-import 'steps/click_button.dart';
+import 'steps/click_button_with_tooltip.dart';
 import 'steps/given_wait_for_text.dart';
 // import 'steps/I_click_plus_step.dart';
 // import 'steps/I_see_value_step.dart';
@@ -19,7 +19,7 @@ Future<void> main() {
     ] // you can include the "StdoutReporter()" without the message level parameter for verbose log information
     ..stepDefinitions = [
       ClickPlus(),
-      TapTheButtonWithText()
+      TapWidgetWithTooltip()
     ]
     ..restartAppBetweenScenarios = true
     ..targetAppPath = "test_driver/app.dart"
