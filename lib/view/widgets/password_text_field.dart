@@ -34,6 +34,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      key: const Key('login-screen-password-input-field'),
       obscureText: _isDisplayed,
       autofocus: widget.autofocus,
       validator: widget.validator,
