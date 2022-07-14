@@ -8,16 +8,15 @@ import 'package:gherkin/gherkin.dart';
 ///
 ///   `Then I tap the button with tooltip "String"`
 
-StepDefinitionGeneric FillFieldWithText() {
-  return when2<String, String, FlutterWorld>(
+StepDefinitionGeneric TapWidgetWithTheKey() {
+  return when1<String, FlutterWorld>(
     RegExp(
-        r'I fill the field {string} within text {string} :'),
-        (key, text, context) async {
+        r'I tap the button with the key: {string}'),
+        (key, context) async {
       final finder = find.byValueKey(key);
-      await FlutterDriverUtils.enterText(
-          context.world.driver,
-          finder,
-          text
+      await FlutterDriverUtils.tap(
+        context.world.driver,
+        finder,
       );
     },
   );

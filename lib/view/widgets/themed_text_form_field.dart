@@ -25,7 +25,7 @@ class ThemedTextFormFiled extends StatelessWidget {
     return Focus(
       onFocusChange: onFocusChange,
       child: TextFormField(
-        key: const Key('sign-in-screen-email-input-field'),
+        key: const Key('email-input-field'),
         autofocus: autofocus,
         validator: validator,
         decoration: decoration,
