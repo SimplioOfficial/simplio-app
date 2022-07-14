@@ -6,7 +6,6 @@ import 'package:simplio_app/view/screens/onboarding_screen.dart';
 import 'package:simplio_app/view/screens/sign_in_screen.dart';
 import 'package:simplio_app/view/screens/password_reset_screen.dart';
 import 'package:simplio_app/view/screens/sign_up_screen.dart';
-import 'package:simplio_app/view/screens/welcome_screen.dart';
 
 class UnauthenticatedRoute {
   static final key = GlobalKey<NavigatorState>(
