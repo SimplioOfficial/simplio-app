@@ -25,6 +25,14 @@ on:
         required: true
       TEMP_KEYCHAIN_USER:
         required: true
+      DART_DEFINE_API_KEY_DEV:
+        required: true
+      DART_DEFINE_API_KEY_PROD:
+        required: true
+      DART_DEFINE_API_URL_DEV:
+        required: true
+      DART_DEFINE_API_URL_PROD:
+        required: true
     inputs:
       environment:
         description: 'String value that determines if production or dev packages are built'
@@ -71,7 +79,15 @@ jobs:
           lane: apply_new_version
           subdirectory: ios
 
-      - run: flutter build ios --release --no-codesign
+      - name: Generate ios/Flutter/Generated.xcconfig - PRODUCTION
+        if: ${{ inputs.environment == 'production' }}
+        run: flutter build ios --config-only --release --no-codesign --dart-define=API_URL=${{ secrets.DART_DEFINE_API_URL_PROD }} --dart-define=API_KEY=${{ secrets.DART_DEFINE_API_KEY_PROD }}
+
+      - name: Generate ios/Flutter/Generated.xcconfig - DEVELOPMENT
+        if: ${{ inputs.environment != 'production' }}
+        run: flutter build ios --config-only --release --no-codesign --dart-define=API_URL=${{ secrets.DART_DEFINE_API_URL_DEV }} --dart-define=API_KEY=${{ secrets.DART_DEFINE_API_KEY_DEV }}
+
+
       - name: Run Fastlane
         uses: maierj/fastlane-action@v2.2.0
         with:

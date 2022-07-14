@@ -11,6 +11,7 @@
     "switchLanguage": "言語を切り替える",
     "logoutBtn": "ログアウト",
     "loginBtn": "ログアウト",
+    "goToAppBtn":"両あなた自",
 
     "homeTapBarLabel": "車両あなた自身",
     "portfolioTapBarLabel": "車両あなた自身",
@@ -41,5 +42,6 @@
     "passwordValidationError":"りて替えて あな",
 
     "searchAllAssetsInputLabel": "カウントを持ってい",
-    "noWalletsLabel": "ゲー たは財"
+    "noWalletsLabel": "ゲー たは財",
+    "forgotPasswordLabel": "て替えて あなて"
 }

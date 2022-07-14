@@ -74,12 +74,20 @@ class DarkMode {
     ),
     scaffoldBackgroundColor: backgroundColor,
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: CommonTheme.theme.elevatedButtonTheme.style?.merge(ButtonStyle(
-        backgroundColor: MaterialStateColor.resolveWith((states) =>
-            states.isNotEmpty && states.first == MaterialState.pressed
-                ? colorScheme.secondary
-                : buttonColor),
-      )),
+      style: CommonTheme.theme.elevatedButtonTheme.style?.merge(
+        ButtonStyle(
+          backgroundColor: MaterialStateColor.resolveWith((states) =>
+              states.isNotEmpty && states.first == MaterialState.pressed
+                  ? colorScheme.secondary
+                  : buttonColor),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: CommonTheme.buttonBorderRadius,
+              // side: BorderSide(color: Colors.white),
+            ),
+          ),
+        ),
+      ),
     ),
   );
 }

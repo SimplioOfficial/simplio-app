@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/repositories/auth_repository.dart';
 import 'package:simplio_app/logic/auth_form_cubit/auth_form_cubit.dart';
+import 'package:simplio_app/view/screens/onboarding_screen.dart';
 import 'package:simplio_app/view/screens/sign_in_screen.dart';
 import 'package:simplio_app/view/screens/password_reset_screen.dart';
 import 'package:simplio_app/view/screens/sign_up_screen.dart';
@@ -21,7 +22,7 @@ class UnauthenticatedRoute {
     switch (settings.name) {
       case home:
         return MaterialPageRoute(
-          builder: (context) => const WelcomeScreen(),
+          builder: (context) => const OnboardingScreen(),
         );
       case signIn:
         return MaterialPageRoute(

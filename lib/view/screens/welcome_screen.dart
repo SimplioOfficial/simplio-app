@@ -27,8 +27,10 @@ class WelcomeScreen extends StatelessWidget {
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
+                        // todo: change this method also in onboarding screen
+                        key: const Key('welcome-screen-go-to-app-button'),
                         onPressed: () {},
-                        child: const Text('Go to app'),
+                        child: Text(context.locale.goToAppBtn),
                       ),
                     ),
                   ),
@@ -37,11 +39,12 @@ class WelcomeScreen extends StatelessWidget {
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
+                        key: const Key('welcome-screen-sign-in-button'),
                         onPressed: () {
                           Navigator.of(context)
                               .pushNamed(UnauthenticatedRoute.signIn);
                         },
-                        child: const Text('Sign in'),
+                        child: Text(context.locale.signInButtonLabel),
                       ),
                     ),
                   ),

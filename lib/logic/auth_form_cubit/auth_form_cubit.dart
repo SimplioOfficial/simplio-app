@@ -61,10 +61,6 @@ class AuthFormCubit extends Cubit<AuthFormState> {
   }
 
   Future<void> requestSignIn() async {
-    // print("Requesting Sign In - "
-    //     "login: ${state.signInForm.login}, "
-    //     "password: ${state.signInForm.password}");
-
     emit(state.copyWith(
       response: const SignInFormPending(),
     ));
@@ -85,18 +81,69 @@ class AuthFormCubit extends Cubit<AuthFormState> {
   }
 
   Future<void> requestSignUp() async {
-    // print("Requesting Sign up - "
-    //     "login: ${state.signUpForm.login}, "
-    //     "password: ${state.signUpForm.password}");
+    emit(state.copyWith(
+      response: const SignUpFormPending(),
+    ));
+
+    try {
+      await _authRepository.signUp(
+        state.signUpForm.login.toString(),
+        state.signUpForm.password.toString(),
+      );
+
+      emit(state.copyWith(
+        response: const SignUpFormSuccess(),
+      ));
+    } on Exception catch (e) {
+      emit(state.copyWith(
+        response: SignUpFormFailure(exception: e),
+      ));
+    }
   }
 
   Future<void> requestPasswordReset() async {
-    // print("Requesting password reset");
+    emit(state.copyWith(
+      response: const PasswordResetFormPending(),
+    ));
+
+    try {
+      final email = state.passwordResetForm.email;
+
+      await _authRepository.resetPassword(
+        email.toString(),
+      );
+
+      emit(state.copyWith(
+        response: const PasswordResetFormSuccess(),
+      ));
+    } on Exception catch (e) {
+      emit(state.copyWith(
+        response: PasswordResetFormFailure(exception: e),
+      ));
+    }
   }
 
   Future<void> requestPasswordChange() async {
-    // print("Requesting Password change - "
-    //     "old password: ${state.passwordChangeForm.oldPassword}, "
-    //     "new password: ${state.passwordChangeForm.newPassword}");
+    emit(state.copyWith(
+      response: const PasswordChangeFormPending(),
+    ));
+
+    try {
+      final oldPassword = state.passwordChangeForm.oldPassword;
+      final newPassword = state.passwordChangeForm.newPassword;
+
+      await _authRepository.changePassword(
+        oldPassword.toString(),
+        newPassword.toString(),
+      );
+
+      emit(state.copyWith(
+        response: const PasswordChangeFormSuccess(),
+      ));
+    } on Exception catch (e) {
+      emit(state.copyWith(
+        response: PasswordChangeFormFailure(exception: e),
+      ));
+    }
   }
 }

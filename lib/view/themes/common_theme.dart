@@ -8,8 +8,17 @@ class CommonTheme {
   static BorderRadius get borderRadius =>
       const BorderRadius.all(Radius.circular(12));
 
+  static BorderRadius get buttonBorderRadius =>
+      const BorderRadius.all(Radius.circular(6));
+
   static EdgeInsetsGeometry get padding =>
       const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0);
+
+  static EdgeInsetsGeometry get rightPadding =>
+      const EdgeInsets.only(right: 10.0);
+
+  static EdgeInsetsGeometry get leftPadding =>
+      const EdgeInsets.only(left: 10.0);
 
   static EdgeInsetsGeometry get horizontalPadding =>
       const EdgeInsets.symmetric(horizontal: 20.0);

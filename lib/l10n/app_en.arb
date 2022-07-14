@@ -11,6 +11,7 @@
     "switchLanguage": "Switch language",
     "logoutBtn": "Logout",
     "loginBtn": "Login",
+    "goToAppBtn":"Go to app",
 
     "homeTapBarLabel": "Home",
     "portfolioTapBarLabel": "Portfolio",
@@ -41,5 +42,6 @@
     "createAccountBtnLabel":"Create account",
 
     "searchAllAssetsInputLabel": "Search all assets",
-    "noWalletsLabel": "You have no wallet"
+    "noWalletsLabel": "You have no wallet",
+    "forgotPasswordLabel": "Forgot password"
 }

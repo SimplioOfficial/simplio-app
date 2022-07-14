@@ -47,3 +47,14 @@ app.*.map.json
 
 # used in gitlab workflows
 version.yml
+
+## generated files
+#
+#*.g.dart
+#*.chopper.dart
+
+# http client files
+http_testing
+
+# IDE config files
+.vscode

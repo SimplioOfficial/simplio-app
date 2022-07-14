@@ -276,3 +276,72 @@ class SignInFormFailure extends AuthFormResponse {
   @override
   List<Object?> get props => [exception];
 }
+
+class SignUpFormPending extends AuthFormResponse {
+  const SignUpFormPending();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class SignUpFormSuccess extends AuthFormResponse {
+  const SignUpFormSuccess();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class SignUpFormFailure extends AuthFormResponse {
+  final Exception exception;
+
+  const SignUpFormFailure({required this.exception});
+
+  @override
+  List<Object?> get props => [exception];
+}
+
+class PasswordChangeFormPending extends AuthFormResponse {
+  const PasswordChangeFormPending();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class PasswordChangeFormSuccess extends AuthFormResponse {
+  const PasswordChangeFormSuccess();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class PasswordChangeFormFailure extends AuthFormResponse {
+  final Exception exception;
+
+  const PasswordChangeFormFailure({required this.exception});
+
+  @override
+  List<Object?> get props => [exception];
+}
+
+class PasswordResetFormPending extends AuthFormResponse {
+  const PasswordResetFormPending();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class PasswordResetFormSuccess extends AuthFormResponse {
+  const PasswordResetFormSuccess();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class PasswordResetFormFailure extends AuthFormResponse {
+  final Exception exception;
+
+  const PasswordResetFormFailure({required this.exception});
+
+  @override
+  List<Object?> get props => [exception];
+}
