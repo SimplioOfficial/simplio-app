@@ -20,21 +20,17 @@ class RefreshTokenAuthenticator extends Authenticator {
     Response response, [
     Request? originalRequest,
   ]) async {
-    try {
-      if (response.statusCode == HttpStatus.unauthorized) {
-        final refreshToken = _loadRefreshToken();
-        final authToken = await _refreshToken(refreshToken);
+    if (response.statusCode == HttpStatus.unauthorized) {
+      final refreshToken = _loadRefreshToken();
+      final authToken = await _refreshToken(refreshToken);
 
-        return request.copyWith(headers: {
-          ...request.headers,
-          "Authorization": "${authToken.tokenType} ${authToken.accessToken}",
-        });
-      }
-
-      return null;
-    } catch (e) {
-      return null;
+      return request.copyWith(headers: {
+        ...request.headers,
+        "Authorization": "${authToken.tokenType} ${authToken.accessToken}",
+      });
     }
+
+    return null;
   }
 
   Future<AuthToken> _refreshToken(String refreshToken) async {
