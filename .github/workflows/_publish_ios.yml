@@ -106,5 +106,3 @@ jobs:
           TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
           GIT_BRANCH: '${{ github.event.head_commit.message }}'
-
-      - run: tail ios/Flutter/Generated.xcconfig
