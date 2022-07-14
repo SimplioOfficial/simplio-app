@@ -22,10 +22,10 @@ abstract class BoxProvider<T> {
   /// properties. This method handles duplicated late property initialization,
   /// opening a Hive box,and registering all defined hive object adapters
   /// provided in all subclasses.
-  Future<BoxProvider<T>> init() async {
+  Future<void> init() async {
     /// Blocking execution context if a box is already opened and all adapters
     /// are registered.
-    if (_isOpen) return this;
+    if (_isOpen) return;
 
     /// Registering adapters provided in all subclasses.
     try {
@@ -39,8 +39,6 @@ abstract class BoxProvider<T> {
 
     /// Changing a value of a `_isOpen` property.
     _open();
-
-    return this;
   }
 
   _open() {
