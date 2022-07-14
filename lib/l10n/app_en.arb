@@ -41,5 +41,6 @@
     "createAccountBtnLabel":"Create account",
 
     "searchAllAssetsInputLabel": "Search all assets",
-    "noWalletsLabel": "You have no wallet"
+    "noWalletsLabel": "You have no wallet",
+    "forgotPasswordLabel": "Forgot password"
 }
