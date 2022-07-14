@@ -64,12 +64,20 @@ jobs:
       PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
       TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
       TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+      DART_DEFINE_API_KEY_DEV: ${{ secrets.DART_DEFINE_API_KEY_DEV }}
+      DART_DEFINE_API_KEY_PROD: ${{ secrets.DART_DEFINE_API_KEY_PROD }}
+      DART_DEFINE_API_URL_DEV: ${{ secrets.DART_DEFINE_API_URL_DEV }}
+      DART_DEFINE_API_URL_PROD: ${{ secrets.DART_DEFINE_API_URL_PROD }}
 
   build-android:
     needs: [set-version]
     uses: SimplioOfficial/simplio-app/.github/workflows/_publish_android.yml@master
     secrets:
       ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
+      DART_DEFINE_API_KEY_DEV: ${{ secrets.DART_DEFINE_API_KEY_DEV }}
+      DART_DEFINE_API_KEY_PROD: ${{ secrets.DART_DEFINE_API_KEY_PROD }}
+      DART_DEFINE_API_URL_DEV: ${{ secrets.DART_DEFINE_API_URL_DEV }}
+      DART_DEFINE_API_URL_PROD: ${{ secrets.DART_DEFINE_API_URL_PROD }}
     with:
       environment: 'production'
       major: ${{ needs.set-version.outputs.major }}

@@ -7,6 +7,14 @@ on:
     secrets:
       ANDROID_KEYS_SECRET_PASSPHRASE:
         required: true
+      DART_DEFINE_API_KEY_DEV:
+        required: true
+      DART_DEFINE_API_KEY_PROD:
+        required: true
+      DART_DEFINE_API_URL_DEV:
+        required: true
+      DART_DEFINE_API_URL_PROD:
+        required: true
     inputs:
       environment:
         description: 'String value that determines if production or dev packages are built'
@@ -66,11 +74,11 @@ jobs:
 
       - name: Build production version
         if: ${{ inputs.environment == 'production' }}
-        run: flutter build appbundle --release --flavor production
+        run: flutter build appbundle --release --flavor production --dart-define=API_URL=${{ secrets.DART_DEFINE_API_URL_PROD }} --dart-define=API_KEY=${{ secrets.DART_DEFINE_API_KEY_PROD }}
 
       - name: Build dev version
         if: ${{ inputs.environment == 'dev' }}
-        run: flutter build appbundle --release --flavor dev
+        run: flutter build appbundle --release --flavor dev --dart-define=API_URL=${{ secrets.DART_DEFINE_API_URL_DEV }} --dart-define=API_KEY=${{ secrets.DART_DEFINE_API_KEY_DEV }}
 
       - name: Run Fastlane
         uses: maierj/fastlane-action@v2.2.0
