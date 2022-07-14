@@ -49,30 +49,30 @@ class _StoryState extends State<Story> with TickerProviderStateMixin {
       ),
     );
 
-    return GestureDetector(
-      onLongPressStart: (_) => _pauseAnimation(),
-      onLongPressEnd: (_) => _pauseAnimation(stop: false),
-      onTapUp: (details) => _handleLeftRightTaps(details),
-      child: Scaffold(
-        body: Column(
-          children: [
-            Padding(
-              padding: CommonTheme.bottomPadding,
-              child: bars,
-            ),
-            Expanded(
+    return Scaffold(
+      body: Column(
+        children: [
+          Padding(
+            padding: CommonTheme.bottomPadding,
+            child: bars,
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTapDown: (_) => _toggleAnimation(),
+              onLongPressEnd: (_) => _toggleAnimation(stop: false),
+              onTapUp: (details) => _handleLeftRightTaps(details),
               child: Padding(
                 padding: CommonTheme.bottomPadding
                     .add(CommonTheme.horizontalPadding),
                 child: widget.items[displayedItemIndex],
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: widget.bottomNavigationBar,
-            ),
-          ],
-        ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: widget.bottomNavigationBar,
+          ),
+        ],
       ),
     );
   }
@@ -130,7 +130,7 @@ class _StoryState extends State<Story> with TickerProviderStateMixin {
         widget.items.length;
   }
 
-  void _pauseAnimation({stop = true}) {
+  void _toggleAnimation({stop = true}) {
     stop
         ? controllers[displayedItemIndex].stop()
         : controllers[displayedItemIndex].forward();

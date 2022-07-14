@@ -30,7 +30,6 @@ dependencies:
   uuid: ^3.0.6
   crypto_assets:
     path: packages/crypto_assets
-  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
