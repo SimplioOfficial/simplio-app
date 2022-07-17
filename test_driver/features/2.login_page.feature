@@ -37,19 +37,19 @@ Feature: Main Page
       # Checking proper validation of password
 
     When I tap the label that contains the text "Sign in"
-    And I fill the "password-intput-field" field with "pass"
+    And I fill the "password-input-field" field with "pass"
     And  I tap the label that contains the text "Sign in"
     And I expect the text "Please enter valid password" to be present
     Then I tap the button with tooltip "Back"
 
     When I tap the label that contains the text "Sign in"
-    And I fill the "password-intput-field" field with "Pass"
+    And I fill the "password-input-field" field with "Pass"
     And  I tap the label that contains the text "Sign in"
     And  I expect the text "Please enter valid password" to be present
     Then I tap the button with tooltip "Back"
 
     When I tap the label that contains the text "Sign in"
-    And I fill the "password-intput-field" field with "Password"
+    And I fill the "password-input-field" field with "Password"
     And  I tap the label that contains the text "Sign in"
     And I expect the text "Please enter valid password" to be present
     Then I tap the button with tooltip "Back"
@@ -63,7 +63,7 @@ Feature: Main Page
     #go to the app woth propper password and login
 
     When I tap the label that contains the text "Sign in"
-    And  I fill the "password-intput-field" field with "Password1@"
+    And  I fill the "password-input-field" field with "Password1@"
     And  I fill the "email-input-field" field with "bob@gmail.com"
     And  I tap the label that contains the text "Sign in"
     And  I expect the text "Please enter valid password" to be absent
