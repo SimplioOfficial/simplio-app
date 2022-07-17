@@ -19,8 +19,8 @@ Future<void> main() {
       JsonReporter(path: './cucumber-report.json')
     ] // you can include the "StdoutReporter()" without the message level parameter for verbose log information
     ..stepDefinitions = [
-      TapWidgetWithTooltip(),
-      TapWidgetWithTheKey(),
+      tapWidgetWithTooltip(),
+      tapWidgetWithTheKey(),
     ]
     ..restartAppBetweenScenarios = true
     ..targetAppPath = "test_driver/app.dart"

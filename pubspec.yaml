@@ -32,6 +32,8 @@ dependencies:
     path: packages/crypto_assets
 
 dev_dependencies:
+  flutter_driver:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   integration_test:

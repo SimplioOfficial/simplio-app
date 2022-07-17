@@ -8,7 +8,7 @@ import 'package:gherkin/gherkin.dart';
 ///
 ///   `Then I tap the button with tooltip "String"`
 
-StepDefinitionGeneric TapWidgetWithTooltip() {
+StepDefinitionGeneric tapWidgetWithTooltip() {
   return when1<String, FlutterWorld>(
     RegExp(
         r'I tap the button with tooltip {string}'),
