@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_driver/driver_extension.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:simplio_app/data/model/account_settings.dart';
 import 'package:simplio_app/data/providers/account_db_provider.dart';
@@ -17,7 +18,6 @@ import 'package:simplio_app/view/routes/unauthenticated_route.dart';
 import 'package:simplio_app/view/screens/authenticated_screen.dart';
 import 'package:simplio_app/view/themes/dark_mode.dart';
 import 'package:simplio_app/view/themes/light_mode.dart';
-import 'package:flutter_driver/driver_extension.dart';
 
 Future<void> main() async {
   enableFlutterDriverExtension();
@@ -26,11 +26,11 @@ Future<void> main() async {
   await Hive.initFlutter();
 
   final accountRepository =
-  await AccountRepository.builder(db: AccountDbProvider()).init();
+      await AccountRepository.builder(db: AccountDbProvider()).init();
   final assetWalletRepository =
-  await AssetWalletRepository.builder(db: AssetWalletDbProvider()).init();
+      await AssetWalletRepository.builder(db: AssetWalletDbProvider()).init();
   final authRepository =
-  await AuthRepository.builder(db: AccountDbProvider()).init();
+      await AuthRepository.builder(db: AccountDbProvider()).init();
 
   runApp(SimplioApp(
     accountRepository: accountRepository,
@@ -77,15 +77,15 @@ class _SimplioAppState extends State<SimplioApp> {
           BlocProvider(
             create: (context) => AccountCubit.builder(
               accountRepository:
-              RepositoryProvider.of<AccountRepository>(context),
+                  RepositoryProvider.of<AccountRepository>(context),
               assetWalletRepository:
-              RepositoryProvider.of<AssetWalletRepository>(context),
+                  RepositoryProvider.of<AssetWalletRepository>(context),
             ),
           ),
         ],
         child: BlocBuilder<AccountCubit, AccountState>(
           buildWhen: (previous, current) =>
-          _languageChangeCondition(previous, current) ||
+              _languageChangeCondition(previous, current) ||
               _themeChangeCondition(previous, current),
           builder: (context, state) {
             // set default system bar color

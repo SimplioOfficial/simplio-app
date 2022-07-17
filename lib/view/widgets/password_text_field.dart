@@ -59,8 +59,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         hintText: widget.labelText ?? context.locale.passwordInputLabel,
         suffixIcon: IconButton(
             icon: Icon(_isDisplayed ? widget.displayedIcon : widget.icon),
-            key: const Key(
-                'show-password-button'),
+            key: const Key('show-password-button'),
             onPressed: () {
               setState(() {
                 _isDisplayed = !_isDisplayed;

@@ -19,8 +19,8 @@ class PasswordRulesRow extends StatelessWidget {
                 child: Icon(
                   passed ? Icons.check_outlined : Icons.clear_outlined,
                   size: 24,
-                  key: const Key(
-                      'sign-up-screen-password-rules-icon'),                 color: passed
+                  key: const Key('sign-up-screen-password-rules-icon'),
+                  color: passed
                       ? Theme.of(context).colorScheme.tertiary
                       : Theme.of(context).colorScheme.error,
                 ),

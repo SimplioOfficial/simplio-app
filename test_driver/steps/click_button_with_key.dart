@@ -10,9 +10,8 @@ import 'package:gherkin/gherkin.dart';
 
 StepDefinitionGeneric tapWidgetWithTheKey() {
   return when1<String, FlutterWorld>(
-    RegExp(
-        r'I tap the button with the key: {string}'),
-        (key, context) async {
+    RegExp(r'I tap the button with the key: {string}'),
+    (key, context) async {
       final finder = find.byValueKey(key);
       await FlutterDriverUtils.tap(
         context.world.driver,

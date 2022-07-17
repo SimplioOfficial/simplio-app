@@ -1,7 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
 import 'package:glob/glob.dart';
+
 import 'steps/click_button_with_key.dart';
 import 'steps/click_button_with_tooltip.dart';
 
@@ -25,7 +27,8 @@ Future<void> main() {
     ..restartAppBetweenScenarios = true
     ..targetAppPath = "test_driver/app.dart"
     ..hooks = [AttachScreenshotOnFailedStepHook()]
-  // ..tagExpression = "@smoke" // uncomment to see an example of running scenarios based on tag expressions
-    ..restartAppBetweenScenarios = true; // set to false if debugging to exit cleanly
+    // ..tagExpression = "@smoke" // uncomment to see an example of running scenarios based on tag expressions
+    ..restartAppBetweenScenarios =
+        true; // set to false if debugging to exit cleanly
   return GherkinRunner().execute(config);
 }
