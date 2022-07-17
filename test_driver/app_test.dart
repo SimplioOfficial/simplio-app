@@ -23,6 +23,7 @@ Future<void> main() {
     ..targetAppPath = "test_driver/app.dart"
     ..hooks = [AttachScreenshotOnFailedStepHook()]
     // ..tagExpression = "@smoke" // uncomment to see an example of running scenarios based on tag expressions
-    ..restartAppBetweenScenarios = true; // set to false if debugging to exit cleanly
+    ..restartAppBetweenScenarios =
+        true; // set to false if debugging to exit cleanly
   return GherkinRunner().execute(config);
 }
