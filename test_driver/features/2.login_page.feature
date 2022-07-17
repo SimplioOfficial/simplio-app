@@ -55,7 +55,7 @@ Feature: Main Page
     Then I tap the button with tooltip "Back"
 
     When I tap the label that contains the text "Sign in"
-    And  I fill the "®" field with "Password1"
+    And  I fill the "password-input-field" field with "Password1"
     And  I tap the label that contains the text "Sign in"
     And I expect the text "Please enter valid password" to be present
     Then I tap the button with tooltip "Back"

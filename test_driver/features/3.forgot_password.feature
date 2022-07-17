@@ -17,4 +17,3 @@ Feature: Main Page
     And I fill the "email-input-field" field with "bob@wp.pl"
     And I tap the button with the key: "reset-screen-submit-button"
     Then I expect the text "Please enter valid email address" to be absent
-

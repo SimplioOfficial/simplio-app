@@ -62,8 +62,3 @@ Feature: Main Page
     Then I expect the text "Create a new account" to be present
 
 
-
-
-
-
-
