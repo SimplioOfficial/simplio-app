@@ -7,10 +7,6 @@ import 'package:glob/glob.dart';
 import 'steps/click_button_with_key.dart';
 import 'steps/click_button_with_tooltip.dart';
 
-// import 'steps/I_click_plus_step.dart';
-// import 'steps/I_see_value_step.dart';
-// import 'steps/I_click_subtract.dart';
-
 Future<void> main() {
   final config = FlutterTestConfiguration()
     ..features = [Glob(r"test_driver/features/**.feature")]
@@ -24,11 +20,9 @@ Future<void> main() {
       tapWidgetWithTooltip(),
       tapWidgetWithTheKey(),
     ]
-    ..restartAppBetweenScenarios = true
     ..targetAppPath = "test_driver/app.dart"
     ..hooks = [AttachScreenshotOnFailedStepHook()]
     // ..tagExpression = "@smoke" // uncomment to see an example of running scenarios based on tag expressions
-    ..restartAppBetweenScenarios =
-        true; // set to false if debugging to exit cleanly
+    ..restartAppBetweenScenarios = true; // set to false if debugging to exit cleanly
   return GherkinRunner().execute(config);
 }
