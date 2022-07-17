@@ -67,5 +67,7 @@ Feature: Main Page
     And  I fill the "email-input-field" field with "bob@gmail.com"
     And  I tap the label that contains the text "Sign in"
     And  I expect the text "Please enter valid password" to be absent
-    And  I expect the text "Please enter valid email address" to be absent
-    Then I expect the text "Games" to be present
+    Then I expect the text "Please enter valid email address" to be absent
+
+
+
