@@ -1,0 +1,14 @@
+name: Run integration tests
+
+on:
+ push:
+   branches:
+     - 'test/**'
+ workflow_dispatch:
+
+jobs:
+  run-tests:
+    uses: SimplioOfficial/simplio-app/.github/workflows/_test_application.yml@test/Mario_integration_
+    with:
+      e2e: true
+      unitTests: true
