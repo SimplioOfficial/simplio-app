@@ -65,7 +65,6 @@ Feature: Main Page
     When I tap the label that contains the text "Sign in"
     And  I fill the "password-input-field" field with "Password1@"
     And  I fill the "email-input-field" field with "bob@gmail.com"
-    And  I tap the label that contains the text "Sign in"
     And  I expect the text "Please enter valid password" to be absent
     Then I expect the text "Please enter valid email address" to be absent
 
