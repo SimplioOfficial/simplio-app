@@ -25,11 +25,11 @@ class PinDigits extends StatefulWidget {
 
 class _PinDigitsState extends State<PinDigits> {
   List<String> _displayedPin = [];
-  Timer? _characterHiding;
+  Timer? _characterHidingTimer;
 
   @override
   void dispose() {
-    _characterHiding?.cancel();
+    _characterHidingTimer?.cancel();
     super.dispose();
   }
 
@@ -41,19 +41,17 @@ class _PinDigitsState extends State<PinDigits> {
       if (widget.pin != null) {
         _displayedPin.add(widget.pin![widget.pin!.length - 1].toString());
       }
-    } else {
-      // todo: add pin delete logic here
     }
 
     switch (widget.pinDigitStyle) {
       case PinDigitStyle.hideAllAfterTime:
-        if (_characterHiding != null) {
-          Timer timer = _characterHiding!;
+        if (_characterHidingTimer != null) {
+          Timer timer = _characterHidingTimer!;
           timer.cancel();
           _hideAllExceptLast();
         }
 
-        _characterHiding = Timer(
+        _characterHidingTimer = Timer(
           widget.duration,
           () => setState(
               () => _displayedPin = widget.pin?.map((e) => '⦁').toList() ?? []),
