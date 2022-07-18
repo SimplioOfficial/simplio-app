@@ -17,9 +17,9 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
-            sonar.c.file.suffixes=-
-            sonar.cpp.file.suffixes=-
-            sonar.objc.file.suffixes=-
+            -Dsonar.c.file.suffixes=-
+            -Dsonar.cpp.file.suffixes=-
+            -Dsonar.objc.file.suffixes=-
         env:
           GITHUB_TOKEN: ${{ secrets.SONAR_GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
