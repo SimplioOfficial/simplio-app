@@ -1,4 +1,4 @@
-name: Sonar Cloud
+name: SonarCloud scan
 on:
   push:
     branches:
@@ -18,3 +18,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.SONAR_GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            sonar.c.file.suffixes=-
+            sonar.cpp.file.suffixes=-
+            sonar.objc.file.suffixes=-
