@@ -27,25 +27,34 @@ class _PinNumpadState extends State<PinNumpad> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _NumpadButton(number: 1, onTap: _onTap(1)),
-            _NumpadButton(number: 2, onTap: _onTap(2)),
-            _NumpadButton(number: 3, onTap: _onTap(3)),
+            _NumpadButton(
+                number: 1, onTap: _onTap(1), key: const Key('numpad-button-1')),
+            _NumpadButton(
+                number: 2, onTap: _onTap(2), key: const Key('numpad-button-2')),
+            _NumpadButton(
+                number: 3, onTap: _onTap(3), key: const Key('numpad-button-3')),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _NumpadButton(number: 4, onTap: _onTap(4)),
-            _NumpadButton(number: 5, onTap: _onTap(5)),
-            _NumpadButton(number: 6, onTap: _onTap(6)),
+            _NumpadButton(
+                number: 4, onTap: _onTap(4), key: const Key('numpad-button-4')),
+            _NumpadButton(
+                number: 5, onTap: _onTap(5), key: const Key('numpad-button-5')),
+            _NumpadButton(
+                number: 6, onTap: _onTap(6), key: const Key('numpad-button-6')),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _NumpadButton(number: 7, onTap: _onTap(7)),
-            _NumpadButton(number: 8, onTap: _onTap(8)),
-            _NumpadButton(number: 9, onTap: _onTap(9)),
+            _NumpadButton(
+                number: 7, onTap: _onTap(7), key: const Key('numpad-button-7')),
+            _NumpadButton(
+                number: 8, onTap: _onTap(8), key: const Key('numpad-button-8')),
+            _NumpadButton(
+                number: 9, onTap: _onTap(9), key: const Key('numpad-button-9')),
           ],
         ),
         Row(
@@ -54,6 +63,7 @@ class _PinNumpadState extends State<PinNumpad> {
             _result.isEmpty
                 ? const _NumpadButton()
                 : _ActionButton(
+                    key: const Key('backspace-button'),
                     onTap: _onBackspaceTap(),
                     child: Icon(
                       Icons.backspace_outlined,
@@ -61,9 +71,11 @@ class _PinNumpadState extends State<PinNumpad> {
                       color: Theme.of(context).textTheme.titleMedium?.color,
                     ),
                   ),
-            _NumpadButton(number: 0, onTap: _onTap(0)),
+            _NumpadButton(
+                number: 0, onTap: _onTap(0), key: const Key('numpad-button-0')),
             widget.displayNextButton
                 ? _ActionButton(
+                    key: const Key('next-button'),
                     onTap: () {
                       if (widget.onNextButtonClicked != null) {
                         widget.onNextButtonClicked!(_result);

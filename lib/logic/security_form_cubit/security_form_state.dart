@@ -1,10 +1,10 @@
 part of 'security_form_cubit.dart';
 
-const pinLength = 4;
-
 class SecurityFormState extends Equatable {
   final SetupPinForm setupPinForm;
   final PinFormResponse? response;
+
+  static const pinLength = 4;
 
   const SecurityFormState._({
     required this.setupPinForm,
@@ -41,7 +41,7 @@ class SetupPinForm extends Equatable {
 
   const SetupPinForm.init() : this._(pin: const <int>[]);
 
-  bool get isValid => pin.length == pinLength;
+  bool get isValid => pin.length == SecurityFormState.pinLength;
 
   @override
   List<Object?> get props => [pin];

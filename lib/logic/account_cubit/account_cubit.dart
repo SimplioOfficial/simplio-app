@@ -61,6 +61,7 @@ class AccountCubit extends Cubit<AccountState> {
     emit(state.copyWith(account: savedAccount));
   }
 
+  // prepared for future - currently not used
   Future<void> updatePin({required List<int> pin, List<int>? oldPin}) async {
     if (state.account != null) {
       LockableSecret secret;

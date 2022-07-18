@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/l10n/localized_build_context_extension.dart';
@@ -23,15 +21,11 @@ class _PinSetScreen extends State<PinSetupScreen> {
   int _step = 0;
 
   @override
-  Widget build(BuildContext context) {
-    print(context.read<AuthFormCubit>().state.signUpForm.login.value);
-
-    return Scaffold(
-      body: SafeArea(
-        child: _getScreenStep(_step),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Scaffold(
+        body: SafeArea(
+          child: _getScreenStep(_step),
+        ),
+      );
 
   Widget _getScreenStep(int step) {
     Widget widget;

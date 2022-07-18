@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:simplio_app/logic/security_form_cubit/security_form_cubit.dart';
 
 enum PinDigitStyle { hideAllExceptLast, hideAllAfterTime, showAll }
 
@@ -13,7 +14,7 @@ class PinDigits extends StatefulWidget {
   const PinDigits({
     super.key,
     this.pin,
-    this.pinLength = 4,
+    this.pinLength = SecurityFormState.pinLength,
     this.pinDigitStyle = PinDigitStyle.hideAllAfterTime,
     this.duration = const Duration(milliseconds: 1000),
   });
@@ -54,29 +55,26 @@ class _PinDigitsState extends State<PinDigits> {
 
         _characterHiding = Timer(
           widget.duration,
-              () =>
-              setState(
-                      () =>
-                  _displayedPin = widget.pin?.map((e) => '⦁').toList() ?? []),
+          () => setState(
+              () => _displayedPin = widget.pin?.map((e) => '⦁').toList() ?? []),
         );
         break;
       case PinDigitStyle.hideAllExceptLast:
         _hideAllExceptLast();
         break;
       case PinDigitStyle.showAll:
-      // do nothing
+        // do nothing
         break;
     }
   }
 
   void _hideAllExceptLast() {
-    setState(() =>
-    _displayedPin = widget.pin
-        ?.asMap()
-        .entries
-        .map((e) =>
-    e.key != widget.pin!.length - 1 ? '⦁' : e.value.toString())
-        .toList() ??
+    setState(() => _displayedPin = widget.pin
+            ?.asMap()
+            .entries
+            .map((e) =>
+                e.key != widget.pin!.length - 1 ? '⦁' : e.value.toString())
+            .toList() ??
         []);
   }
 
@@ -84,7 +82,10 @@ class _PinDigitsState extends State<PinDigits> {
   Widget build(BuildContext context) {
     List<Widget> pinNumbers = [];
     for (int i = 0; i < widget.pinLength; i++) {
-      pinNumbers.add(_PinNumber(char: _getPin(i)));
+      pinNumbers.add(_PinNumber(
+        char: _getPin(i),
+        key: Key('pin-digit-index-$i'),
+      ));
     }
 
     return Column(children: [
@@ -116,10 +117,7 @@ class _PinNumber extends StatelessWidget {
         width: 59,
         height: 59,
         decoration: BoxDecoration(
-          color: Theme
-              .of(context)
-              .colorScheme
-              .onPrimary,
+          color: Theme.of(context).colorScheme.onPrimary,
           borderRadius: const BorderRadius.all(
             Radius.circular(6),
           ),
@@ -128,24 +126,10 @@ class _PinNumber extends StatelessWidget {
           key: key,
           char ?? '',
           style: TextStyle(
-            color: Theme
-                .of(context)
-                .colorScheme
-                .primary,
-            backgroundColor: Theme
-                .of(context)
-                .colorScheme
-                .onPrimary,
-            fontSize: Theme
-                .of(context)
-                .textTheme
-                .headlineMedium
-                ?.fontSize,
-            fontWeight: Theme
-                .of(context)
-                .textTheme
-                .headlineMedium
-                ?.fontWeight,
+            color: Theme.of(context).colorScheme.primary,
+            backgroundColor: Theme.of(context).colorScheme.onPrimary,
+            fontSize: Theme.of(context).textTheme.headlineMedium?.fontSize,
+            fontWeight: Theme.of(context).textTheme.headlineMedium?.fontWeight,
           ),
         ),
       ),
