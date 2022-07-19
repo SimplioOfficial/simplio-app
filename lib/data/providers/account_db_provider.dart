@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:simplio_app/data/model/account.dart';
 import 'package:simplio_app/data/model/account_settings.dart';
 import 'package:simplio_app/data/model/account_wallet.dart';
+import 'package:simplio_app/data/model/lockable_string.dart';
 import 'package:simplio_app/data/providers/box_provider.dart';
 
 class AccountDbProvider extends BoxProvider<AccountLocal> {
@@ -20,6 +21,8 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
   @override
   void registerAdapters() {
     Hive.registerAdapter(AccountLocalAdapter());
+    Hive.registerAdapter(AccountTypeAdapter());
+    Hive.registerAdapter(SecurityLevelAdapter());
     Hive.registerAdapter(AccountWalletLocalAdapter());
     Hive.registerAdapter(AccountWalletTypesAdapter());
     Hive.registerAdapter(AccountSettingsLocalAdapter());
@@ -52,7 +55,8 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
       if (isZero) return null;
 
       return _mapTo(localAccount);
-    } catch (_) {
+    } catch (e) {
+      print(e);
       return null;
     }
   }
@@ -79,11 +83,13 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
     }
   }
 
+  // TODO - Write Unite Test for `_mapFrom`
   AccountLocal _mapFrom(Account account) {
     return AccountLocal(
       id: account.id,
+      accountType: account.accountType,
       secret: account.secret.toString(),
-      refreshToken: account.refreshToken,
+      securityLevel: account.securityLevel,
       signedIn: account.signedIn,
       settings: AccountSettingsLocal(
         themeMode: _mapToTheme(account.settings.themeMode),
@@ -104,13 +110,19 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
     );
   }
 
+  // TODO - Write Unite Test for `_mapTo`
   Account _mapTo(AccountLocal accountLocal) {
-    return Account.builder(
-      id: accountLocal.id,
-      secret: LockableSecret.from(secret: accountLocal.secret),
-      refreshToken: accountLocal.refreshToken,
-      signedIn: accountLocal.signedIn,
-      wallets: accountLocal.wallets
+    return Account(
+      accountLocal.id,
+      accountLocal.accountType,
+      LockableString.from(base64String: accountLocal.secret),
+      accountLocal.securityLevel,
+      accountLocal.signedIn,
+      AccountSettings.builder(
+        themeMode: _mapFromTheme(accountLocal.settings.themeMode),
+        locale: Locale(accountLocal.settings.languageCode),
+      ),
+      accountLocal.wallets
           .map((w) => AccountWallet.builder(
                 uuid: w.uuid,
                 name: w.name,
@@ -124,10 +136,6 @@ class AccountDbProvider extends BoxProvider<AccountLocal> {
                 updatedAt: w.updatedAt,
               ))
           .toList(),
-      settings: AccountSettings.builder(
-        themeMode: _mapFromTheme(accountLocal.settings.themeMode),
-        locale: Locale(accountLocal.settings.languageCode),
-      ),
     );
   }
 }

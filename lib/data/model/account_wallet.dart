@@ -62,6 +62,7 @@ class AccountWallet extends Equatable {
       ];
 }
 
+// TODO - Unify logic with LockableSecret. Change it to one class that handles encryption.
 class LockableSeed with AesEncryption {
   String _mnemonic;
   final bool isImported;
@@ -91,13 +92,15 @@ class LockableSeed with AesEncryption {
 
   String unlock(String key) {
     if (!_isLocked) return _mnemonic;
-    return decrypt(key, _mnemonic);
+    // TODO - Change IV value!
+    return decrypt(key, '', _mnemonic);
   }
 
   LockableSeed lock(String key) {
     if (_isLocked) return this;
 
-    _mnemonic = encrypt(key, _mnemonic);
+    // TODO - Change IV value!
+    _mnemonic = encrypt(key, '', _mnemonic);
     _isLocked = true;
 
     return this;

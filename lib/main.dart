@@ -20,6 +20,7 @@ import 'package:simplio_app/logic/account_cubit/account_cubit.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 import 'package:simplio_app/view/routes/authenticated_route.dart';
 import 'package:simplio_app/view/routes/guards/auth_guard.dart';
+import 'package:simplio_app/view/routes/guards/protected_guard.dart';
 import 'package:simplio_app/view/routes/unauthenticated_route.dart';
 import 'package:simplio_app/view/screens/authenticated_screen.dart';
 import 'package:simplio_app/view/screens/splash_screen.dart';
@@ -170,11 +171,18 @@ class _SimplioAppState extends State<SimplioApp> {
         return Builder(
           builder: (context) {
             context.read<AccountCubit>().loadAccount(state.accountId);
+            // TODO - Logout a user so he is not logged in anymore.
+            // TODO - NOTE - There is a proposal for wallet wipe.
 
-            return AuthenticatedScreen(
-              navigatorKey: AuthenticatedRoute.key,
-              initialRoute: AuthenticatedRoute.home,
-              onGenerateRoute: _authenticatedRouter.generateRoute,
+            return ProtectedGuard(
+              onPrevent: (context) {
+                context.read<AuthBloc>().add(const GotUnauthenticated());
+              },
+              protectedChild: AuthenticatedScreen(
+                navigatorKey: AuthenticatedRoute.key,
+                initialRoute: AuthenticatedRoute.home,
+                onGenerateRoute: _authenticatedRouter.generateRoute,
+              ),
             );
           },
         );

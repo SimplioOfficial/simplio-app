@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/logic/auth_bloc/auth_bloc.dart';
 
 class AuthGuard extends StatelessWidget {
-  final Widget Function(BuildContext context, Authenticated state)
-      onAuthenticated;
+  final Widget Function(
+    BuildContext context,
+    Authenticated state,
+  ) onAuthenticated;
   final Widget Function(BuildContext context) onUnauthenticated;
 
   const AuthGuard({

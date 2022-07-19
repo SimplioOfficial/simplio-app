@@ -1,67 +1,74 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
-import 'package:simplio_app/data/mixins/aes_encryption_mixin.dart';
 import 'package:simplio_app/data/model/account_settings.dart';
 import 'package:simplio_app/data/model/account_wallet.dart';
+import 'package:simplio_app/data/model/lockable_string.dart';
 
 part 'account.g.dart';
 
 class Account extends Equatable {
   final String id;
-  final LockableSecret secret;
-  final String? accessToken;
-  final String refreshToken;
+  final AccountType accountType;
+  final LockableString secret;
+  final SecurityLevel securityLevel;
+  // TODO - IDEA - Make failed passcode attemps persistent.
   final DateTime signedIn;
   final AccountSettings settings;
   final List<AccountWallet> wallets;
 
-  const Account._(
+  const Account(
     this.id,
+    this.accountType,
     this.secret,
-    this.accessToken,
-    this.refreshToken,
+    this.securityLevel,
     this.signedIn,
     this.settings,
     this.wallets,
   ) : assert(id.length > 0);
 
-  const Account.builder({
+  const Account.registered({
     /// `id` is a Auth0 identifier. e.g apps@simplio.io
     required String id,
 
     /// [LockableSecret] is a generated string hash that is used for encrypting
     /// account sensitive data across application.
-    required LockableSecret secret,
-    String? accessToken,
-
-    /// `refreshToken` is a long-live token provided by Auth0. It is used
-    /// only when authentication fails with `401` status.
-    required String refreshToken,
+    required LockableString secret,
+    SecurityLevel? securityLevel,
     required DateTime signedIn,
     AccountSettings settings = const AccountSettings.preset(),
     List<AccountWallet> wallets = const <AccountWallet>[],
-  }) : this._(
+  }) : this(
           id,
+          AccountType.registered,
           secret,
-          accessToken,
-          refreshToken,
+          securityLevel ?? SecurityLevel.none,
           signedIn,
           settings,
           wallets,
         );
 
+  Account.anonymous()
+      : this(
+          '', // TODO - IDEA - generate a custom id = uuid + date?
+          AccountType.anonymous,
+          LockableString.generate(),
+          SecurityLevel.none,
+          DateTime.now(),
+          const AccountSettings.preset(),
+          const <AccountWallet>[],
+        );
+
   Account copyWith({
-    String? accessToken,
-    String? refreshToken,
+    SecurityLevel? securityLevel,
     DateTime? signedIn,
     AccountSettings? settings,
     List<AccountWallet>? wallets,
   }) {
-    return Account._(
+    return Account(
       id,
+      accountType,
       secret,
-      accessToken ?? this.accessToken,
-      refreshToken ?? this.refreshToken,
+      securityLevel ?? this.securityLevel,
       signedIn ?? this.signedIn,
       settings ?? this.settings,
       wallets ?? this.wallets,
@@ -71,7 +78,10 @@ class Account extends Equatable {
   @override
   List<Object?> get props => [
         id,
+        accountType,
         secret,
+        securityLevel,
+        signedIn,
       ];
 
   AccountWallet? get accountWallet {
@@ -80,40 +90,27 @@ class Account extends Equatable {
   }
 }
 
-class LockableSecret with AesEncryption {
-  static String generateSecret() {
-    return Hive.generateSecureKey().toString();
-  }
+// Account type split will be needed para showing the dashboard for anonymous
+// users.
+// TODO - Move it to related issue of Anonymous user.
+@HiveType(typeId: 11)
+enum AccountType {
+  @HiveField(0)
+  anonymous,
 
-  String _secret;
-  bool _isLocked;
+  @HiveField(1)
+  registered,
+}
 
-  LockableSecret._(this._secret, this._isLocked);
+// Security level handles navigating across app.
+// If a user wont have any security level set, he must to set it first.
+@HiveType(typeId: 12)
+enum SecurityLevel {
+  @HiveField(0)
+  none,
 
-  LockableSecret.from({required String secret}) : this._(secret, true);
-
-  LockableSecret.generate() : this._(LockableSecret.generateSecret(), false);
-
-  bool get isLocked => _isLocked;
-
-  String unlock(String key) {
-    if (!_isLocked) return _secret;
-    return decrypt(key, _secret);
-  }
-
-  LockableSecret lock(String key) {
-    if (_isLocked) return this;
-
-    _secret = encrypt(key, _secret);
-    _isLocked = true;
-
-    return this;
-  }
-
-  @override
-  String toString() {
-    return _secret;
-  }
+  @HiveField(1)
+  pin,
 }
 
 @HiveType(typeId: 1)
@@ -122,24 +119,28 @@ class AccountLocal extends HiveObject {
   final String id;
 
   @HiveField(1)
-  final String secret;
+  final AccountType accountType;
 
   @HiveField(2)
-  final String refreshToken;
+  final String secret;
 
   @HiveField(3)
-  final DateTime signedIn;
+  final SecurityLevel securityLevel;
 
   @HiveField(4)
-  final AccountSettingsLocal settings;
+  final DateTime signedIn;
 
   @HiveField(5)
+  final AccountSettingsLocal settings;
+
+  @HiveField(6)
   final List<AccountWalletLocal> wallets;
 
   AccountLocal({
     required this.id,
+    required this.accountType,
     required this.secret,
-    required this.refreshToken,
+    required this.securityLevel,
     required this.signedIn,
     required this.settings,
     required this.wallets,

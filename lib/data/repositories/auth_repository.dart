@@ -2,6 +2,7 @@ import 'package:simplio_app/data/http_clients/secured_http_client.dart';
 import 'package:simplio_app/data/mixins/jwt_mixin.dart';
 import 'package:simplio_app/data/model/account.dart';
 import 'package:simplio_app/data/model/auth_token.dart';
+import 'package:simplio_app/data/model/lockable_string.dart';
 import 'package:simplio_app/data/providers/account_db_provider.dart';
 import 'package:simplio_app/data/services/password_reset_service.dart';
 import 'package:simplio_app/data/services/sign_in_service.dart';
@@ -94,10 +95,11 @@ class AuthRepository with JwtMixin {
           ));
         }
 
-        return await _db.save(Account.builder(
+        final ls = LockableString.generate();
+
+        return await _db.save(Account.registered(
           id: userId,
-          secret: LockableSecret.generate(),
-          refreshToken: body.refreshToken,
+          secret: ls,
           signedIn: DateTime.now(),
         ));
       }

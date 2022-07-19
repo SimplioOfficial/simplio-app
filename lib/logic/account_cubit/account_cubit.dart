@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:simplio_app/data/model/account.dart';
-import 'package:simplio_app/data/model/account_settings.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/data/repositories/account_repository.dart';
 import 'package:simplio_app/data/repositories/asset_wallet_repository.dart';
@@ -44,14 +43,9 @@ class AccountCubit extends Cubit<AccountState> {
   }
 
   void clearAccount() {
-    emit(AccountState.value(
-      account: Account.builder(
-          id: '0',
-          secret: LockableSecret.from(secret: ''),
-          refreshToken: '',
-          signedIn: DateTime(0),
-          settings: state.account?.settings ?? const AccountSettings.preset()),
-      assetWallets: const [],
+    emit(const AccountState.value(
+      account: null,
+      assetWallets: [],
     ));
   }
 
@@ -94,5 +88,19 @@ class AccountCubit extends Cubit<AccountState> {
     final assetWallets = _assetWalletRepository.load(accountWallet.uuid);
 
     emit(state.copyWith(assetWallets: assetWallets));
+  }
+
+  bool verifyPin(String pin) {
+    final acc = state.account;
+    if (acc == null) {
+      throw Exception('Account does not exists');
+    }
+
+    try {
+      acc.secret.unlock(pin);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

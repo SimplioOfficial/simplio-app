@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplio_app/data/model/asset_wallet.dart';
 import 'package:simplio_app/data/repositories/auth_repository.dart';
 import 'package:simplio_app/logic/auth_form_cubit/auth_form_cubit.dart';
+import 'package:simplio_app/view/routes/guards/protected_guard.dart';
 import 'package:simplio_app/view/routes/settings/authenticated_settings.dart';
 import 'package:simplio_app/view/screens/configuration_screen.dart';
 import 'package:simplio_app/view/screens/dashboard_screen.dart';
@@ -74,7 +75,12 @@ class AuthenticatedRoute {
             create: (context) => AuthFormCubit.builder(
               authRepository: RepositoryProvider.of<AuthRepository>(context),
             ),
-            child: const PasswordChangeScreen(),
+            child: ProtectedGuard(
+              protectedChild: const PasswordChangeScreen(),
+              onPrevent: (context) {
+                Navigator.pop(context);
+              },
+            ),
           ),
         );
 
